@@ -23,7 +23,7 @@ public class Hasher {
         return buff.toString();
     }
 
-    /** function generates hash for received password using "SHA" algorithm, we also use "salt" technique to become
+    /** function generates hash for received password using "SHA" algorithm, we also use "salt" technique to make
      * hash more safe
      */
     public static String generateHash(String password, long id){
