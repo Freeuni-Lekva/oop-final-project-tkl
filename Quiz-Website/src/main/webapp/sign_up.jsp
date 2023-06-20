@@ -79,6 +79,10 @@
             background-color: aquamarine;
         }
 
+        .container label{
+            color: white;
+        }
+
 
     </style>
 </head>

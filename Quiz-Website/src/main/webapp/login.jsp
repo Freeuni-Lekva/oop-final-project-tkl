@@ -79,6 +79,10 @@
             background-color: aquamarine;
         }
 
+        .container label{
+            color: white;
+        }
+
 
     </style>
 </head>
@@ -86,7 +90,7 @@
 
 <div class="container">
     <form action="LoginServlet" method="post">
-        <h1>Sign Up</h1>
+        <h1>Log In</h1>
         <div class="input-box">
             <i class='bx bx-user'></i> <label>User Name</label>
             <input type="text" placeholder="UserName" class="text-field" name="name" required>
