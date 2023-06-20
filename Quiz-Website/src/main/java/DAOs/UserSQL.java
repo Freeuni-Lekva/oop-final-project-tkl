@@ -33,8 +33,7 @@ public class UserSQL implements UserDao {
 
             while (resultSet.next()){
                 User newUser = new User(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3),
-                        resultSet.getString(4), resultSet.getString(5), resultSet.getString(6),
-                        resultSet.getString(7), resultSet.getString(8));
+                        resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
 
                 result.add(newUser);
             }
@@ -49,15 +48,7 @@ public class UserSQL implements UserDao {
     @Override
     public User getUserByName(String name) {
 
-        List<User> allUser = getUsers(" WHERE name = \"" + name + "\"");
-
-        if(allUser.size() == 1) return allUser.get(0);
-        return null;
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        List<User> allUser = getUsers(" WHERE email = \"" + email + "\"");
+        List<User> allUser = getUsers(" WHERE BINARY name = \"" + name + "\"");
 
         if(allUser.size() == 1) return allUser.get(0);
         return null;
@@ -79,19 +70,17 @@ public class UserSQL implements UserDao {
     public int register(String name, String realName, String realLastName, String email, String password) {
 
         if(getUserByName(name) != null) return UserDao.ACCOUNT_FOUND_BY_NAME;
-        if(!email.equals("") && getUserByEmail(email) != null) return UserDao.ACCOUNT_FOUND_BY_EMAIL;
 
         try{
             Connection connection = dataSource.getConnection();
-            String query = "INSERT INTO users (id, name, password, email, real_name, real_lastname) VALUES(?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO users (id, name, password, real_name, real_lastname) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setLong(1, getNewUserID());
             statement.setString(2, name);
             statement.setString(3, Hasher.generateHash(password, getNewUserID()));
-            statement.setString(4, email);
-            statement.setString(5, realName);
-            statement.setString(6, realLastName);
+            statement.setString(4, realName);
+            statement.setString(5, realLastName);
 
             statement.executeUpdate();
             return UserDao.ACCOUNT_CREATED;

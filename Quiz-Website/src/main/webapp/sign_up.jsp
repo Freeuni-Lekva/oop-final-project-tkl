@@ -1,4 +1,4 @@
-<%--
+<%@ page import="DAOinterfaces.UserDao" %><%--
   Created by IntelliJ IDEA.
   User: ddadi
   Date: 6/20/2023
@@ -32,7 +32,7 @@
         .container{
             margin: auto;
             width: 500px;
-            height: 530px;
+            height: 480px;
             max-height: 90%;
             max-width: 90%;
         }
@@ -83,6 +83,15 @@
             color: white;
         }
 
+        .container form i{
+            color: white;
+        }
+
+        .container form p{
+            text-align: center;
+            margin-top: 0px;
+            color: aquamarine;
+        }
 
     </style>
 </head>
@@ -90,6 +99,17 @@
 
 <div class="container">
     <form action="SignUpServlet" method="post">
+
+        <%
+            if(request.getAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME) != null){
+                int message = Integer.parseInt(request.getAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME).toString());
+
+                if(message == UserDao.ACCOUNT_FOUND_BY_NAME){
+                    out.println("<p> Account With That Name Already Exists, Try Again</p>");
+                }
+            }
+        %>
+
         <h1>Sign Up</h1>
         <div class="input-box">
             <i class='bx bx-user'></i> <label>User Name</label>
@@ -104,10 +124,6 @@
         <div class="input-box">
             <i class='bx bxs-user-detail' ></i> <label>Last Name</label>
             <input type="text" placeholder="LastName" class="text-field" name="realLastName" required>
-        </div>
-        <div class="input-box">
-            <i class='bx bx-envelope' ></i> <label>Email (optional) </label>
-            <input type="email" placeholder="Email" class="text-field" name="email">
         </div>
         <div class="input-box">
             <i class='bx bxs-lock-alt' ></i> <label>Password</label>

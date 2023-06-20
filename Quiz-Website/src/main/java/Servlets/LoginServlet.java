@@ -26,14 +26,14 @@ public class LoginServlet extends HttpServlet {
         int result = userDao.tryToLogin(name, password);
 
         if(result == UserDao.ACCOUNT_NOT_FOUND){
-            System.out.println("Account not found");
+            request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
         }else if(result == UserDao.SUCCESSFULLY_LOGIN){
             System.out.println("Successfully Log in");
         }else if(result == UserDao.INCORRECT_PASSWORD){
-            System.out.println("Incorrect Password");
+            request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
         rd.forward(request, response);
     }
 }

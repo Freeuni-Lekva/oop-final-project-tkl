@@ -9,13 +9,12 @@ public interface UserDao {
     int INCORRECT_PASSWORD = -1;
     int ACCOUNT_NOT_FOUND = 0;
     int SUCCESSFULLY_LOGIN = 1;
-    int ACCOUNT_FOUND = 2;
     int ACCOUNT_FOUND_BY_NAME = 3;
-    int ACCOUNT_FOUND_BY_EMAIL = 4;
-    int ACCOUNT_CREATED = 5;
-    int SERVER_ERROR = 6;
+    int ACCOUNT_CREATED = 4;
+    int SERVER_ERROR = 5;
 
-    public static final String ATTRIBUTE_NAME = "userDao";
+    String ATTRIBUTE_NAME = "userDao";
+    String MESSAGE_ATTRIBUTE_NAME = "userMessage";
 
     /** function bellow returns list of all users which database contains, if exception occurs
      * function returns null
@@ -26,10 +25,6 @@ public interface UserDao {
      * exist with received name function returns null
      */
     User getUserByName(String name);
-
-    /** function works as same as getUserByName function
-     */
-    User getUserByEmail(String email);
 
     /** function tries to log in to existing user, function returns int
      * if there is no account with received name function returns "ACCOUNT_NOT_FOUND"

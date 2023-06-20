@@ -31,12 +31,10 @@ public class SignUpServlet extends HttpServlet {
             System.out.println("account created");
 
         }else if(result == UserDao.ACCOUNT_FOUND_BY_NAME){
-            System.out.println("account with that name is already created");
-        }else if(result == UserDao.ACCOUNT_FOUND_BY_EMAIL){
-            System.out.println("account with that email is already created");
+            request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("sign_up.jsp");
         rd.forward(request, response);
 
     }
