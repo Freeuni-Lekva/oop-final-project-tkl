@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users(
 
     id              BIGINT          PRIMARY KEY,
-    name            VARCHAR(256)    NOT NULL UNIQUE,
+    name            VARCHAR(256)    NOT NULL,
     password        VARCHAR(512)    NOT NULL,
     real_name       VARCHAR(256)    NOT NULL,
     real_lastname   VARCHAR(256)    NOT NULL,
