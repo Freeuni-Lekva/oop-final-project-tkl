@@ -1,4 +1,5 @@
-<%--
+<%@ page import="DAOinterfaces.UserDao" %>
+<%@ page import="Objects.User" %><%--
   Created by IntelliJ IDEA.
   User: ddadi
   Date: 6/20/2023
@@ -65,6 +66,46 @@
         button:hover{
             background-color: aquamarine;
         }
+        .search-form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-form input[type="text"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+
+        .search-form input[type="submit"] {
+            padding: 5px 20px;
+            background-color: aquamarine;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
+            color: white;
+            font-weight: bold;
+        }
+
+        .search-form input[type="submit"]:hover {
+            background-color: mediumaquamarine;
+        }
+
+        .circle-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .circle-image img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
 
     </style>
 
@@ -80,10 +121,41 @@
             <li><a href = "test.jsp">Home</a></li>
         </ul>
     </nav>
+    <%
+        String userName = (String) request.getSession().getAttribute("MainUserName");
+        if(userName == null){
+    %>
     <div class="buttons">
     <a href="login.jsp"><button>Login</button></a>
     <a href="sign_up.jsp"><button>Sign Up</button></a>
     </div>
+    <%
+        }
+        if(userName != null){
+    %>
+    <form class="search-form" action="search" method="POST">
+        <input type="text" name="searchUser" placeholder="Search...">
+        <input type="submit" value="Search">
+    </form>
+    <%
+        }
+    %>
+    <%
+        if(userName != null) {
+            String photoPath = "\"profile-button.jpg\"";
+            UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
+            User user = userDao.getUserByName(userName);
+
+            out.println("<div class=\"circle-image\">");
+            String profileURL = "/profile?name=" + userName;
+            out.println("<a href=\"" + profileURL + "\">");
+            if (user != null) photoPath = "/images/" + user.getImagePath();
+            out.println("<img src=" + photoPath + " alt=\"Go to Profile\">");
+            out.println("<span>Go to profile</span>");
+            out.println("</a>");
+            out.println("</div>");
+        }
+    %>
 </header>
 </body>
 </html>

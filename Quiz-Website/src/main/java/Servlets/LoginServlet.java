@@ -29,6 +29,10 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
         }else if(result == UserDao.SUCCESSFULLY_LOGIN){
             System.out.println("Successfully Log in");
+            request.getSession().setAttribute("MainUserName", name);
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
+            return;
         }else if(result == UserDao.INCORRECT_PASSWORD){
             request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
         }

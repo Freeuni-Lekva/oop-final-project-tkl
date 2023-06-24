@@ -12,6 +12,8 @@ public interface UserDao {
     int ACCOUNT_FOUND_BY_NAME = 3;
     int ACCOUNT_CREATED = 4;
     int SERVER_ERROR = 5;
+    int SUCCESS_UPDATE = 6;
+    int ERROR_UPDATE = 7;
 
     String ATTRIBUTE_NAME = "userDao";
     String MESSAGE_ATTRIBUTE_NAME = "userMessage";
@@ -42,4 +44,8 @@ public interface UserDao {
     /** function returns unique id for new user.
      */
     long getNewUserID();
+    int changeReal_Name(String userName, String newRealName);
+    int changeReal_LastName(String userName, String newReaLastName);
+    int changeImage_Path(String userName, String newImagePath);
+    int changeDescription(String userName, String description);
 }
