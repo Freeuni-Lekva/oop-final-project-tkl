@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "friendRequestServlet", value = "/friend_request")
-public class friendRequestServlet extends HttpServlet {
+public class FriendRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the UserDao and FriendRequestDao instances from the ServletContext

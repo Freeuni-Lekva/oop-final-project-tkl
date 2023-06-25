@@ -1,7 +1,6 @@
 package Servlets;
 
 import DAOinterfaces.FriendsDao;
-import DAOinterfaces.UserDao;
 import Objects.User;
 
 import javax.servlet.RequestDispatcher;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @WebServlet(name = "friendsServlet", value = "/friends")
 
-public class friendsServlet extends HttpServlet {
+public class FriendsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the FriendsDao instance from the ServletContext

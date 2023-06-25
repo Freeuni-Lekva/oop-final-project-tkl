@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "editProfileServlet", value = "/edit_user")
-public class editProfileServlet extends HttpServlet {
+public class EditProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the UserDao instance from the ServletContext

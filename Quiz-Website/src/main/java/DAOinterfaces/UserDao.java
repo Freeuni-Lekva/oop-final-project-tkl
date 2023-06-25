@@ -28,6 +28,10 @@ public interface UserDao {
      */
     User getUserByName(String name);
 
+    /** function returns User object from sql database, which id equals to received argument
+     */
+    User getUserById(long id);
+
     /** function tries to log in to existing user, function returns int
      * if there is no account with received name function returns "ACCOUNT_NOT_FOUND"
      * if received password is incorrect function returns "INCORRECT_PASSWORD"
@@ -41,9 +45,6 @@ public interface UserDao {
      */
     int register(String name, String realName, String realLastName, String email, String password);
 
-    /** function returns unique id for new user.
-     */
-    long getNewUserID();
     int changeReal_Name(String userName, String newRealName);
     int changeReal_LastName(String userName, String newReaLastName);
     int changeImage_Path(String userName, String newImagePath);

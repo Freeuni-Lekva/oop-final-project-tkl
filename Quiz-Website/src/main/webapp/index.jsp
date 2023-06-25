@@ -125,22 +125,21 @@
         String userName = (String) request.getSession().getAttribute("MainUserName");
         if(userName == null){
     %>
-    <div class="buttons">
-    <a href="login.jsp"><button>Login</button></a>
-    <a href="sign_up.jsp"><button>Sign Up</button></a>
-    </div>
+            <div class="buttons">
+                <a href="login.jsp"><button>Login</button></a>
+                <a href="sign_up.jsp"><button>Sign Up</button></a>
+            </div>
     <%
         }
         if(userName != null){
     %>
-    <form class="search-form" action="search" method="POST">
-        <input type="text" name="searchUser" placeholder="Search...">
-        <input type="submit" value="Search">
-    </form>
+            <form class="search-form" action="search" method="POST">
+                <input type="text" name="searchUser" placeholder="Search...">
+                <input type="submit" value="Search">
+            </form>
     <%
         }
-    %>
-    <%
+
         if(userName != null) {
             String photoPath = "\"profile-button.jpg\"";
             UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);

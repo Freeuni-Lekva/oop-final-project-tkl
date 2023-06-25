@@ -1,10 +1,13 @@
 USE final_project;
 
+DROP TABLE IF EXISTS friend_requests;
+DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS users;
+
 
 CREATE TABLE users(
 
-    id              BIGINT          PRIMARY KEY,
+    id              BIGINT          PRIMARY KEY AUTO_INCREMENT,
     name            VARCHAR(256)    NOT NULL UNIQUE,
     password        VARCHAR(512)    NOT NULL,
     real_name       VARCHAR(256)    NOT NULL,

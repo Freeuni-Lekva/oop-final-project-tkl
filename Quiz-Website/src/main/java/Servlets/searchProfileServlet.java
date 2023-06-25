@@ -1,7 +1,6 @@
 package Servlets;
 
 import DAOinterfaces.UserDao;
-import Objects.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "searchProfileServlet", value = "/search")
-public class searchProfileServlet extends HttpServlet {
+public class SearchProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {

@@ -9,11 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 
 @WebServlet(name = "profileServlet", value = "/profile")
-public class profileServlet extends HttpServlet {
+public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the UserDao instance from the ServletContext

@@ -32,7 +32,10 @@ public class SignUpServlet extends HttpServlet {
 
         }else if(result == UserDao.ACCOUNT_FOUND_BY_NAME){
             request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
+            System.out.println("aqaa");
         }
+
+        System.out.println(result);
 
         RequestDispatcher rd = request.getRequestDispatcher("sign_up.jsp");
         rd.forward(request, response);

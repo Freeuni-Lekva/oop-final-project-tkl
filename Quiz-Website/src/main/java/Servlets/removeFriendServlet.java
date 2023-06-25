@@ -1,8 +1,6 @@
 package Servlets;
 
-import DAOinterfaces.FriendRequestDao;
 import DAOinterfaces.FriendsDao;
-import Objects.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "removeFriendServlet", value = "/remove_friend")
-public class removeFriendServlet extends HttpServlet {
+public class RemoveFriendServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // No implementation in the GET method for this servlet

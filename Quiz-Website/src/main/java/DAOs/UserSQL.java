@@ -45,13 +45,24 @@ public class UserSQL implements UserDao {
         return null;
     }
 
-    @Override
-    public User getUserByName(String name) {
+    /** Simple helper function
+     */
+    private User getUserByCondition(String condition){
 
-        List<User> allUser = getUsers(" WHERE BINARY name = \"" + name + "\"");
+        List<User> allUser = getUsers(condition);
 
         if(allUser.size() == 1) return allUser.get(0);
         return null;
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        return getUserByCondition(" WHERE name = \"" + name + "\"");
+    }
+
+    @Override
+    public User getUserById(long id) {
+        return getUserByCondition(" WHERE id = " + id);
     }
 
     @Override
@@ -73,16 +84,26 @@ public class UserSQL implements UserDao {
 
         try{
             Connection connection = dataSource.getConnection();
-            String query = "INSERT INTO users (id, name, password, real_name, real_lastname) VALUES(?, ?, ?, ?, ?)";
+            String query = "INSERT INTO users (name, password, real_name, real_lastname, image_path, description) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
 
-            statement.setLong(1, getNewUserID());
-            statement.setString(2, name);
-            statement.setString(3, Hasher.generateHash(password, getNewUserID()));
-            statement.setString(4, realName);
-            statement.setString(5, realLastName);
+            statement.setString(1, name);
+            statement.setString(2, "X");
+            statement.setString(3, realName);
+            statement.setString(4, realLastName);
+            statement.setString(5, "default_picture.jpg");
+            statement.setString(6, "Welcome To My Profile!");
 
             statement.executeUpdate();
+
+            User user = getUserByName(name);
+            query = "UPDATE  users SET password=? WHERE id=?";
+            PreparedStatement updateStatement = connection.prepareStatement(query);
+
+            updateStatement.setString(1, Hasher.generateHash(password, user.getId()));
+            updateStatement.setLong(2, user.getId());
+
+            updateStatement.executeUpdate();
             return UserDao.ACCOUNT_CREATED;
 
         }catch (SQLException ignored) {}
@@ -90,20 +111,6 @@ public class UserSQL implements UserDao {
         return UserDao.SERVER_ERROR;
     }
 
-    @Override
-    public long getNewUserID() {
-
-        try {
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT MAX(id) AS max_id FROM users");
-
-            if(resultSet.next()) return resultSet.getLong("max_id") + 1;
-
-        } catch (SQLException ignored) {}
-
-        return 1;
-    }
     @Override
     public int changeReal_Name(String userName, String newRealName) {
         User user = getUserByName(userName);
@@ -184,13 +191,9 @@ public class UserSQL implements UserDao {
         try {
             Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET description = ? WHERE name = ?");
-            if(description == null) {
-                System.out.println("null4");
-                preparedStatement.setNull(1, java.sql.Types.VARCHAR);
-            }
-            else {
-                preparedStatement.setString(1, description);
-            }
+
+            if(description != null) preparedStatement.setString(1, description);
+
             preparedStatement.setString(2, userName);
             preparedStatement.executeUpdate();
             return SUCCESS_UPDATE;
