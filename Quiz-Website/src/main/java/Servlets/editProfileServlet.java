@@ -27,8 +27,8 @@ public class EditProfileServlet extends HttpServlet {
         // Set the "MainUser" attribute in the session
         request.getSession().setAttribute("MainUser", user);
 
-        // Forward the request and response to the "edit_user.jsp" page
-        RequestDispatcher rd = request.getRequestDispatcher("edit_user.jsp");
+        // Forward the request and response to the "editUser.jsp" page
+        RequestDispatcher rd = request.getRequestDispatcher("editUser.jsp");
         rd.forward(request, response);
     }
     @Override
@@ -45,9 +45,9 @@ public class EditProfileServlet extends HttpServlet {
         String name = request.getParameter("name");
 
         // Update the user information using the UserDao
-        int x = userDAO.changeReal_Name(name, newFirstName);
-        int y = userDAO.changeReal_LastName(name, newLastName);
-        int z = userDAO.changeImage_Path(name, newImagePath);
+        int x = userDAO.changeRealName(name, newFirstName);
+        int y = userDAO.changeRealLastName(name, newLastName);
+        int z = userDAO.changeImagePath(name, newImagePath);
         int v = userDAO.changeDescription(name, newDescription);
 
         // Redirect the user to the "profile" page

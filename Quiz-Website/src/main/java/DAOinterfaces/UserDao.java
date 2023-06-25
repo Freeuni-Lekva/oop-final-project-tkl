@@ -45,8 +45,8 @@ public interface UserDao {
      */
     int register(String name, String realName, String realLastName, String email, String password);
 
-    int changeReal_Name(String userName, String newRealName);
-    int changeReal_LastName(String userName, String newReaLastName);
-    int changeImage_Path(String userName, String newImagePath);
+    int changeRealName(String userName, String newRealName);
+    int changeRealLastName(String userName, String newReaLastName);
+    int changeImagePath(String userName, String newImagePath);
     int changeDescription(String userName, String description);
 }

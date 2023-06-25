@@ -73,18 +73,18 @@
 <%
     User user = (User) request.getSession().getAttribute("MainUser");
 %>
-<form action="edit_user" method="post">
-    <h1>Edit Profile</h1>
-    <input type="hidden" name="name" value="<%= user.getName() %>">
-    <label for="realName">Real Name:</label>
-    <input type="text" id="realName" name="realName" value="<%= user.getRealName() %>">
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" name="lastName" value="<%= user.getRealLastName() %>">
-    <label for="imagePath">Image Path:</label>
-    <input type="text" id="imagePath" name="imagePath" value="<%= user.getImagePath() %>">
-    <label for="description">Description:</label>
-    <textarea id="description" name="description"><%= user.getDescription() %></textarea>
-    <input type="submit" value="Save Changes">
-</form>
+    <form action="edit_user" method="post">
+        <h1>Edit Profile</h1>
+        <input type="hidden" name="name" value="<%= user.getName() %>">
+        <label for="realName">Real Name:</label>
+        <input type="text" id="realName" name="realName" value="<%= user.getRealName() %>">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" value="<%= user.getRealLastName() %>">
+        <label for="imagePath">Image Path:</label>
+        <input type="text" id="imagePath" name="imagePath" value="<%= user.getImagePath() %>">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"><%= user.getDescription() %></textarea>
+        <input type="submit" value="Save Changes">
+    </form>
 </body>
 </html>

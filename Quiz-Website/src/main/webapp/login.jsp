@@ -120,7 +120,7 @@
                     <input type="password" placeholder="Password" class="text-field" name="password" required>
                 </div>
                 <label>Don't Have Account? </label>
-                <a href="sign_up.jsp">Sign Up Now</a>
+                <a href="signUp.jsp">Sign Up Now</a>
                 <br><br><button type="submit">Log In</button>
             </form>
         </div>

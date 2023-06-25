@@ -112,7 +112,7 @@ public class UserSQL implements UserDao {
     }
 
     @Override
-    public int changeReal_Name(String userName, String newRealName) {
+    public int changeRealName(String userName, String newRealName) {
         User user = getUserByName(userName);
         if(user == null) {
             return ACCOUNT_NOT_FOUND;
@@ -136,7 +136,7 @@ public class UserSQL implements UserDao {
     }
 
     @Override
-    public int changeReal_LastName(String userName, String newReaLastName) {
+    public int changeRealLastName(String userName, String newReaLastName) {
         User user = getUserByName(userName);
         if(user == null) {
             return ACCOUNT_NOT_FOUND;
@@ -159,7 +159,7 @@ public class UserSQL implements UserDao {
     }
 
     @Override
-    public int changeImage_Path(String userName, String newImagePath) {
+    public int changeImagePath(String userName, String newImagePath) {
         User user = getUserByName(userName);
         if(user == null) {
             return ACCOUNT_NOT_FOUND;

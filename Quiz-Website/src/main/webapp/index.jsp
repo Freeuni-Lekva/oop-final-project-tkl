@@ -127,7 +127,7 @@
     %>
             <div class="buttons">
                 <a href="login.jsp"><button>Login</button></a>
-                <a href="sign_up.jsp"><button>Sign Up</button></a>
+                <a href="signUp.jsp"><button>Sign Up</button></a>
             </div>
     <%
         }
@@ -138,9 +138,6 @@
                 <input type="submit" value="Search">
             </form>
     <%
-        }
-
-        if(userName != null) {
             String photoPath = "\"profile-button.jpg\"";
             UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
             User user = userDao.getUserByName(userName);
