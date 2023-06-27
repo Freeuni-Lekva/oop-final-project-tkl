@@ -113,7 +113,7 @@
         <h1>Sign Up</h1>
         <div class="input-box">
             <i class='bx bx-user'></i> <label>User Name</label>
-            <input type="text" placeholder="UserName" class="text-field" name="name" required>
+            <input type="text" placeholder="Username" class="text-field" name="name" pattern="^[^A-Z]*$" title="Please use lowercase letters only" required>
 
         </div>
         <div class="input-box">

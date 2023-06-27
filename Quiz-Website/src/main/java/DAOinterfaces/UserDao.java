@@ -45,8 +45,19 @@ public interface UserDao {
      */
     int register(String name, String realName, String realLastName, String email, String password);
 
+    /** function tries to change real name of user, which name equals to first argument
+     */
     int changeRealName(String userName, String newRealName);
+
+    /** function tries to change real last name of user, which name equals to first argument
+     */
     int changeRealLastName(String userName, String newReaLastName);
+
+    /** function tries to change profile picture of user, which name equals to first argument
+     */
     int changeImagePath(String userName, String newImagePath);
+
+    /** function tries to change description of user, which name equals to first argument
+     */
     int changeDescription(String userName, String description);
 }

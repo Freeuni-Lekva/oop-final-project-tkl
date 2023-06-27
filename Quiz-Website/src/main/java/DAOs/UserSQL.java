@@ -57,7 +57,7 @@ public class UserSQL implements UserDao {
 
     @Override
     public User getUserByName(String name) {
-        return getUserByCondition(" WHERE name = \"" + name + "\"");
+        return getUserByCondition(" WHERE BINARY name = \"" + name + "\"");
     }
 
     @Override
@@ -111,94 +111,47 @@ public class UserSQL implements UserDao {
         return UserDao.SERVER_ERROR;
     }
 
-    @Override
-    public int changeRealName(String userName, String newRealName) {
+    /** helper function for profile editing
+     */
+    public int changeHelper(String userName, String setOption, String setValue){
+
         User user = getUserByName(userName);
-        if(user == null) {
-            return ACCOUNT_NOT_FOUND;
-        }
-        try {
+        if(user == null) return ACCOUNT_NOT_FOUND;
+
+        try{
+
             Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET real_name = ? WHERE name = ?");
-            if(newRealName == null) {
-                System.out.println("null1");
-                preparedStatement.setNull(1, java.sql.Types.VARCHAR);
-            }
-            else {
-                preparedStatement.setString(1, newRealName);
-            }
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " + setOption + " = ? WHERE name =  ?");
+
+            preparedStatement.setString(1, setValue);
             preparedStatement.setString(2, userName);
+
             preparedStatement.executeUpdate();
             return SUCCESS_UPDATE;
+
+
         } catch (SQLException e) {
             return ERROR_UPDATE;
         }
+    }
+
+    @Override
+    public int changeRealName(String userName, String newRealName) {
+        return changeHelper(userName, "real_name", newRealName);
     }
 
     @Override
     public int changeRealLastName(String userName, String newReaLastName) {
-        User user = getUserByName(userName);
-        if(user == null) {
-            return ACCOUNT_NOT_FOUND;
-        }
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET real_lastname = ? WHERE name = ?");
-            if(newReaLastName == null) {
-                System.out.println("null2");
-                preparedStatement.setNull(1, java.sql.Types.VARCHAR);
-            } else {
-                preparedStatement.setString(1, newReaLastName);
-            }
-            preparedStatement.setString(2, userName);
-            preparedStatement.executeUpdate();
-            return SUCCESS_UPDATE;
-        } catch (SQLException e) {
-            return ERROR_UPDATE;
-        }
+        return changeHelper(userName, "real_lastname", newReaLastName);
     }
 
     @Override
     public int changeImagePath(String userName, String newImagePath) {
-        User user = getUserByName(userName);
-        if(user == null) {
-            return ACCOUNT_NOT_FOUND;
-        }
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET image_path = ? WHERE name = ?");
-            if(newImagePath == null) {
-                System.out.println("null3");
-                preparedStatement.setNull(1, java.sql.Types.VARCHAR);
-            }
-            else {
-                preparedStatement.setString(1, newImagePath);
-            }
-            preparedStatement.setString(2, userName);
-            preparedStatement.executeUpdate();
-            return SUCCESS_UPDATE;
-        } catch (SQLException e) {
-            return ERROR_UPDATE;
-        }
+        return changeHelper(userName, "image_path", newImagePath);
     }
 
     @Override
     public int changeDescription(String userName, String description) {
-        User user = getUserByName(userName);
-        if(user == null) {
-            return ACCOUNT_NOT_FOUND;
-        }
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET description = ? WHERE name = ?");
-
-            if(description != null) preparedStatement.setString(1, description);
-
-            preparedStatement.setString(2, userName);
-            preparedStatement.executeUpdate();
-            return SUCCESS_UPDATE;
-        } catch (SQLException e) {
-            return ERROR_UPDATE;
-        }
+        return changeHelper(userName, "description", description);
     }
 }

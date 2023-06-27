@@ -14,15 +14,20 @@ public interface FriendsDao {
     // Attribute name for the DAO implementation
     String ATTRIBUTE_NAME = "friendshipDao";
 
-    // Retrieves a list of friends for a given user
+    /** Retrieves a list of friends for a given user
+     */
     List<User> getUserFriends(String user_name);
 
-    // Adds a friendship between two users
+    /** Adds a friendship between two users
+     */
+
     int addFriendship(String user_name1, String user_name2);
 
-    // Removes a friendship between two users
+    /** function removes friendship between received users
+     */
     int removeFriendship(String user_name1, String user_name2);
 
-    // Checks if two users are friends
+    /** function returns true if two users are friend
+     */
     boolean checkIfFriends(String user_name1, String user_name2);
 }

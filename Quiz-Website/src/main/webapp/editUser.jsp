@@ -75,15 +75,15 @@
 %>
     <form action="edit_user" method="post">
         <h1>Edit Profile</h1>
-        <input type="hidden" name="name" value="<%= user.getName() %>">
+        <input type="hidden" name="name" value="<%= user.getName() %>" required>
         <label for="realName">Real Name:</label>
-        <input type="text" id="realName" name="realName" value="<%= user.getRealName() %>">
+        <input type="text" id="realName" name="realName" value="<%= user.getRealName() %>" required>
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" value="<%= user.getRealLastName() %>">
+        <input type="text" id="lastName" name="lastName" value="<%= user.getRealLastName() %>" required>
         <label for="imagePath">Image Path:</label>
-        <input type="text" id="imagePath" name="imagePath" value="<%= user.getImagePath() %>">
+        <input type="text" id="imagePath" name="imagePath" value="<%= user.getImagePath() %>" required>
         <label for="description">Description:</label>
-        <textarea id="description" name="description"><%= user.getDescription() %></textarea>
+        <textarea id="description" name="description" required><%= user.getDescription() %></textarea>
         <input type="submit" value="Save Changes">
     </form>
 </body>

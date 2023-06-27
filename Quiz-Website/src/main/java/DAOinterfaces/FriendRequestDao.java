@@ -14,16 +14,20 @@ public interface FriendRequestDao {
     // Attribute name for the DAO implementation
     String ATTRIBUTE_NAME = "friendRequestDao";
 
-    // Adds a friend request from the sender to the receiver
+    /** Adds a friend request from the sender to the receiver
+     */
     int addFriendRequest(String sender_name, String receiver_name);
 
-    // Checks if a friend request exists between the sender and the receiver
+    /** Checks if a friend request exists between the sender and the receiver
+     */
     boolean checkFriendRequest(String sender_name, String receiver_name);
 
-    // Removes a friend request from the sender to the receiver
+    /** Removes a friend request from the sender to the receiver
+     */
     int removeFriendRequest(String sender_name, String receiver_name);
 
-    // Retrieves a list of received friend requests for a given user
+    /** Retrieves a list of received friend requests for a given user
+     */
     List<User> getReceivedFriendRequests(String user_name);
 
 }
