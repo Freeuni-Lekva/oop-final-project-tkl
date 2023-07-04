@@ -149,7 +149,7 @@ public class UserSQL implements UserDao {
     public int changeImagePath(String userName, String newImagePath) {
         return changeHelper(userName, "image_path", newImagePath);
     }
-
+    //test comment
     @Override
     public int changeDescription(String userName, String description) {
         return changeHelper(userName, "description", description);
