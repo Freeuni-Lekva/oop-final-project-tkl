@@ -20,17 +20,17 @@ public class FriendRequestSQL implements FriendRequestDao {
 
     // Adds a friend request from sender to receiver
     @Override
-    public int addFriendRequest(String sender_name, String receiver_name) {
-        if (checkFriendRequest(sender_name, receiver_name)) return FAILED_FRIEND_REQUEST;
+    public int addFriendRequest(Long sender_id, Long receiver_id) {
+        if (checkFriendRequest(sender_id, receiver_id)) return FAILED_FRIEND_REQUEST;
         try {
             // Establish a database connection
             Connection connection = dataSource.getConnection();
 
             // Prepare the SQL query
-            String sqlQuery = "insert into friend_requests (sender_name, receiver_name) values (?, ?)";
+            String sqlQuery = "insert into friend_requests (sender_id, receiver_id) values (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, sender_name);
-            preparedStatement.setString(2, receiver_name);
+            preparedStatement.setLong(1, sender_id);
+            preparedStatement.setLong(2, receiver_id);
 
             // Execute the query and check if any rows were affected
             if(preparedStatement.executeUpdate() != 0) return SUCCESS_FRIEND_REQUEST;
@@ -42,16 +42,16 @@ public class FriendRequestSQL implements FriendRequestDao {
 
     // Checks if a friend request exists from sender to receiver
     @Override
-    public boolean checkFriendRequest(String sender_name, String receiver_name) {
+    public boolean checkFriendRequest(Long sender_id, Long receiver_id) {
         try {
             // Establish a database connection
             Connection connection = dataSource.getConnection();
 
             // Prepare the SQL query
-            String sqlQuery = "select * from friend_requests where sender_name = ? and receiver_name = ?";
+            String sqlQuery = "select * from friend_requests where sender_id = ? and receiver_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, sender_name);
-            preparedStatement.setString(2, receiver_name);
+            preparedStatement.setLong(1, sender_id);
+            preparedStatement.setLong(2, receiver_id);
 
             // Execute the query and check if a result is found
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -66,17 +66,17 @@ public class FriendRequestSQL implements FriendRequestDao {
 
     // Removes a friend request from sender to receiver
     @Override
-    public int removeFriendRequest(String sender_name, String receiver_name) {
-        if(!checkFriendRequest(sender_name, receiver_name)) return FAILED_FRIEND_REQUEST_REMOVE;
+    public int removeFriendRequest(Long sender_id, Long receiver_id) {
+        if(!checkFriendRequest(sender_id, receiver_id)) return FAILED_FRIEND_REQUEST_REMOVE;
         try {
             // Establish a database connection
             Connection connection = dataSource.getConnection();
 
             // Prepare the SQL query
-            String sqlQuery = "delete from friend_requests where sender_name = ? and receiver_name = ?";
+            String sqlQuery = "delete from friend_requests where sender_id = ? and receiver_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, sender_name);
-            preparedStatement.setString(2, receiver_name);
+            preparedStatement.setLong(1, sender_id);
+            preparedStatement.setLong(2, receiver_id);
 
             // Execute the query and check if any rows were affected
             if(preparedStatement.executeUpdate() != 0) return SUCCESS_FRIEND_REQUEST_REMOVE;
@@ -88,21 +88,21 @@ public class FriendRequestSQL implements FriendRequestDao {
 
     // Retrieves a list of received friend requests for a given user
     @Override
-    public List<User> getReceivedFriendRequests(String user_name) {
+    public List<User> getReceivedFriendRequests(Long user_id) {
         try {
             // Establish a database connection
             Connection connection = dataSource.getConnection();
 
             // Prepare the first SQL query to retrieve sender names
-            String sqlQuery = "SELECT sender_name FROM friend_requests WHERE receiver_name = ?";
+            String sqlQuery = "SELECT sender_id FROM friend_requests WHERE receiver_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, user_name);
+            preparedStatement.setLong(1, user_id);
 
-            // Execute the first query to retrieve sender names
+            // Execute the first query to retrieve sender ids
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Prepare the second SQL query to retrieve user details
-            String second_query = "SELECT * FROM users WHERE name = ?";
+            String second_query = "SELECT * FROM users WHERE id = ?";
             PreparedStatement secondStatement = connection.prepareStatement(second_query);
 
             // Create a list to store the resulting users
@@ -110,7 +110,7 @@ public class FriendRequestSQL implements FriendRequestDao {
 
             // Process each received friend request
             while (resultSet.next()){
-                secondStatement.setString(1, resultSet.getString(1));
+                secondStatement.setLong(1, resultSet.getLong(1));
 
                 // Execute the second query to retrieve user details
                 ResultSet resultSet1 = secondStatement.executeQuery();

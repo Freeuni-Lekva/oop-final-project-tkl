@@ -16,18 +16,18 @@ public interface FriendRequestDao {
 
     /** Adds a friend request from the sender to the receiver
      */
-    int addFriendRequest(String sender_name, String receiver_name);
+    int addFriendRequest(Long sender_id, Long receiver_id);
 
     /** Checks if a friend request exists between the sender and the receiver
      */
-    boolean checkFriendRequest(String sender_name, String receiver_name);
+    boolean checkFriendRequest(Long sender_id, Long receiver_id);
 
     /** Removes a friend request from the sender to the receiver
      */
-    int removeFriendRequest(String sender_name, String receiver_name);
+    int removeFriendRequest(Long sender_id, Long receiver_id);
 
     /** Retrieves a list of received friend requests for a given user
      */
-    List<User> getReceivedFriendRequests(String user_name);
+    List<User> getReceivedFriendRequests(Long user_id);
 
 }

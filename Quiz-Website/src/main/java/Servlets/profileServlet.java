@@ -12,22 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "profileServlet", value = "/profile")
-public class ProfileServlet extends HttpServlet {
+public class profileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the UserDao instance from the ServletContext
         UserDao userDAO = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
 
         // Retrieve the username from the request parameter
-        String userName = request.getParameter("name");
-
+        String id =  (String) request.getParameter("id");
+        String user_id;
         // If the username is null and the MainUserName attribute is present in the session, use it as the user name
-        if(userName == null && request.getSession().getAttribute("MainUserName") != null){
-            userName = (String) request.getSession().getAttribute("MainUserName");
+        if(id == null && request.getSession().getAttribute("main_user_id") != null){
+            user_id = (String) request.getSession().getAttribute("main_user_id");
+        } else {
+            user_id = id;
         }
 
         // Get the User object for the specified username from the UserDao
-        User user = userDAO.getUserByName(userName);
+        User user = userDAO.getUserById(Long.parseLong(user_id));
 
         // Set the "profileUser" attribute in the session
         request.getSession().setAttribute("profileUser", user);

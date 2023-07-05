@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "addFriendServlet", value = "/add_friend")
-public class AddFriendServlet extends HttpServlet {
+public class addFriendServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the required DAO instances from the ServletContext
@@ -20,19 +20,21 @@ public class AddFriendServlet extends HttpServlet {
         FriendsDao friendsDao = (FriendsDao) request.getServletContext().getAttribute(FriendsDao.ATTRIBUTE_NAME);
 
         // Retrieve the main user and profile user from the session
-        String mainUser = (String) request.getSession().getAttribute("MainUserName");
         User profileUser = (User) request.getSession().getAttribute("profileUser");
+        String main_user_id = (String) request.getSession().getAttribute("main_user_id");
 
         // Set the "addButton?" attribute based on the conditions
         request.getSession().setAttribute("addButton?", false);
-        if(!mainUser.equals(profileUser.getName())){
-            if(!friendRequestDao.checkFriendRequest(mainUser, profileUser.getName())
-                    && !friendsDao.checkIfFriends(mainUser, profileUser.getName()) &&
-                    !friendRequestDao.checkFriendRequest(profileUser.getName(), mainUser)){
+        if(Long.parseLong(main_user_id) != profileUser.getId()){
+            if(!friendRequestDao.checkFriendRequest(Long.parseLong(main_user_id), profileUser.getId())
+                    && !friendsDao.checkIfFriends(Long.parseLong(main_user_id), profileUser.getId()) &&
+                    !friendRequestDao.checkFriendRequest(profileUser.getId(), Long.parseLong(main_user_id))){
 
                 request.getSession().setAttribute("addButton?", true);
             }
         }
+        System.out.println("profileUserid: " + profileUser.getId());
+        System.out.println("mainId: " + main_user_id);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,13 +42,13 @@ public class AddFriendServlet extends HttpServlet {
         FriendRequestDao friendRequestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
 
         // Retrieve the main user and profile user from the session
-        String mainUser = (String) request.getSession().getAttribute("MainUserName");
+        String main_user_id = (String) request.getSession().getAttribute("main_user_id");
         User profileUser = (User) request.getSession().getAttribute("profileUser");
 
         // Add a friend request from the main user to the profile user
-        friendRequestDao.addFriendRequest(mainUser, profileUser.getName());
+        if(main_user_id != null) friendRequestDao.addFriendRequest(Long.parseLong(main_user_id), profileUser.getId());
 
         // Redirect to the profile page of the profile user
-        response.sendRedirect("/profile?name=" + profileUser.getName());
+        response.sendRedirect("/profile?id=" + profileUser.getId());
     }
 }

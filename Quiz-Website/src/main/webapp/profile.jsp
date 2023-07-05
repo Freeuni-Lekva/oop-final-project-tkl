@@ -79,7 +79,7 @@
 <div class="profile-container">
   <%
     User user = (User) request.getSession().getAttribute("profileUser");
-    String mainUserName = (String) request.getSession().getAttribute("MainUserName");
+    String main_user_id = (String) request.getSession().getAttribute("main_user_id");
   %>
   <p><strong>Name:</strong> <%= user.getName() %></p>
   <p><strong>Real Name:</strong> <%= user.getRealName() %></p>
@@ -89,16 +89,16 @@
   </div>
   <p><strong>Description:</strong> <%= user.getDescription() %></p>
   <%
-    if (user.getName().equals(mainUserName)) {
+    if (user.getId() == Long.parseLong(main_user_id)) {
       out.println("<div class=\"edit-form-container\">");
       out.println("<form action=\"/edit_user\" method=\"GET\">");
-      out.println("<input type=\"hidden\" name=\"id\" value=\"" + user.getName() + "\">");
+      out.println("<input type=\"hidden\" name=\"id\" value=\"" + user.getId() + "\">");
       out.println("<button class=\"edit-button\" type=\"submit\">Edit</button>");
       out.println("</form>");
       out.println("</div>");
     }
-    out.println("<p><a href=\"/friends?name=" + user.getName() + "\">See Friends</a></p>");
-    if (user.getName().equals(mainUserName)) { out.println("<p><a href=\"/friend_request?name=" + user.getName() + "\">See Friend Requests</a></p>");};
+    out.println("<p><a href=\"/friends?id=" + user.getId() + "\">See Friends</a></p>");
+    if (user.getId() == Long.parseLong(main_user_id)) { out.println("<p><a href=\"/friend_request?id=" + user.getId() + "\">See Friend Requests</a></p>");};
   %>
   <jsp:include page="/add_friend" />
   <%

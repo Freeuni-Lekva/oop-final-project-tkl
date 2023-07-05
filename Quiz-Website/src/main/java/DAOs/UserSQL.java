@@ -20,7 +20,6 @@ public class UserSQL implements UserDao {
 
     @Override
     public List<User> getUsers(String condition) {
-
         try{
             Connection connection = dataSource.getConnection();
             String query = "SELECT *FROM users";
@@ -37,10 +36,10 @@ public class UserSQL implements UserDao {
 
                 result.add(newUser);
             }
-
             return result;
 
-        } catch (SQLException ignored) {}
+        } catch (SQLException ignored) {
+        }
 
         return null;
     }
@@ -67,7 +66,6 @@ public class UserSQL implements UserDao {
 
     @Override
     public int tryToLogin(String name, String password) {
-
         User user = getUserByName(name);
         if(user == null) return UserDao.ACCOUNT_NOT_FOUND;
 
@@ -113,18 +111,18 @@ public class UserSQL implements UserDao {
 
     /** helper function for profile editing
      */
-    public int changeHelper(String userName, String setOption, String setValue){
+    public int changeHelper(Long user_id, String setOption, String setValue){
 
-        User user = getUserByName(userName);
+        User user = getUserById(user_id);
         if(user == null) return ACCOUNT_NOT_FOUND;
 
         try{
 
             Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " + setOption + " = ? WHERE name =  ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET " + setOption + " = ? WHERE id =  ?");
 
             preparedStatement.setString(1, setValue);
-            preparedStatement.setString(2, userName);
+            preparedStatement.setLong(2, user_id);
 
             preparedStatement.executeUpdate();
             return SUCCESS_UPDATE;
@@ -136,22 +134,22 @@ public class UserSQL implements UserDao {
     }
 
     @Override
-    public int changeRealName(String userName, String newRealName) {
-        return changeHelper(userName, "real_name", newRealName);
+    public int changeRealName(Long user_id, String newRealName) {
+        return changeHelper(user_id, "real_name", newRealName);
     }
 
     @Override
-    public int changeRealLastName(String userName, String newReaLastName) {
-        return changeHelper(userName, "real_lastname", newReaLastName);
+    public int changeRealLastName(Long user_id, String newReaLastName) {
+        return changeHelper(user_id, "real_lastname", newReaLastName);
     }
 
     @Override
-    public int changeImagePath(String userName, String newImagePath) {
-        return changeHelper(userName, "image_path", newImagePath);
+    public int changeImagePath(Long user_id, String newImagePath) {
+        return changeHelper(user_id, "image_path", newImagePath);
     }
 
     @Override
-    public int changeDescription(String userName, String description) {
-        return changeHelper(userName, "description", description);
+    public int changeDescription(Long user_id, String description) {
+        return changeHelper(user_id, "description", description);
     }
 }

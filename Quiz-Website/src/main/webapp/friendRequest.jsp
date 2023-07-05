@@ -70,7 +70,7 @@
     if (friend_requests != null) {
       for (int i = 0; i < friend_requests.size(); i++) {
         User user = friend_requests.get(i);
-        String profileURL = "/profile?name=" + user.getName();
+        String profileURL = "/profile?id=" + user.getId();
         String photoPath = "/images/" + user.getImagePath();
   %>
   <div class="circle-image">
@@ -79,7 +79,7 @@
     </a>
   </div>
   <form class="friend-request-form" action="/friend_request" method="post">
-    <input type="hidden" name="friendName" value="<%= user.getName() %>">
+    <input type="hidden" name="friendID" value="<%= user.getId() %>">
     <button type="submit" name="accept" value="true">Accept</button>
     <button class="reject" type="submit" name="accept" value="false">Reject</button>
   </form>

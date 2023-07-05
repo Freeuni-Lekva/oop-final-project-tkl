@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "removeFriendServlet", value = "/remove_friend")
-public class RemoveFriendServlet extends HttpServlet {
+public class removeFriendServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // No implementation in the GET method for this servlet
@@ -21,13 +21,13 @@ public class RemoveFriendServlet extends HttpServlet {
         FriendsDao friendsDao = (FriendsDao) request.getServletContext().getAttribute(FriendsDao.ATTRIBUTE_NAME);
 
         // Retrieve the friend's name and the main user's name from the request parameters
-        String friend_name = (String) request.getParameter("friend_name");
-        String mainUser = (String) request.getSession().getAttribute("MainUserName");
+        String id = (String) request.getParameter("friend_id");
+        String main_user_id = (String) request.getSession().getAttribute("main_user_id");
 
         // Remove the friendship between the friend and the main user using the FriendsDao
-        friendsDao.removeFriendship(friend_name, mainUser);
+        if(id != null) friendsDao.removeFriendship(Long.parseLong(id), Long.parseLong(main_user_id));
 
         // Redirect the user to the friends page for the main user
-        response.sendRedirect("/friends?name=" + mainUser);
+        response.sendRedirect("/friends?id=" + main_user_id);
     }
 }
