@@ -139,23 +139,24 @@
 <body>
 <%
   List<User> friends = (List<User>) request.getSession().getAttribute("user_friends");
-  String mainUser = (String) request.getSession().getAttribute("MainUserName");
+  String main_user_id = (String) request.getSession().getAttribute("main_user_id");
   String profile = (String) request.getSession().getAttribute("profileUser");
+
   if (friends != null){
     for (int i = 0; i < friends.size(); i++){
       User user = friends.get(i);
 %>
 <div class="circle-image">
-  <a href="/profile?name=<%= user.getName() %>">
+  <a href="/profile?id=<%= user.getId() %>">
     <img src="/images/<%= user.getImagePath() %>" alt="Go to Profile">
   </a>
 </div>
 <p class="username">Username: <%= user.getName() %></p>
 <%
-  if(mainUser.equals(profile)){
+  if(main_user_id.equals(profile)){
 %>
 <form action="/remove_friend" method="POST">
-  <input type="hidden" name="friend_name" value="<%= user.getName() %>">
+  <input type="hidden" name="friend_id" value="<%= user.getId() %>">
   <button class="remove-button" type="submit">Remove Friend</button>
 </form>
 <%

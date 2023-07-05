@@ -122,8 +122,8 @@
         </ul>
     </nav>
     <%
-        String userName = (String) request.getSession().getAttribute("MainUserName");
-        if(userName == null){
+        String id = (String) request.getSession().getAttribute("main_user_id");
+        if(id == null){
     %>
             <div class="buttons">
                 <a href="login.jsp"><button>Login</button></a>
@@ -131,7 +131,7 @@
             </div>
     <%
         }
-        if(userName != null){
+        if(id != null){
     %>
             <form class="search-form" action="search" method="POST">
                 <input type="text" name="searchUser" placeholder="Search...">
@@ -140,10 +140,10 @@
     <%
             String photoPath = "\"profile-button.jpg\"";
             UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
-            User user = userDao.getUserByName(userName);
+            User user = userDao.getUserById(Long.parseLong(id));
 
             out.println("<div class=\"circle-image\">");
-            String profileURL = "/profile?name=" + userName;
+            String profileURL = "/profile?id=" + id;
             out.println("<a href=\"" + profileURL + "\">");
             if (user != null) photoPath = "/images/" + user.getImagePath();
             out.println("<img src=" + photoPath + " alt=\"Go to Profile\">");

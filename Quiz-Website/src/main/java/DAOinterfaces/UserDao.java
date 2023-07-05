@@ -47,17 +47,17 @@ public interface UserDao {
 
     /** function tries to change real name of user, which name equals to first argument
      */
-    int changeRealName(String userName, String newRealName);
+    int changeRealName(Long user_id, String newRealName);
 
     /** function tries to change real last name of user, which name equals to first argument
      */
-    int changeRealLastName(String userName, String newReaLastName);
+    int changeRealLastName(Long user_id, String newReaLastName);
 
     /** function tries to change profile picture of user, which name equals to first argument
      */
-    int changeImagePath(String userName, String newImagePath);
+    int changeImagePath(Long user_id, String newImagePath);
 
     /** function tries to change description of user, which name equals to first argument
      */
-    int changeDescription(String userName, String description);
+    int changeDescription(Long user_id, String description);
 }

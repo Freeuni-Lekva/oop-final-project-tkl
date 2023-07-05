@@ -12,20 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "editProfileServlet", value = "/edit_user")
-public class EditProfileServlet extends HttpServlet {
+public class editProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the UserDao instance from the ServletContext
         UserDao userDAO = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
 
-        // Retrieve the username from the request parameter
-        String userName = request.getParameter("id");
+        // Retrieve the id from the request parameter
+        String id =  request.getParameter("id");
+        Long user_id = Long.parseLong(id);
 
         // Retrieve the user object from the UserDao based on the username
-        User user = userDAO.getUserByName(userName);
+        User user = userDAO.getUserById(user_id);
 
         // Set the "MainUser" attribute in the session
-        request.getSession().setAttribute("MainUser", user);
+        request.getSession().setAttribute("mainUser", user);
 
         // Forward the request and response to the "editUser.jsp" page
         RequestDispatcher rd = request.getRequestDispatcher("editUser.jsp");
@@ -42,15 +43,16 @@ public class EditProfileServlet extends HttpServlet {
         // Retrieve the UserDao instance from the ServletContext
         UserDao userDAO = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
         // Retrieve the username from the request parameter
-        String name = request.getParameter("name");
+        String id = request.getParameter("id");
+        Long user_id = Long.parseLong(id);
 
         // Update the user information using the UserDao
-        int x = userDAO.changeRealName(name, newFirstName);
-        int y = userDAO.changeRealLastName(name, newLastName);
-        int z = userDAO.changeImagePath(name, newImagePath);
-        int v = userDAO.changeDescription(name, newDescription);
+        userDAO.changeRealName(user_id, newFirstName);
+        userDAO.changeRealLastName(user_id, newLastName);
+        userDAO.changeImagePath(user_id, newImagePath);
+        userDAO.changeDescription(user_id, newDescription);
 
         // Redirect the user to the "profile" page
-        response.sendRedirect("profile");
+        response.sendRedirect("/profile");
     }
 }

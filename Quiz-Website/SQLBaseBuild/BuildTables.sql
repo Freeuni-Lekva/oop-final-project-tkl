@@ -18,19 +18,19 @@ CREATE TABLE users(
 
 CREATE TABLE IF NOT EXISTS friend_requests (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    sender_name VARCHAR(256)   NOT NULL,
-    receiver_name VARCHAR(256)    NOT NULL,
+    sender_id   BIGINT NOT NULL,
+    receiver_id BIGINT NOT NULL,
     send_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender_name) REFERENCES users(name) ON DELETE CASCADE,
-    FOREIGN KEY (receiver_name) REFERENCES users(name) ON DELETE CASCADE
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS friendships (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    first_user_name  VARCHAR(256)    NOT NULL,
-    second_user_name VARCHAR(256)    NOT NULL,
-    FOREIGN KEY (first_user_name) REFERENCES users(name) ON DELETE CASCADE,
-    FOREIGN KEY (second_user_name) REFERENCES users(name) ON DELETE CASCADE
+    first_user_id  BIGINT NOT NULL,
+    second_user_id BIGINT NOT NULL,
+    FOREIGN KEY (first_user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (second_user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 

@@ -88,7 +88,7 @@
       User user = users.get(i);
 %>
 <div class="circle-image">
-  <a href="/profile?name=<%= user.getName() %>">
+  <a href="/profile?id=<%= user.getId() %>">
     <img src="/images/<%= user.getImagePath() %>" alt="Go to Profile">
   </a>
 </div>

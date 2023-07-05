@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.file.LinkOption;
 
 public class LoginServlet extends HttpServlet {
 
@@ -29,7 +30,9 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
         }else if(result == UserDao.SUCCESSFULLY_LOGIN){
             System.out.println("Successfully Log in");
-            request.getSession().setAttribute("MainUserName", name);
+            User user = userDao.getUserByName(name);
+            Long id = user.getId();
+            request.getSession().setAttribute("main_user_id", Long.toString(id));
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
             return;

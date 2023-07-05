@@ -71,11 +71,11 @@
 </head>
 <body>
 <%
-    User user = (User) request.getSession().getAttribute("MainUser");
+    User user = (User) request.getSession().getAttribute("mainUser");
 %>
     <form action="edit_user" method="post">
         <h1>Edit Profile</h1>
-        <input type="hidden" name="name" value="<%= user.getName() %>" required>
+        <input type="hidden" name="id" value="<%= user.getId() %>" required>
         <label for="realName">Real Name:</label>
         <input type="text" id="realName" name="realName" value="<%= user.getRealName() %>" required>
         <label for="lastName">Last Name:</label>
