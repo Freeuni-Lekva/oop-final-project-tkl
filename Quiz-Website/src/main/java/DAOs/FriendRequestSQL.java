@@ -18,22 +18,33 @@ public class FriendRequestSQL implements FriendRequestDao {
         this.dataSource = dataSource;
     }
 
+    /** Simple helper function which returns PreparedStatement built according to received arguments
+     */
+    private PreparedStatement prepareStatement(String query, long val1, long val2){
+
+        try{
+            Connection connection = dataSource.getConnection();
+
+            PreparedStatement result = connection.prepareStatement(query);
+            result.setLong(1, val1);
+            result.setLong(2, val2);
+
+            return result;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // Adds a friend request from sender to receiver
     @Override
     public int addFriendRequest(Long sender_id, Long receiver_id) {
         if (checkFriendRequest(sender_id, receiver_id)) return FAILED_FRIEND_REQUEST;
         try {
-            // Establish a database connection
-            Connection connection = dataSource.getConnection();
 
-            // Prepare the SQL query
-            String sqlQuery = "insert into friend_requests (sender_id, receiver_id) values (?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setLong(1, sender_id);
-            preparedStatement.setLong(2, receiver_id);
-
-            // Execute the query and check if any rows were affected
+            PreparedStatement preparedStatement = prepareStatement( "insert into friend_requests (sender_id, receiver_id) values (?, ?)", sender_id, receiver_id);
             if(preparedStatement.executeUpdate() != 0) return SUCCESS_FRIEND_REQUEST;
+
         } catch (SQLException e) {
             return FAILED_FRIEND_REQUEST;
         }
@@ -44,24 +55,15 @@ public class FriendRequestSQL implements FriendRequestDao {
     @Override
     public boolean checkFriendRequest(Long sender_id, Long receiver_id) {
         try {
-            // Establish a database connection
-            Connection connection = dataSource.getConnection();
 
-            // Prepare the SQL query
-            String sqlQuery = "select * from friend_requests where sender_id = ? and receiver_id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setLong(1, sender_id);
-            preparedStatement.setLong(2, receiver_id);
-
-            // Execute the query and check if a result is found
+            PreparedStatement preparedStatement = prepareStatement("select * from friend_requests where sender_id = ? and receiver_id = ?", sender_id, receiver_id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                return true;
-            }
+
+            return resultSet.next();
+
         } catch (SQLException e) {
             return false;
         }
-        return false;
     }
 
     // Removes a friend request from sender to receiver
@@ -69,17 +71,9 @@ public class FriendRequestSQL implements FriendRequestDao {
     public int removeFriendRequest(Long sender_id, Long receiver_id) {
         if(!checkFriendRequest(sender_id, receiver_id)) return FAILED_FRIEND_REQUEST_REMOVE;
         try {
-            // Establish a database connection
-            Connection connection = dataSource.getConnection();
-
-            // Prepare the SQL query
-            String sqlQuery = "delete from friend_requests where sender_id = ? and receiver_id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setLong(1, sender_id);
-            preparedStatement.setLong(2, receiver_id);
-
-            // Execute the query and check if any rows were affected
+            PreparedStatement preparedStatement = prepareStatement("delete from friend_requests where sender_id = ? and receiver_id = ?", sender_id, receiver_id);
             if(preparedStatement.executeUpdate() != 0) return SUCCESS_FRIEND_REQUEST_REMOVE;
+
         } catch (SQLException e) {
             return FAILED_FRIEND_REQUEST_REMOVE;
         }

@@ -15,14 +15,14 @@ import java.util.List;
 
 @WebServlet(name = "friendsServlet", value = "/friends")
 
-public class friendsServlet extends HttpServlet {
+public class FriendsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the FriendsDao instance from the ServletContext
         FriendsDao friendsDao = (FriendsDao) request.getServletContext().getAttribute(FriendsDao.ATTRIBUTE_NAME);
 
         // Retrieve the profile username from the request parameter
-        String id = (String) request.getParameter("id");
+        String id = request.getParameter("id");
         List<User> friends = new ArrayList<>();
 
         // Get the list of friends for the specified profile user

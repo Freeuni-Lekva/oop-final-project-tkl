@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
         if(result == UserDao.ACCOUNT_NOT_FOUND){
             request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
         }else if(result == UserDao.SUCCESSFULLY_LOGIN){
-            System.out.println("Successfully Log in");
             User user = userDao.getUserByName(name);
             Long id = user.getId();
             request.getSession().setAttribute("main_user_id", Long.toString(id));

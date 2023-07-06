@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "addFriendServlet", value = "/add_friend")
-public class addFriendServlet extends HttpServlet {
+public class AddFriendServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve the required DAO instances from the ServletContext
