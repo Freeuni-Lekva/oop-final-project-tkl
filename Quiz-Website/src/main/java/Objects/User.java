@@ -4,13 +4,13 @@ import java.sql.Struct;
 
 public class User {
 
-    private Long id;
-    private String name;
-    private String password;
-    private String real_name;
-    private String real_lastname;
-    private String image_path;
-    private String description;
+    private final Long id;
+    private final String name;
+    private final String password;
+    private final String real_name;
+    private final String real_lastname;
+    private final String image_path;
+    private final String description;
 
 
 

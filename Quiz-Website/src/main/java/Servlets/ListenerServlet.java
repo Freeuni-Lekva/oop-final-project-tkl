@@ -2,9 +2,11 @@ package Servlets;
 
 import DAOinterfaces.FriendRequestDao;
 import DAOinterfaces.FriendsDao;
+import DAOinterfaces.QuizDao;
 import DAOinterfaces.UserDao;
 import DAOs.FriendRequestSQL;
 import DAOs.FriendsSQL;
+import DAOs.QuizSQL;
 import DAOs.UserSQL;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -30,10 +32,15 @@ public class ListenerServlet implements ServletContextListener {
         UserDao userDao = new UserSQL(dataSource);
         FriendRequestDao friendRequestDao = new FriendRequestSQL(dataSource);
         FriendsDao friendsDao = new FriendsSQL(dataSource);
+        QuizDao quizDao = new QuizSQL(dataSource);
+
+        System.out.println("aq movida");
+
 
         servletContextEvent.getServletContext().setAttribute(UserDao.ATTRIBUTE_NAME, userDao);
         servletContextEvent.getServletContext().setAttribute(FriendRequestDao.ATTRIBUTE_NAME, friendRequestDao);
-        servletContextEvent.getServletContext().setAttribute(friendsDao.ATTRIBUTE_NAME, friendsDao);
+        servletContextEvent.getServletContext().setAttribute(FriendsDao.ATTRIBUTE_NAME, friendsDao);
+        servletContextEvent.getServletContext().setAttribute(QuizDao.ATTRIBUTE_NAME, quizDao);
     }
 
     @Override
