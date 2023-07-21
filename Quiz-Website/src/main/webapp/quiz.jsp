@@ -20,6 +20,9 @@
 <body>
 
 
+<br>
+<a href="sendChallenge.jsp">Send Challenge</a>
+
 
 </body>
 </html>

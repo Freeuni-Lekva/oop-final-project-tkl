@@ -33,7 +33,16 @@ CREATE TABLE IF NOT EXISTS friendships (
     FOREIGN KEY (second_user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-
+CREATE TABLE IF NOT EXISTS challenge (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    sender_id BIGINT NOT NULL,
+    receiver_id BIGINT NOT NULL,
+    quiz_id BIGINT NOT NULL,
+    send_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+    #FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
+)
 
 
 
