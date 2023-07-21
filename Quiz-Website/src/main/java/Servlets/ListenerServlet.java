@@ -1,13 +1,8 @@
 package Servlets;
 
-import DAOinterfaces.FriendRequestDao;
-import DAOinterfaces.FriendsDao;
-import DAOinterfaces.QuizDao;
-import DAOinterfaces.UserDao;
-import DAOs.FriendRequestSQL;
-import DAOs.FriendsSQL;
-import DAOs.QuizSQL;
-import DAOs.UserSQL;
+import DAOinterfaces.*;
+import DAOs.*;
+import Objects.Challenge;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.servlet.ServletContextEvent;
@@ -18,7 +13,7 @@ public class ListenerServlet implements ServletContextListener {
 
     private static final String URL = "jdbc:mysql://localhost:3306/final_project";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "17031923";
+    private static final String PASSWORD = "bazuka34";
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -33,6 +28,7 @@ public class ListenerServlet implements ServletContextListener {
         FriendRequestDao friendRequestDao = new FriendRequestSQL(dataSource);
         FriendsDao friendsDao = new FriendsSQL(dataSource);
         QuizDao quizDao = new QuizSQL(dataSource);
+        ChallengeDao challengeDao = new ChallengeSQL(dataSource);
 
         System.out.println("aq movida");
 
@@ -41,6 +37,7 @@ public class ListenerServlet implements ServletContextListener {
         servletContextEvent.getServletContext().setAttribute(FriendRequestDao.ATTRIBUTE_NAME, friendRequestDao);
         servletContextEvent.getServletContext().setAttribute(FriendsDao.ATTRIBUTE_NAME, friendsDao);
         servletContextEvent.getServletContext().setAttribute(QuizDao.ATTRIBUTE_NAME, quizDao);
+        servletContextEvent.getServletContext().setAttribute(ChallengeDao.ATTRIBUTE_NAME, challengeDao);
     }
 
     @Override
