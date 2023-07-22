@@ -63,7 +63,7 @@ public class ChallengeSQL implements ChallengeDao {
 
     @Override
     public List<Challenge> getChallengesForUser(long userId) {
-        String query = "SELECT * FROM challenge WHERE sender_id = ? OR receiver_id = ?";
+        String query = "SELECT * FROM challenge WHERE receiver_id = ? ORDER BY send_time";
 
         List<Challenge> challenges = new ArrayList<>();
 
@@ -71,7 +71,6 @@ public class ChallengeSQL implements ChallengeDao {
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setLong(1, userId);
-            statement.setLong(2, userId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
