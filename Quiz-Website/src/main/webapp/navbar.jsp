@@ -188,14 +188,14 @@
     %>
     <div class="buttons">
         <!-- Notifications button -->
-        <button onclick="toggleNotifications()">Notifications</button>
+        <button onclick="toggleNotifications()">Challenges</button>
 
         <!-- Notifications popover -->
         <div class="popover" id="notificationsPopover">
             <div class="popover__content">
 
                 <% int notifications = receivedChallenges==null?0:receivedChallenges.size();%>
-                <p>You have <%=notifications%> new notifications!</p>
+                <p>You have <%=notifications%> new challenges!</p>
                 <%if(notifications != 0) {%>
                     <% for (Challenge challenge : receivedChallenges) { %>
                     <% User user = userDao.getUserById(challenge.getSenderId()); %>
