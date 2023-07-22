@@ -119,7 +119,7 @@
     .popover {
         position: absolute;
         top: 100px;
-        /*right: 20px;*/
+        right: 94px;
         background-color: white;
         padding: 2px;
         display: none;
@@ -202,10 +202,12 @@
                     <!-- Challenge Box -->
                     <div class="challenge-box">
                         <p><%=user.getName() %><strong> has challenged you:</strong> </p>
-                        <p><strong>Quiz ID:</strong> <a href="quiz.jsp?quiz_id=<%=challenge.getQuizId()%>">
-                            <%= challenge.getQuizId()%> </a></p>
-
+                        <p><strong>Quiz ID:</strong><%= challenge.getQuizId()%> </p>
                         <p><strong>Timestamp:</strong> <%= challenge.getTimestamp() %></p>
+                        <form action="acceptChallenge" method="post">
+                            <input type="hidden" name="challenge_id" value="<%= challenge.getId() %>">
+                            <input type="submit" value="Accept Challenge">
+                        </form>
                     </div>
                     <% } %>
                 <%}%>
