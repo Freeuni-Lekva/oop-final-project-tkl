@@ -63,7 +63,7 @@ public class ChallengeSQL implements ChallengeDao {
 
     @Override
     public List<Challenge> getChallengesForUser(long userId) {
-        String query = "SELECT * FROM challenge WHERE receiver_id = ? ORDER BY send_time";
+        String query = "SELECT * FROM challenge WHERE receiver_id = ? ORDER BY send_time DESC";
 
         List<Challenge> challenges = new ArrayList<>();
 
