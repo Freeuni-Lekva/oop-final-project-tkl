@@ -76,6 +76,7 @@
   </style>
 </head>
 <body>
+<jsp:include page="navbar.jsp"/>
 <div class="profile-container">
   <%
     User user = (User) request.getSession().getAttribute("profileUser");

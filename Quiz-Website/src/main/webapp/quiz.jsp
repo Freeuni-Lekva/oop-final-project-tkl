@@ -10,18 +10,56 @@
 
 <%
     long quizId = Long.parseLong(request.getParameter("quiz_id"));
+
     QuizDao quizSQL = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
     Quiz currentQuiz = quizSQL.getQuizById(quizId);
 %>
 <html>
 <head>
     <title><%=currentQuiz.getQuizName()%></title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+            color: white;
+            text-decoration: none;
+            background-color: darkslategrey;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        a {
+            display: block;
+            text-align:center;
+            margin-top:50px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
 </head>
 <body>
 
+<h1><%=currentQuiz.getQuizName()%></h1>
 
 <br>
-<a href="sendChallenge.jsp">Send Challenge</a>
+<a href="sendChallenge.jsp?quiz_id=<%=currentQuiz.getQuizId()%>">Send Challenge</a>
+<a href="quizes.jsp?quiz_id=<%=quizId%>">Go Back</a>
 
 
 </body>

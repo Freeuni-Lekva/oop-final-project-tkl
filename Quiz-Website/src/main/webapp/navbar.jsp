@@ -1,5 +1,8 @@
 <%@ page import="DAOinterfaces.UserDao" %>
-<%@ page import="Objects.User" %><%--
+<%@ page import="Objects.User" %>
+<%@ page import="DAOinterfaces.ChallengeDao" %>
+<%@ page import="Objects.Challenge" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: ddadi
   Date: 6/20/2023
@@ -7,6 +10,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script>
+    function toggleNotifications() {
+        let popover = document.getElementById("notificationsPopover");
+        popover.style.display = (popover.style.display === "block") ? "none" : "block";
+    }
+</script>
 <html>
 <head>
   <link rel="website-icon" type="x-icon" href="images/login.png">
@@ -107,6 +116,23 @@
       height: 100%;
     }
 
+    .popover {
+        position: absolute;
+        top: 100px;
+        /*right: 20px;*/
+        background-color: white;
+        padding: 2px;
+        display: none;
+    }
+
+    .popover__content {
+        background-color: #fff;
+        /*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);*/
+        border-radius: 5px;
+        max-width: 300px;
+        /*color: white; */
+    }
+
   </style>
 
 </head>
@@ -152,6 +178,42 @@
       out.println("</div>");
     }
   %>
+
+<%--    <% String id = (String) request.getSession().getAttribute("main_user_id");--%>
+        <%if (id != null) { %>
+    <%
+        UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
+        ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
+        List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
+    %>
+    <div class="buttons">
+        <!-- Notifications button -->
+        <button onclick="toggleNotifications()">Notifications</button>
+
+        <!-- Notifications popover -->
+        <div class="popover" id="notificationsPopover">
+            <div class="popover__content">
+
+                <% int notifications = receivedChallenges==null?0:receivedChallenges.size();%>
+                <p>You have <%=notifications%> new notifications!</p>
+                <%if(notifications != 0) {%>
+                    <% for (Challenge challenge : receivedChallenges) { %>
+                    <% User user = userDao.getUserById(challenge.getSenderId()); %>
+                    <!-- Challenge Box -->
+                    <div class="challenge-box">
+                        <p><%=user.getName() %><strong> has challenged you:</strong> </p>
+                        <p><strong>Quiz ID:</strong> <a href="quiz.jsp?quiz_id=<%=challenge.getQuizId()%>">
+                            <%= challenge.getQuizId()%> </a></p>
+
+                        <p><strong>Timestamp:</strong> <%= challenge.getTimestamp() %></p>
+                    </div>
+                    <% } %>
+                <%}%>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
 </header>
 </body>
 </html>

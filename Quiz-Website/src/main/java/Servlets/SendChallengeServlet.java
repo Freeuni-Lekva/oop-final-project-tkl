@@ -5,6 +5,7 @@ import DAOinterfaces.UserDao;
 import Objects.Challenge;
 import Objects.User;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,22 +26,33 @@ public class SendChallengeServlet extends HttpServlet {
             long senderId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("main_user_id"));
             String receiverUsername = httpServletRequest.getParameter("receiverUsername");
             User receiver = userDao.getUserByName(receiverUsername);
-            long quizId = Long.parseLong(httpServletRequest.getParameter("quizId"));
-
-            // Create a new Challenge object
-            Challenge challenge = new Challenge(senderId, receiver.getId(), quizId);
-
-            // Send the challenge using the DAO
-            boolean success = challengeDao.sendChallenge(challenge);
-
-            if (success) {
-                httpServletResponse.getWriter().println("Challenge sent successfully!");
+            if(receiver == null){
+                httpServletRequest.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, UserDao.ACCOUNT_NOT_FOUND);
             } else {
-                httpServletResponse.getWriter().println("Failed to send the challenge.");
+                long quizId = Long.parseLong(httpServletRequest.getParameter("quiz_id"));
+
+                // Create a new Challenge object
+                Challenge challenge = new Challenge(senderId, receiver.getId(), quizId);
+
+                // Send the challenge using the DAO
+                boolean success = challengeDao.sendChallenge(challenge);
+
+                if (success) {
+                    httpServletRequest.setAttribute("quiz_id", quizId);
+                    httpServletRequest.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, UserDao.ACCOUNT_FOUND_BY_NAME);
+                } else {
+                    httpServletResponse.getWriter().println("Failed to send the challenge.");
+                    httpServletRequest.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, UserDao.SERVER_ERROR);
+                }
             }
+
+
         } catch (NumberFormatException e) {
             httpServletResponse.getWriter().println("Invalid input. Please enter valid numeric IDs.");
         }
+
+        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("sendChallenge.jsp");
+        rd.forward(httpServletRequest, httpServletResponse);
     }
 
 }
