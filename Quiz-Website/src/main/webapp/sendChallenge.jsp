@@ -79,7 +79,7 @@
 <%
     if(request.getAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME) != null){
         int message = Integer.parseInt(request.getAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME).toString());
-
+        
         if(message == UserDao.ACCOUNT_NOT_FOUND){
             out.println("<p> Account With That Name Could Not Be Found, Try Again</p>");
         }else if(message == UserDao.SERVER_ERROR){

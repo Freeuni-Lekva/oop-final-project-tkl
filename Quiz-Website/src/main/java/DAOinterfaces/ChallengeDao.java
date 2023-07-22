@@ -17,6 +17,12 @@ public interface ChallengeDao {
     String ATTRIBUTE_NAME = "challengeDao";
 
     /**
+     * Constant representing the attribute name to be used for accessing the ChallengeDao message
+     * in a context, such as a servlet context or session.
+     */
+    String MESSAGE_ATTRIBUTE_NAME = "challengeMessage";
+
+    /**
      * Sends a challenge to the recipient.
      *
      * @param challenge The Challenge object representing the challenge to be sent.

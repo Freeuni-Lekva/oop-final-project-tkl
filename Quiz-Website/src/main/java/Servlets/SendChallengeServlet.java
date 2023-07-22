@@ -41,7 +41,6 @@ public class SendChallengeServlet extends HttpServlet {
                     httpServletRequest.setAttribute("quiz_id", quizId);
                     httpServletRequest.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, UserDao.ACCOUNT_FOUND_BY_NAME);
                 } else {
-                    httpServletResponse.getWriter().println("Failed to send the challenge.");
                     httpServletRequest.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, UserDao.SERVER_ERROR);
                 }
             }

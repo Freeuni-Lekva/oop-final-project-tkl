@@ -9,7 +9,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    long quizId = Long.parseLong(request.getParameter("quiz_id"));
+    String quizIdString = request.getParameter("quiz_id");
+    if(quizIdString == null)
+        quizIdString = (String)request.getSession().getAttribute("quiz_id");
+    long quizId = Long.parseLong(quizIdString);
 
     QuizDao quizSQL = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
     Quiz currentQuiz = quizSQL.getQuizById(quizId);
