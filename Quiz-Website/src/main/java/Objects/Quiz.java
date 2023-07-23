@@ -1,6 +1,9 @@
 package Objects;
 
+import Objects.Questions.Question;
+
 import java.util.Date;
+import java.util.List;
 
 public class Quiz {
 
@@ -10,15 +13,17 @@ public class Quiz {
     private final String description;
     private final Date createTime;
     private final int category;
+    private final List<Question> questions;
 
 
-    public Quiz(int quizId, int creatorId,String quizName, String description, Date createTime, int category) {
+    public Quiz(int quizId, int creatorId, String quizName, String description, Date createTime, int category, List<Question> questions) {
         this.quizId = quizId;
         this.creatorId = creatorId;
         this.quizName = quizName;
         this.description = description;
         this.createTime = createTime;
         this.category = category;
+        this.questions = questions;
     }
 
     public long getQuizId(){
@@ -44,4 +49,6 @@ public class Quiz {
     public int getCategory(){
         return category;
     }
+
+    public List<Question> getQuestions() { return questions; }
 }
