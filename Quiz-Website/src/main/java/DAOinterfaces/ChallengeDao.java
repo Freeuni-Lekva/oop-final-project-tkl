@@ -36,7 +36,6 @@ public interface ChallengeDao {
      *
      * @param id The unique identifier of the challenge to retrieve.
      * @return A Challenge object with the specified id, null if not found.
-     * --------(sheidzleba ar dagvchirdes)-----------
      */
     Challenge getChallenge(long id);
 

@@ -70,20 +70,19 @@
 <% for (Question question : questions) { %>
 <h3><%= question.getQuestionText() %></h3>
 
-<%-- Determine the question type and display the appropriate input field --%>
 <% if (question instanceof QuestionResponse) { %>
 <input type="text" name="question_<%= question.getQuestionText() %>" required>
 <% } else if (question instanceof FillInTheBlank) { %>
 <input type="text" name="question_<%= question.getQuestionText() %>" required>
 <% } else if (question instanceof MultipleChoice) { %>
-<%-- Display multiple choices as radio buttons --%>
+
 <% MultipleChoice multipleChoice = (MultipleChoice) question; %>
 <% for (int i = 0; i < multipleChoice.getChoices().length; i++) { %>
 <input type="radio" name="question_<%= question.getQuestionText() %>" value="<%= i %>">
 <%= multipleChoice.getChoices()[i] %><br>
 <% } %>
 <% } else if (question instanceof PictureResponse) { %>
-<%-- Display the image (you need to have a method to get image URL from the PictureResponse object) --%>
+
 <img src="<%= ((PictureResponse) question).getImageURL() %>" alt="Question Image">
 <br>
 <input type="text" name="question_<%= question.getQuestionText() %>" required>
