@@ -13,7 +13,7 @@ public class ListenerServlet implements ServletContextListener {
 
     private static final String URL = "jdbc:mysql://localhost:3306/final_project";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "bazuka34";
+    private static final String PASSWORD = "17031923";
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -29,9 +29,6 @@ public class ListenerServlet implements ServletContextListener {
         FriendsDao friendsDao = new FriendsSQL(dataSource);
         QuizDao quizDao = new QuizSQL(dataSource);
         ChallengeDao challengeDao = new ChallengeSQL(dataSource);
-
-        System.out.println("aq movida");
-
 
         servletContextEvent.getServletContext().setAttribute(UserDao.ATTRIBUTE_NAME, userDao);
         servletContextEvent.getServletContext().setAttribute(FriendRequestDao.ATTRIBUTE_NAME, friendRequestDao);

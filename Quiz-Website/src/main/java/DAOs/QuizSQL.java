@@ -66,7 +66,7 @@ public class QuizSQL implements QuizDao {
     }
 
     @Override
-    public Quiz getQuizByCreatorId(long id) {
+    public List<Quiz> getQuizzesByCreatorId(long id) {
         return null;
     }
 
