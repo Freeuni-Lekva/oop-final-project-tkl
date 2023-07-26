@@ -139,7 +139,7 @@
 <body>
 <%
   List<User> friends = (List<User>) request.getSession().getAttribute("user_friends");
-  String main_user_id = (String) request.getSession().getAttribute("main_user_id");
+  String main_user_id = (String) request.getSession().getAttribute("MainUserID");
   String profile = (String) request.getSession().getAttribute("profileUser");
 
   if (friends != null){

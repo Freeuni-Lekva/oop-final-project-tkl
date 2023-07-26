@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAOinterfaces.UserDao;
+import Objects.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,23 +20,27 @@ public class SignUpServlet extends HttpServlet {
 
         UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
 
-        String user = request.getParameter("name");
+        String userName = request.getParameter("name");
         String realName = request.getParameter("realName");
         String realLastName = request.getParameter("realLastName");
-        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        int result = userDao.register(user, realName, realLastName, email, password);
+        int result = userDao.register(userName, realName, realLastName, password);
 
         if(result == UserDao.ACCOUNT_CREATED){
-            System.out.println("account created");
 
-        }else if(result == UserDao.ACCOUNT_FOUND_BY_NAME){
+            User user = userDao.getUserByName(userName);
+            Long id = user.getId();
+            request.getSession().setAttribute("MainUserID", Long.toString(id));
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
+            return;
+
+        }else if(result == UserDao.ACCOUNT_FOUND_BY_NAME) {
             request.setAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME, result);
         }
 
         RequestDispatcher rd = request.getRequestDispatcher("signUp.jsp");
         rd.forward(request, response);
-
     }
 }

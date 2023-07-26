@@ -96,7 +96,7 @@
     </head>
     <body>
         <div class="container">
-            <form action="LoginServlet" method="post">
+            <form action="LoginServlet" method="get">
 
                 <%
                     if(request.getAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME) != null){

@@ -21,7 +21,7 @@ public class AddFriendServlet extends HttpServlet {
 
         // Retrieve the main user and profile user from the session
         User profileUser = (User) request.getSession().getAttribute("profileUser");
-        String main_user_id = (String) request.getSession().getAttribute("main_user_id");
+        String main_user_id = (String) request.getSession().getAttribute("MainUserID");
 
         // Set the "addButton?" attribute based on the conditions
         request.getSession().setAttribute("addButton?", false);
@@ -42,7 +42,7 @@ public class AddFriendServlet extends HttpServlet {
         FriendRequestDao friendRequestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
 
         // Retrieve the main user and profile user from the session
-        String main_user_id = (String) request.getSession().getAttribute("main_user_id");
+        String main_user_id = (String) request.getSession().getAttribute("MainUserID");
         User profileUser = (User) request.getSession().getAttribute("profileUser");
 
         // Add a friend request from the main user to the profile user

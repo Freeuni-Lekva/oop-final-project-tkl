@@ -23,7 +23,7 @@ public class SendChallengeServlet extends HttpServlet {
 
         try {
             // Retrieve parameters from the form
-            long senderId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("main_user_id"));
+            long senderId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("MainUserID"));
             String receiverUsername = httpServletRequest.getParameter("receiverUsername");
             User receiver = userDao.getUserByName(receiverUsername);
             if(receiver == null){

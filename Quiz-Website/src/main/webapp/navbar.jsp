@@ -133,7 +133,7 @@
     </ul>
   </nav>
   <%
-    String id = (String) request.getSession().getAttribute("main_user_id");
+    String id = (String) request.getSession().getAttribute("MainUserID");
     if(id == null){
   %>
   <div class="buttons">

@@ -2,7 +2,6 @@ package DAOs;
 
 import DAOinterfaces.FriendRequestDao;
 import Objects.User;
-import jdk.vm.ci.meta.SpeculationLog;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -22,8 +21,7 @@ public class FriendRequestSQL implements FriendRequestDao {
      */
     private PreparedStatement prepareStatement(String query, long val1, long val2){
 
-        try{
-            Connection connection = dataSource.getConnection();
+        try(Connection connection = dataSource.getConnection()){
 
             PreparedStatement result = connection.prepareStatement(query);
             result.setLong(1, val1);
@@ -83,9 +81,8 @@ public class FriendRequestSQL implements FriendRequestDao {
     // Retrieves a list of received friend requests for a given user
     @Override
     public List<User> getReceivedFriendRequests(Long user_id) {
-        try {
-            // Establish a database connection
-            Connection connection = dataSource.getConnection();
+
+        try(Connection connection = dataSource.getConnection()) {
 
             // Prepare the first SQL query to retrieve sender names
             String sqlQuery = "SELECT sender_id FROM friend_requests WHERE receiver_id = ?";
@@ -115,6 +112,8 @@ public class FriendRequestSQL implements FriendRequestDao {
                         resultSet1.getString(4), resultSet1.getString(5), resultSet1.getString(6), resultSet1.getString(7));
                 result.add(user);
             }
+
+            resultSet.close();
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);

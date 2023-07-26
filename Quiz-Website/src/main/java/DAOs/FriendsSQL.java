@@ -20,9 +20,8 @@ public class FriendsSQL implements FriendsDao {
     // Retrieves a list of friends for a given user
     @Override
     public List<User> getUserFriends(Long user_id) {
-        try {
-            // Establish a database connection
-            Connection connection = dataSource.getConnection();
+
+        try(Connection connection = dataSource.getConnection()){
 
             // Prepare the SQL query to retrieve friend names
             String query1 = "select first_user_id from friendships where second_user_id = ?";
@@ -52,6 +51,8 @@ public class FriendsSQL implements FriendsDao {
                         resultSet1.getString(4), resultSet1.getString(5), resultSet1.getString(6), resultSet1.getString(7));
                 result.add(user);
             }
+
+            resultSet.close();
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -60,8 +61,7 @@ public class FriendsSQL implements FriendsDao {
 
     private PreparedStatement prepareStatement(String query, long val1, long val2){
 
-        try {
-            Connection connection = dataSource.getConnection();
+        try(Connection connection = dataSource.getConnection()){
 
             PreparedStatement result = connection.prepareStatement(query);
             result.setLong(1, val1);
@@ -118,7 +118,13 @@ public class FriendsSQL implements FriendsDao {
             ResultSet resultSet1 = preparedStatement1.executeQuery();
             ResultSet resultSet2 = preparedStatement2.executeQuery();
 
-            return resultSet1.next() && resultSet2.next();
+            boolean res1 = resultSet1.next();
+            boolean res2 = resultSet2.next();
+
+            resultSet1.close();
+            resultSet2.close();
+
+            return res1 && res2;
         } catch (SQLException e) {
             return false;
         }

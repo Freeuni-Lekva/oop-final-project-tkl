@@ -80,7 +80,7 @@
 <div class="profile-container">
   <%
     User user = (User) request.getSession().getAttribute("profileUser");
-    String main_user_id = (String) request.getSession().getAttribute("main_user_id");
+    String main_user_id = (String) request.getSession().getAttribute("MainUserID");
   %>
   <p><strong>Name:</strong> <%= user.getName() %></p>
   <p><strong>Real Name:</strong> <%= user.getRealName() %></p>

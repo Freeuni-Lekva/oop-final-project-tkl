@@ -22,8 +22,8 @@ public class ProfileServlet extends HttpServlet {
         String id =  (String) request.getParameter("id");
         String user_id;
         // If the username is null and the MainUserName attribute is present in the session, use it as the user name
-        if(id == null && request.getSession().getAttribute("main_user_id") != null){
-            user_id = (String) request.getSession().getAttribute("main_user_id");
+        if(id == null && request.getSession().getAttribute("MainUserID") != null){
+            user_id = (String) request.getSession().getAttribute("MainUserID");
         } else {
             user_id = id;
         }
