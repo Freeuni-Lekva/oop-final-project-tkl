@@ -12,8 +12,9 @@ public interface UserDao {
     int NOT_ENOUGH_INFORMATION = 2;
     int ACCOUNT_FOUND_BY_NAME = 3;
     int ACCOUNT_CREATED = 4;
-    int SERVER_ERROR = 5;
-    int SUCCESS_UPDATE = 6;
+    int INCORRECT_INFORMATION = 5;
+    int SERVER_ERROR = 6;
+    int SUCCESS_UPDATE = 7;
 
     String ATTRIBUTE_NAME = "userDao";
     String MESSAGE_ATTRIBUTE_NAME = "userMessage";

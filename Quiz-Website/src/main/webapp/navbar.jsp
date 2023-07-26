@@ -128,8 +128,8 @@
 
   <nav>
     <ul class="navbar_options">
-      <li><a href = "quizes.jsp">Quizes</a></li>
-      <li><a href = "test.jsp">Home</a></li>
+      <li><a href = "activeQuizes.jsp">Quizes</a></li>
+      <li><a href = "createQuiz.jsp">Create</a></li>
     </ul>
   </nav>
   <%

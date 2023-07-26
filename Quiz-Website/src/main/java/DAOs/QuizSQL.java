@@ -25,9 +25,9 @@ public class QuizSQL implements QuizDao {
         List<Question> questions = testQuestions();
 
         List<Quiz> result = new ArrayList<>();
-        Quiz t1 = new Quiz(1, 1, "Quiz 1", "First Test Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
-        Quiz t2 = new Quiz(2, 1, "Quiz 2", "Second Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
-        Quiz t3 = new Quiz(3, 1, "Quiz 3", "Third Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
+        Quiz t1 = new Quiz(1, 54, "Quiz 1", "First Test Quiz", new Date(), false, questions);
+        Quiz t2 = new Quiz(2, 54, "Quiz 2", "Second Quiz", new Date(), false, questions);
+        Quiz t3 = new Quiz(3, 54, "Quiz 3", "Third Quiz", new Date(), true, questions);
 
         result.add(t1);
         result.add(t2);
@@ -41,11 +41,11 @@ public class QuizSQL implements QuizDao {
         List<Question> questions = testQuestions();
 
         if(id == 1){
-            return new Quiz(1, 1, "Quiz 1", "First Test Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
+            return new Quiz(1, 54, "Quiz 1", "First Test Quiz", new Date(), false, questions);
         }else if(id == 2){
-            return new Quiz(2, 1, "Quiz 1", "Second Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
+            return new Quiz(2, 54, "Quiz 1", "Second Quiz", new Date(), false, questions);
         }else if(id == 3){
-            return new Quiz(3, 1, "Quiz 1", "Third Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
+            return new Quiz(3, 54, "Quiz 1", "Third Quiz", new Date(), true, questions);
         }
 
         return null;
@@ -67,7 +67,17 @@ public class QuizSQL implements QuizDao {
 
     @Override
     public List<Quiz> getQuizzesByCreatorId(long id) {
-        return null;
+        List<Question> questions = new ArrayList<>();
+        List<Quiz> result = new ArrayList<>();
+        Quiz t1 = new Quiz(1, 54, "Quiz 1", "First Test Quiz", new Date(), false, questions);
+        Quiz t2 = new Quiz(2, 54, "Quiz 2", "Second Quiz", new Date(), false, questions);
+        Quiz t3 = new Quiz(3, 54, "Quiz 3", "Third Quiz", new Date(), true, questions);
+
+        result.add(t1);
+        result.add(t2);
+        result.add(t3);
+
+        return result;
     }
 
     @Override

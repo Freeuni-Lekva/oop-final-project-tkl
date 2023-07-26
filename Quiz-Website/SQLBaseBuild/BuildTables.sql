@@ -1,5 +1,6 @@
 USE final_project;
 
+DROP TABLE IF EXISTS challenge;
 DROP TABLE IF EXISTS friend_requests;
 DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS users;

@@ -32,9 +32,9 @@ public class FriendsServlet extends HttpServlet {
 
         request.getSession().setAttribute("profileUser", id);
 
-        request.getSession().setAttribute("user_friends", friends);
-        // Forward the request and response to the "friends.jsp" page
-        RequestDispatcher rd = request.getRequestDispatcher("friends.jsp");
+        request.getSession().setAttribute("userFriends", friends);
+        // Forward the request and response to the "userFriends.jsp" page
+        RequestDispatcher rd = request.getRequestDispatcher("userFriends.jsp");
         rd.forward(request, response);
     }
     @Override

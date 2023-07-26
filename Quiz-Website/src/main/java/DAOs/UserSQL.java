@@ -80,15 +80,14 @@ public class UserSQL implements UserDao {
     public int register(String name, String realName, String realLastName, String password) {
 
         if(name.equals("") || realName.equals("") || realLastName.equals("") || password.equals("")) return NOT_ENOUGH_INFORMATION;
-
         if(getUserByName(name) != null) return UserDao.ACCOUNT_FOUND_BY_NAME;
+        // Our database only allows userNames, which doesn't contain uppercase letters
+        for(int i = 0; i < name.length(); i++) if(Character.isUpperCase(name.charAt(i))) return UserDao.INCORRECT_INFORMATION;
 
         String query = "INSERT INTO users (name, password, real_name, real_lastname, image_path, description) VALUES(?, ?, ?, ?, ?, ?)";
 
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
-
-            System.out.println("x");
 
             statement.setString(1, name);
             statement.setString(2, "X");

@@ -57,16 +57,17 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>Quizzes</title>
 </head>
 <body>
     <jsp:include page="navbar.jsp"/>
 
     <div class="quiz-container">
         <% for(Quiz quiz: quizzes){ %>
+            <% if(quiz.isDraft()) continue;%>
             <div class="quiz-box" onclick="goToQuiz(<%= quiz.getQuizId()%>)">
                 <h2><%=quiz.getQuizName()%></h2>
-                <p>Creator: <%=userSQL.getUserById(quiz.getCreatorId()).getName()%></p>
+                <p><strong>Creator: </strong><%=userSQL.getUserById(quiz.getCreatorId()).getName()%></p>
                 <p><%=quiz.getDescription()%></p>
             </div>
         <% } %>

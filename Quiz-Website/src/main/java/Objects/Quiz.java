@@ -12,17 +12,17 @@ public class Quiz {
     private final String quizName;
     private final String description;
     private final Date createTime;
-    private final int category;
+    private final boolean isDraft;
     private final List<Question> questions;
 
 
-    public Quiz(int quizId, int creatorId, String quizName, String description, Date createTime, int category, List<Question> questions) {
+    public Quiz(int quizId, int creatorId, String quizName, String description, Date createTime, boolean isDraft, List<Question> questions) {
         this.quizId = quizId;
         this.creatorId = creatorId;
         this.quizName = quizName;
         this.description = description;
         this.createTime = createTime;
-        this.category = category;
+        this.isDraft = isDraft;
         this.questions = questions;
     }
 
@@ -46,8 +46,8 @@ public class Quiz {
         return createTime;
     }
 
-    public int getCategory(){
-        return category;
+    public boolean isDraft(){
+        return isDraft;
     }
 
     public List<Question> getQuestions() { return questions; }
