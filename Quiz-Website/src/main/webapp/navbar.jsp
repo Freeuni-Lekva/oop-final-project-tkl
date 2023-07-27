@@ -29,10 +29,10 @@
       margin: 0;
       box-sizing: border-box;
       background-color: darkslategrey;
+      font-family: 'Roboto', sans-serif;
     }
 
     li, a, button {
-      font-family: 'Roboto', sans-serif;
       font-size: 20px;
       color: white;
       text-decoration: none;
@@ -75,7 +75,7 @@
       background-color: aquamarine;
     }
     .search-form {
-      padding-top: 15px;
+      padding-top: 17px;
       display: flex;
       align-items: center;
       gap: 10px;

@@ -25,11 +25,7 @@
     }
 
     body {
-      background-color: darkslategrey;
       color: white;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 500;
-      font-size: 20px;
     }
 
     h1 {
@@ -37,6 +33,8 @@
     }
 
     .profile-container {
+      font-weight: 500;
+      font-size: 20px;
       max-width: 500px;
       margin: 0 auto;
       padding: 20px;
