@@ -24,7 +24,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
-    * {
+    body {
       padding: 0;
       margin: 0;
       box-sizing: border-box;
@@ -75,15 +75,15 @@
       background-color: aquamarine;
     }
     .search-form {
+      padding-top: 15px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
     .search-form input[type="text"] {
-      padding: 5px;
-      border-radius: 5px;
-
+      padding: 9px;
+      border-radius: 50px;
       border: none;
       outline: none;
     }
@@ -112,10 +112,8 @@
 
     .popover__content {
         background-color: #fff;
-        /*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);*/
         border-radius: 5px;
         max-width: 300px;
-        /*color: white; */
     }
 
   </style>

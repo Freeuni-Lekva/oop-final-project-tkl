@@ -37,6 +37,7 @@
         width:  calc(33.33% - 30px);
         border-radius: 10px;
         transition: background-color 0.3s;
+        box-sizing: border-box; /* Include padding and border in the width calculation */
     }
 
     .quiz-box h2 {
