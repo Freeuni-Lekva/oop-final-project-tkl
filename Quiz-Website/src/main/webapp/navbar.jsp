@@ -128,7 +128,7 @@
 
   <nav>
     <ul class="navbar_options">
-      <li><a href = "activeQuizes.jsp">Quizes</a></li>
+      <li><a href = "quizzes.jsp">Quizes</a></li>
       <li><a href = "createQuiz.jsp">Create</a></li>
     </ul>
   </nav>
@@ -140,66 +140,60 @@
     <a href="login.jsp"><button>Login</button></a>
     <a href="signUp.jsp"><button>Sign Up</button></a>
   </div>
+  <% } %>
+
   <%
-    }
-    if(id != null){
-  %>
-  <form class="search-form" action="search" method="POST">
-    <input type="text" name="searchUser" placeholder="Search...">
-    <button>Search</button>
-  </form>
+      UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
+      ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
+      List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
+      User user = userDao.getUserById(Long.parseLong(id));
 
-        <%if (id != null) { %>
-    <%
-        UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
-        ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
-        List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
-    %>
-    <div class="buttons">
-        <!-- Notifications button -->
-        <button onclick="toggleNotifications()">Challenges</button>
+      if(id != null){ %>
 
-        <!-- Notifications popover -->
-        <div class="popover" id="notificationsPopover">
-            <div class="popover__content">
+          <form class="search-form" action="search" method="POST">
+              <input type="text" name="searchUser" placeholder="Search...">
+              <button>Search</button>
+          </form>
 
-                <% int notifications = receivedChallenges==null?0:receivedChallenges.size();%>
-                <p>You have <%=notifications%> new challenges!</p>
-                <%if(notifications != 0) {%>
-                    <% for (Challenge challenge : receivedChallenges) { %>
-                    <% User user = userDao.getUserById(challenge.getSenderId()); %>
-                    <!-- Challenge Box -->
-                    <div class="challenge-box">
-                        <p><%=user.getName() %><strong> has challenged you:</strong> </p>
-                        <p><strong>Quiz ID:</strong><%= challenge.getQuizId()%> </p>
-                        <p><strong>Timestamp:</strong> <%= challenge.getTimestamp() %></p>
-                        <form action="acceptChallenge" method="post">
-                            <input type="hidden" name="challenge_id" value="<%= challenge.getId() %>">
-                            <input type="submit" value="Accept Challenge">
-                        </form>
-                    </div>
-                    <% } %>
-                <%}%>
-            </div>
-        </div>
-    </div>
+          <div class="buttons">
+              <!-- Notifications button -->
+              <button onclick="toggleNotifications()">Challenges</button>
+
+              <!-- Notifications popover -->
+              <div class="popover" id="notificationsPopover">
+                  <div class="popover__content">
+
+                      <% int notifications = receivedChallenges==null?0:receivedChallenges.size();%>
+                      <p>You have <%=notifications%> new challenges!</p>
+                      <%if(notifications != 0) { %>
+
+                          <% for (Challenge challenge : receivedChallenges) { %>
+                          <!-- Challenge Box -->
+                          <div class="challenge-box">
+                              <p><%=user.getName() %><strong> has challenged you:</strong> </p>
+                              <p><strong>Quiz ID:</strong><%= challenge.getQuizId()%> </p>
+                              <p><strong>Timestamp:</strong> <%= challenge.getTimestamp() %></p>
+                              <form action="acceptChallenge" method="post">
+                                  <input type="hidden" name="challenge_id" value="<%= challenge.getId() %>">
+                                  <input type="submit" value="Accept Challenge">
+                              </form>
+                          </div>
+                          <% } %>
+                      <% } %>
+                  </div>
+              </div>
+          </div>
+          <div class="circle-image">
+              <% String profileURL = "/profile?id=" + id; %>
+              <% String photoPath = "\"profile-button.jpg\""; %>
+              <% if (user != null) photoPath = "/images/" + user.getImagePath(); %>
+              <a href="<%=profileURL%>">
+                  <img src="<%=photoPath%>" alt="Go To Profile">
+                  <span>Go To Profile</span>
+              </a>
+          </div>
+
     <% } %>
-
-    <%
-            String photoPath = "\"profile-button.jpg\"";
-            UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
-            User user = userDao.getUserById(Long.parseLong(id));
-
-            out.println("<div class=\"circle-image\">");
-            String profileURL = "/profile?id=" + id;
-            out.println("<a href=\"" + profileURL + "\">");
-            if (user != null) photoPath = "/images/" + user.getImagePath();
-            out.println("<img src=" + photoPath + " alt=\"Go to Profile\">");
-            out.println("<span>Go to profile</span>");
-            out.println("</a>");
-            out.println("</div>");
-        }
-    %>
 
 </header>
 </body>

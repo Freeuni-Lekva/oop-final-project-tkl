@@ -64,7 +64,7 @@
 
 <br>
 <a href="sendChallenge.jsp?quiz_id=<%=currentQuiz.getQuizId()%>">Send Challenge</a>
-<a href="activeQuizes.jsp?quiz_id=<%=quizId%>">Go Back</a>
+<a href="quizzes.jsp?quiz_id=<%=quizId%>">Go Back</a>
 
 <%List<Question> questions = currentQuiz.getQuestions();        %>
 <% for (Question question : questions) { %>
