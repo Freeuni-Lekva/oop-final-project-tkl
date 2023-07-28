@@ -13,17 +13,18 @@ public class Quiz {
     private final String description;
     private final Date createTime;
     private final boolean isDraft;
-    private final List<Question> questions;
+    private final boolean isPractice;
 
 
-    public Quiz(int quizId, int creatorId, String quizName, String description, Date createTime, boolean isDraft, List<Question> questions) {
+
+    public Quiz(int quizId, long creatorId, String quizName, String description, Date createTime, boolean isDraft, boolean isPractice) {
         this.quizId = quizId;
         this.creatorId = creatorId;
         this.quizName = quizName;
         this.description = description;
         this.createTime = createTime;
         this.isDraft = isDraft;
-        this.questions = questions;
+        this.isPractice = isPractice;
     }
 
     public long getQuizId(){
@@ -50,5 +51,5 @@ public class Quiz {
         return isDraft;
     }
 
-    public List<Question> getQuestions() { return questions; }
+    public boolean isPractice() { return isPractice; }
 }

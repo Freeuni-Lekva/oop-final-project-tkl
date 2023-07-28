@@ -2,6 +2,7 @@ package DAOinterfaces;
 
 import Objects.Quiz;
 
+import java.util.Date;
 import java.util.List;
 
 public interface QuizDao {
@@ -32,4 +33,9 @@ public interface QuizDao {
      * function returns true if Quiz is removed from DB successfully
      */
     boolean removeQuizById(long id);
+
+    /** function tries to add new quiz to DB
+     * function returns -1 if error occurs, id 0f new quiz otherwise
+     */
+    int addNewQuiz(long creatorId, String quizName, String description, Date createTime, boolean isDraft, boolean isPractice);
 }

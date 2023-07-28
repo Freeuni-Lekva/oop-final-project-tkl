@@ -14,68 +14,40 @@ import java.util.List;
 public class QuizSQL implements QuizDao {
 
     private final BasicDataSource dataSource;
-
+    List<Quiz> quizzes = new ArrayList<>();
     public QuizSQL(BasicDataSource dataSource) {
+
         this.dataSource = dataSource;
+
+        Quiz t1 = new Quiz(1, 17, "Quiz 1", "First Test Quiz", new Date(), false, false);
+        Quiz t2 = new Quiz(2, 17, "Quiz 2", "Second Quiz", new Date(), false, false);
+        Quiz t3 = new Quiz(3, 17, "Quiz 3", "Third Quiz", new Date(), true, false);
+
+        quizzes.add(t1);
+        quizzes.add(t2);
+        quizzes.add(t3);
     }
 
 
     @Override
     public List<Quiz> getQuizzes(String condition) {
-        List<Question> questions = testQuestions();
 
-        List<Quiz> result = new ArrayList<>();
-        Quiz t1 = new Quiz(1, 17, "Quiz 1", "First Test Quiz", new Date(), false, questions);
-        Quiz t2 = new Quiz(2, 17, "Quiz 2", "Second Quiz", new Date(), false, questions);
-        Quiz t3 = new Quiz(3, 17, "Quiz 3", "Third Quiz", new Date(), true, questions);
-
-        result.add(t1);
-        result.add(t2);
-        result.add(t3);
-
-        return result;
+        return quizzes;
     }
 
     @Override
     public Quiz getQuizById(long id) {
-        List<Question> questions = testQuestions();
-
-        if(id == 1){
-            return new Quiz(1, 17, "Quiz 1", "First Test Quiz", new Date(), false, questions);
-        }else if(id == 2){
-            return new Quiz(2, 17, "Quiz 1", "Second Quiz", new Date(), false, questions);
-        }else if(id == 3){
-            return new Quiz(3, 17, "Quiz 1", "Third Quiz", new Date(), true, questions);
-        }
-
-        return null;
+        if(id < 0 || id > quizzes.size()) return null;
+        return quizzes.get((int) id);
     }
 
-    //tmp method for testing
-    private List<Question> testQuestions() {
-        Question question = new QuestionResponse("vin dawera grafi monte-kristo", "kii, aq vcxovrob ra");
-        List<Question> questions = new ArrayList<>();
-        questions.add(question);
-
-        String[] choices = new String[2];
-        choices[0] = "ki";
-        choices[1] = "ara";
-        Question question1 = new MultipleChoice("romel wels moxda didgoris brdzola, 1121shi xom ara?", choices, 0);
-        questions.add(question1);
-        return questions;
-    }
 
     @Override
     public List<Quiz> getQuizzesByCreatorId(long id) {
-        List<Question> questions = new ArrayList<>();
         List<Quiz> result = new ArrayList<>();
-        Quiz t1 = new Quiz(1, 17, "Quiz 1", "First Test Quiz", new Date(), false, questions);
-        Quiz t2 = new Quiz(2, 17, "Quiz 2", "Second Quiz", new Date(), false, questions);
-        Quiz t3 = new Quiz(3, 17, "Quiz 3", "Third Quiz", new Date(), true, questions);
-
-        result.add(t1);
-        result.add(t2);
-        result.add(t3);
+        for(Quiz quiz:quizzes){
+            if(quiz.getCreatorId() == id) result.add(quiz);
+        }
 
         return result;
     }
@@ -83,5 +55,12 @@ public class QuizSQL implements QuizDao {
     @Override
     public boolean removeQuizById(long id) {
         return false;
+    }
+
+    @Override
+    public int addNewQuiz(long creatorId, String quizName, String description, Date createTime, boolean isDraft, boolean isPractice){
+        Quiz quiz = new Quiz(quizzes.size() + 1, creatorId, quizName, description, createTime, isDraft, isPractice);
+        quizzes.add(quiz);
+        return quizzes.size();
     }
 }

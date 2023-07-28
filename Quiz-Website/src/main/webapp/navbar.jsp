@@ -141,12 +141,12 @@
   <% } %>
 
   <%
-      UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
-      ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
-      List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
-      User user = userDao.getUserById(Long.parseLong(id));
+      if(id != null){
 
-      if(id != null){ %>
+          UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
+          ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
+          List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
+          User user = userDao.getUserById(Long.parseLong(id)); %>
 
           <form class="search-form" action="search" method="POST">
               <input type="text" name="searchUser" placeholder="Search...">
