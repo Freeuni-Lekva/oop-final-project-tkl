@@ -12,11 +12,7 @@ public class TestUserSQL extends TestCase {
 
         ServerConfigurations.clearTable("users");
 
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUrl(ServerConfigurations.URL);
-        dataSource.setUsername(ServerConfigurations.USERNAME);
-        dataSource.setPassword(ServerConfigurations.PASSWORD);
-
+        BasicDataSource dataSource = ServerConfigurations.getDataSource();
         UserDao users = new UserSQL(dataSource);
 
         newUsersTest(users);

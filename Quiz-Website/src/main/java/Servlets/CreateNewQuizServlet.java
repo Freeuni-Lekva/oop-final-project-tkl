@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAOinterfaces.QuizDao;
+import DAOinterfaces.UserDao;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 
 public class CreateNewQuizServlet extends HttpServlet {
@@ -20,6 +20,7 @@ public class CreateNewQuizServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         QuizDao quizSQL = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
+        UserDao userSQL = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
 
         String quizName = request.getParameter("quizName");
         String description = request.getParameter("description");
@@ -32,7 +33,7 @@ public class CreateNewQuizServlet extends HttpServlet {
             return;
         }
 
-        int id = quizSQL.addNewQuiz(Long.parseLong(mainUserID), quizName, description, new Date(), true, isPractice);
+        long id = quizSQL.addNewQuiz(userSQL.getUserById(Long.parseLong(mainUserID)), quizName, description, true, isPractice);
 
         if(id != -1){
             System.out.println("quiz added successfully");

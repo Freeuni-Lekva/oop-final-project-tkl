@@ -1,16 +1,17 @@
 package DAOinterfaces;
 
 import Objects.Quiz;
+import Objects.User;
 
 import java.util.Date;
 import java.util.List;
 
 public interface QuizDao {
 
-    int QUESTION_RESPONSE_CATEGORY = 1;
-    int FILL_BLANK_CATEGORY = 2;
-    int MULTIPLE_CHOICES_CATEGORY = 3;
-    int PICTURE_RESPONSE_CATEGORY = 4;
+    int SERVER_ERROR = -4;
+    int ACCOUNT_NOT_FOUND = -3;
+    int NOT_ENOUGH_INFORMATION = -2;
+    int QUIZ_NOT_ADDED = -1;
 
     String ATTRIBUTE_NAME = "quizDao";
 
@@ -37,5 +38,15 @@ public interface QuizDao {
     /** function tries to add new quiz to DB
      * function returns -1 if error occurs, id 0f new quiz otherwise
      */
-    int addNewQuiz(long creatorId, String quizName, String description, Date createTime, boolean isDraft, boolean isPractice);
+    long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice);
+
+    /** function tries to change is_draft option for quiz
+     * function returns true if change applies to DB, false otherwise
+     */
+    boolean changeDraftStatus(long id, boolean isDraft);
+
+    /** function tries to change is_practice option for quiz
+     * function return true if change applies to DB, false otherwise
+     */
+    boolean changePracticeStatus(long id, boolean isPractice);
 }

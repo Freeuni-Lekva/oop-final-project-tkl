@@ -4,7 +4,7 @@ import java.sql.Struct;
 
 public class User {
 
-    private final Long id;
+    private final long id;
     private final String name;
     private final String password;
     private final String real_name;
@@ -14,7 +14,7 @@ public class User {
 
 
 
-    public User(Long id, String name, String password,String real_name, String real_lastname, String image_path, String description){
+    public User(long id, String name, String password,String real_name, String real_lastname, String image_path, String description){
         this.id = id;
         this.name = name;
         this.password = password;
@@ -24,7 +24,7 @@ public class User {
         this.description = description;
     }
 
-    public Long getId(){ return id; }
+    public long getId(){ return id; }
     public String getName(){ return name; }
     public String getPassword() { return password; }
     public String getRealName() { return real_name; }
