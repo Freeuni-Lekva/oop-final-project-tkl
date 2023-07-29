@@ -3,10 +3,7 @@ package Objects.Questions;
 /**
  * Represents a Multiple Choice type of quiz question.
  */
-public class MultipleChoice implements Question {
-
-    // The text of the question.
-    private final String questionText;
+public class MultipleChoice extends Question {
 
     // The array of choices available for the user to select from.
     private final String[] choices;
@@ -22,17 +19,16 @@ public class MultipleChoice implements Question {
      * @param correctChoiceIndex The index of the correct choice in the choices array.
      */
     public MultipleChoice(String questionText, String[] choices, int correctChoiceIndex) {
-        this.questionText = questionText;
+        super(questionText, null);
         this.choices = choices;
         this.correctChoiceIndex = correctChoiceIndex;
     }
 
-    /**
-     * Gets the text of the multiple-choice question along with the available choices.
+    /** Gets the text of the multiple-choice question along with the available choices.
      *
      * @return The text of the multiple-choice question with the available choices.
      */
-    @Override
+
     public String getQuestionText() {
         StringBuilder questionWithChoices = new StringBuilder(questionText);
         for (int i = 0; i < choices.length; i++) {
@@ -41,8 +37,7 @@ public class MultipleChoice implements Question {
         return questionWithChoices.toString();
     }
 
-    /**
-     * Gets the available choices of the multiple-choice question.
+    /** Gets the available choices of the multiple-choice question.
      *
      * @return The array of strings of the available choices.
      */
@@ -50,8 +45,7 @@ public class MultipleChoice implements Question {
         return choices;
     }
 
-    /**
-     * Checks if the user's answer matches the correct choice for the multiple-choice question.
+    /** Checks if the user's answer matches the correct choice for the multiple-choice question.
      *
      * @param userAnswer The user's response to the multiple-choice question (e.g., "A", "B", etc.).
      * @return true if the user's answer is correct, false otherwise.

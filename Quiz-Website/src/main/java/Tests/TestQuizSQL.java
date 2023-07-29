@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.util.List;
-import java.util.Optional;
 
 public class TestQuizSQL extends TestCase {
 

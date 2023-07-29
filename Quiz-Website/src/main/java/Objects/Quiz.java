@@ -1,9 +1,6 @@
 package Objects;
 
-import Objects.Questions.Question;
-
 import java.util.Date;
-import java.util.List;
 
 public class Quiz {
 

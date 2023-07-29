@@ -36,8 +36,8 @@ public class CreateNewQuizServlet extends HttpServlet {
         long id = quizSQL.addNewQuiz(userSQL.getUserById(Long.parseLong(mainUserID)), quizName, description, true, isPractice);
 
         if(id != -1){
-            System.out.println("quiz added successfully");
-            RequestDispatcher rd = request.getRequestDispatcher("editQuizQuestions.jsp");
+            System.out.println("magaria");
+            RequestDispatcher rd = request.getRequestDispatcher("editQuizQuestions.jsp?quiz_id=" +id);
             rd.forward(request, response);
             return;
         }

@@ -1,16 +1,12 @@
 package DAOs;
 
 import DAOinterfaces.QuizDao;
-import Objects.Questions.MultipleChoice;
-import Objects.Questions.QuestionResponse;
 import Objects.Quiz;
-import Objects.Questions.Question;
 import Objects.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class QuizSQL implements QuizDao {
