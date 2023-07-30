@@ -207,7 +207,7 @@
               </a>
           </div>
 
-    <form action="logout" method="post" style="margin-top: 23px;">
+    <form action="logout" method="post" style="margin-top: 21px;">
         <button>Log out</button>
     </form>
 
