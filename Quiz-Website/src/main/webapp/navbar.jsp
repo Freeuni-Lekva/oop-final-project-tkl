@@ -102,21 +102,19 @@
     }
 
     .logout-button {
-        padding: 10px 25px;
-        background-color: transparent;
-        border: 2px solid darkorange; /* Changed to darkorange */
-        border-radius: 25px;
+        margin-top: 23px;
+        padding: 5px 20px; /* Adjust padding to match other buttons */
+        background-color: mediumaquamarine; /* Use the same background color as other buttons */
+        border: none;
+        border-radius: 50px;
         cursor: pointer;
         transition: all 0.3s ease 0s;
-        color: darkorange; /* Changed to darkorange */
-        font-size: 18px;
-        font-weight: bold;
-        text-transform: uppercase;
+        color: white;
+        font-size: 20px; /* Adjust font size to match other buttons */
     }
 
     .logout-button:hover {
-        background-color: darkorange; /* Changed to darkorange */
-        color: white;
+        background-color: aquamarine; /* Use the same hover background color as other buttons */
     }
 
     .popover {
@@ -209,9 +207,9 @@
               </a>
           </div>
 
-        <form action="logout" method="post">
-            <input type="submit" class="logout-button" value="Logout">
-        </form>
+    <form action="logout" method="post" style="margin-top: 23px;">
+        <button>Log out</button>
+    </form>
 
     <% } %>
 
