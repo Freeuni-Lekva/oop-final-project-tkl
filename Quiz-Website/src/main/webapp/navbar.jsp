@@ -101,6 +101,22 @@
       height: 100%;
     }
 
+    .logout-button {
+        margin-top: 23px;
+        padding: 5px 20px; /* Adjust padding to match other buttons */
+        background-color: mediumaquamarine; /* Use the same background color as other buttons */
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+        color: white;
+        font-size: 20px; /* Adjust font size to match other buttons */
+    }
+
+    .logout-button:hover {
+        background-color: aquamarine; /* Use the same hover background color as other buttons */
+    }
+
     .popover {
         position: absolute;
         top: 100px;
@@ -190,6 +206,10 @@
                   <span>Go To Profile</span>
               </a>
           </div>
+
+    <form action="logout" method="post" style="margin-top: 21px;">
+        <button>Log out</button>
+    </form>
 
     <% } %>
 
