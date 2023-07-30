@@ -15,6 +15,7 @@ import java.io.IOException;
 public class AddFriendServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         // Retrieve the required DAO instances from the ServletContext
         FriendRequestDao friendRequestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
         FriendsDao friendsDao = (FriendsDao) request.getServletContext().getAttribute(FriendsDao.ATTRIBUTE_NAME);
@@ -33,8 +34,6 @@ public class AddFriendServlet extends HttpServlet {
                 request.getSession().setAttribute("addButton?", true);
             }
         }
-        System.out.println("profileUserid: " + profileUser.getId());
-        System.out.println("mainId: " + main_user_id);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

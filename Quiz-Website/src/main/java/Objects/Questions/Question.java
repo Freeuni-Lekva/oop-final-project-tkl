@@ -16,6 +16,9 @@ public abstract class Question {
         this.correctAnswers = correctAnswers;
     }
 
+    /** if "correctAnswers" contains received argument function returns true
+     * false otherwise
+     */
     boolean checkAnswer(String userAnswer){
 
         for(String correctAnswer: correctAnswers){
@@ -25,6 +28,8 @@ public abstract class Question {
         return false;
     }
 
+    /** simple getter function
+     */
     public String getQuestionText() {
 
         return questionText;

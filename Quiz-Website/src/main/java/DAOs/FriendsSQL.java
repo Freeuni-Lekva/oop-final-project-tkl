@@ -59,29 +59,19 @@ public class FriendsSQL implements FriendsDao {
         }
     }
 
-    private PreparedStatement prepareStatement(String query, long val1, long val2){
-
-        try(Connection connection = dataSource.getConnection()){
-
-            PreparedStatement result = connection.prepareStatement(query);
-            result.setLong(1, val1);
-            result.setLong(2, val2);
-
-            return result;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     // Adds a friendship between two users
     @Override
     public int addFriendship(Long user_id1, Long user_id2) {
         if (checkIfFriends(user_id1, user_id2)) return FAILED_ADDED;
 
-        try {
-            PreparedStatement preparedStatement1 = prepareStatement("INSERT INTO friendships(first_user_id,second_user_id) VALUES(?,?)", user_id1, user_id2);
-            PreparedStatement preparedStatement2 = prepareStatement("INSERT INTO friendships(first_user_id,second_user_id) VALUES(?,?)", user_id2, user_id1);
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement preparedStatement1 = connection.prepareStatement("INSERT INTO friendships(first_user_id,second_user_id) VALUES(?,?)");
+            preparedStatement1.setLong(1, user_id1);
+            preparedStatement1.setLong(2, user_id2);
+
+            PreparedStatement preparedStatement2 = connection.prepareStatement("INSERT INTO friendships(first_user_id,second_user_id) VALUES(?,?)");
+            preparedStatement2.setLong(1, user_id2);
+            preparedStatement2.setLong(2, user_id1);
 
             // Execute the queries and check if any rows were affected
             if(preparedStatement2.executeUpdate() != 0 && preparedStatement1.executeUpdate() != 0) return SUCCESS_ADDED;
@@ -94,10 +84,15 @@ public class FriendsSQL implements FriendsDao {
     // Removes a friendship between two users
     @Override
     public int removeFriendship(Long user_id1, Long user_id2) {
-        try {
+        try(Connection connection = dataSource.getConnection()){
 
-            PreparedStatement preparedStatement1 = prepareStatement("delete from friendships where first_user_id = ? and second_user_id = ?", user_id1, user_id2);
-            PreparedStatement preparedStatement2 = prepareStatement("delete from friendships where (first_user_id = ? and second_user_id = ?)", user_id2, user_id1);
+            PreparedStatement preparedStatement1 = connection.prepareStatement("delete from friendships where first_user_id = ? and second_user_id = ?");
+            preparedStatement1.setLong(1, user_id1);
+            preparedStatement1.setLong(2, user_id2);
+
+            PreparedStatement preparedStatement2 = connection.prepareStatement("delete from friendships where (first_user_id = ? and second_user_id = ?)");
+            preparedStatement2.setLong(1, user_id2);
+            preparedStatement2.setLong(2, user_id1);
 
             if(preparedStatement1.executeUpdate() != 0 && preparedStatement2.executeUpdate() != 0) return SUCCESS_REMOVED;
 
@@ -110,10 +105,15 @@ public class FriendsSQL implements FriendsDao {
     // Checks if two users are friends
     @Override
     public boolean checkIfFriends(Long user_id1, Long user_id2) {
-        try {
+        try(Connection connection = dataSource.getConnection()){
 
-            PreparedStatement preparedStatement1 = prepareStatement("select * from friendships where first_user_id = ? and second_user_id = ?", user_id1, user_id2);
-            PreparedStatement preparedStatement2 = prepareStatement("select * from friendships where first_user_id = ? and second_user_id = ?", user_id2, user_id1);
+            PreparedStatement preparedStatement1 = connection.prepareStatement("select * from friendships where first_user_id = ? and second_user_id = ?");
+            preparedStatement1.setLong(1, user_id1);
+            preparedStatement1.setLong(2, user_id2);
+
+            PreparedStatement preparedStatement2 = connection.prepareStatement("select * from friendships where first_user_id = ? and second_user_id = ?");
+            preparedStatement2.setLong(1, user_id2);
+            preparedStatement2.setLong(2, user_id1);
 
             ResultSet resultSet1 = preparedStatement1.executeQuery();
             ResultSet resultSet2 = preparedStatement2.executeQuery();
