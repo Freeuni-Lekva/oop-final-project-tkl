@@ -36,7 +36,7 @@ public interface QuizDao {
     boolean removeQuizById(long id);
 
     /** function tries to add new quiz to DB
-     * function returns -1 if error occurs, id 0f new quiz otherwise
+     * function returns -1 if error occurs, id if new quiz otherwise
      */
     long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice);
 

@@ -28,20 +28,14 @@ public class CreateNewQuizServlet extends HttpServlet {
 
         String mainUserID = (String) request.getSession().getAttribute("MainUserID");
 
-        if(mainUserID == null){
-            System.out.println("Null Aris User");
-            return;
-        }
+        if(mainUserID == null) return;
+
 
         long id = quizSQL.addNewQuiz(userSQL.getUserById(Long.parseLong(mainUserID)), quizName, description, true, isPractice);
 
         if(id != -1){
-            System.out.println("magaria");
             RequestDispatcher rd = request.getRequestDispatcher("editQuizQuestions.jsp?quiz_id=" +id);
             rd.forward(request, response);
-            return;
         }
-
-        System.out.println("adding to db was unsuccessful");
     }
 }

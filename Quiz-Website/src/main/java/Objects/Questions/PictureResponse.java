@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represents a Picture-Response type of quiz question.
  */
-public class PictureResponse extends Question {
+public class PictureResponse extends QuestionResponse {
 
     // The URL of the image to be displayed for the question.
     private final String imageURL;
@@ -17,8 +17,8 @@ public class PictureResponse extends Question {
      * @param questionText  The text of the picture-response question.
      * @param correctAnswers The correct response to the picture-response question.
      */
-    public PictureResponse(String imageURL, String questionText, List<String> correctAnswers) {
-        super(questionText, correctAnswers);
+    public PictureResponse(long id, String imageURL, String questionText, List<String> correctAnswers) {
+        super(id, questionText, correctAnswers);
         this.imageURL = imageURL;
     }
 

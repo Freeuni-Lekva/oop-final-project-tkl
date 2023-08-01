@@ -19,10 +19,6 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
-    body {
-        font-family: "Roboto", sans-serif;
-    }
-
     .quiz-container {
         display: flex;
         flex-wrap: wrap;

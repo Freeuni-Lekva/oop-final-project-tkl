@@ -10,6 +10,15 @@
   </listener>
 
   <servlet>
+    <servlet-name>CreateNewQuestionsServlet</servlet-name>
+    <servlet-class>Servlets.CreateNewQuestionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateNewQuestionsServlet</servlet-name>
+    <url-pattern>/CreateNewQuestionsServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>CreateNewQuizServlet</servlet-name>
     <servlet-class>Servlets.CreateNewQuizServlet</servlet-class>
   </servlet>

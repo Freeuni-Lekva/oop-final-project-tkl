@@ -25,6 +25,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
     body {
+      color: white;
       padding: 0;
       margin: 0;
       box-sizing: border-box;
@@ -155,9 +156,8 @@
   </style>
 </head>
 <body>
-
 <header>
-  <img class="logo" src="images/logo.png" alt="logo">
+    <a href="index.jsp"><img class="logo" src="images/logo.png" alt="logo"></a>
 
   <nav>
     <ul class="navbar_options">
