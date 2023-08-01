@@ -1,5 +1,6 @@
 <%@ page import="Objects.User" %>
-<%@ page import="DAOinterfaces.UserDao" %><%--
+<%@ page import="DAOinterfaces.UserDao" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: user
   Date: 21.06.2023
@@ -97,7 +98,6 @@
       out.println("</div>");
     }
     out.println("<p><a href=\"/friends?id=" + user.getId() + "\">See Friends</a></p>");
-    if (user.getId() == Long.parseLong(main_user_id)) { out.println("<p><a href=\"/friend_request?id=" + user.getId() + "\">See Friend Requests</a></p>");};
   %>
   <jsp:include page="/add_friend" />
   <%

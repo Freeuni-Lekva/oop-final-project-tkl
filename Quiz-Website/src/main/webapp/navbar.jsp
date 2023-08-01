@@ -132,8 +132,27 @@
         max-width: 300px;
     }
 
-  </style>
+    /* Style for the link */
+    a.friend-requests-link {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
 
+    /* Hover effect: Change background color when hovering over the link */
+    a.friend-requests-link:hover {
+        background-color: #45a049;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+  </style>
 </head>
 <body>
 
@@ -158,7 +177,6 @@
 
   <%
       if(id != null){
-
           UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
           ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
           List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
@@ -197,7 +215,39 @@
                   </div>
               </div>
           </div>
-          <div class="circle-image">
+
+            <!-- This script fetches the updated number of friend requests from the server -->
+            <!-- and displays it as a tooltip on mouseover -->
+           <p id="friendRequestsLink">
+               <a class="friend-requests-link" href="/friend_request?id=<%= user.getId() %>">Friend Requests</a>
+           </p>
+
+           <!-- JavaScript to show tooltip on mouseover and handle click event -->
+           <script>
+               const friendRequestsLink = document.getElementById("friendRequestsLink");
+                // Function to fetch the friend requests count from the server
+               function fetchFriendRequestsCount() {
+                   fetch('/friendRequestsCount') // Replace with the actual endpoint URL
+                       .then(response => response.json())
+                       .then(data => {
+                           const numFriendRequests = data.count;
+                           friendRequestsLink.setAttribute("title", "You have " + numFriendRequests + " friend requests");
+                       })
+                       .catch(error => console.error('Error fetching friend requests count:', error));
+               }
+               // Fetch the friend requests count initially when the page loads
+               fetchFriendRequestsCount();
+
+               // Fetch the friend requests count every 100 mille seconds (adjust the interval as needed)
+               setInterval(fetchFriendRequestsCount, 100);
+
+               // Optionally, if you want to hide the tooltip on mouseout:
+               friendRequestsLink.addEventListener("mouseout", () => {
+                   friendRequestsLink.removeAttribute("title");
+               });
+           </script>
+
+    <div class="circle-image">
               <% String profileURL = "/profile?id=" + id; %>
               <% String photoPath = "\"profile-button.jpg\""; %>
               <% if (user != null) photoPath = "/images/" + user.getImagePath(); %>
@@ -207,10 +257,9 @@
               </a>
           </div>
 
-    <form action="logout" method="post" style="margin-top: 21px;">
-        <button>Log out</button>
-    </form>
-
+        <form action="logout" method="post" style="margin-top: 21px;">
+            <button>Log out</button>
+        </form>
     <% } %>
 
 </header>

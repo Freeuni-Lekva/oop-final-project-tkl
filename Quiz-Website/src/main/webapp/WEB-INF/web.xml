@@ -28,6 +28,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>FriendRequestCountServlet</servlet-name>
+    <servlet-class>Servlets.FriendRequestCountServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>FriendRequestCountServlet</servlet-name>
+    <url-pattern>/friendRequestsCount</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>Servlets.LoginServlet</servlet-class>
   </servlet>
