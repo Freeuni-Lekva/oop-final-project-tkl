@@ -19,11 +19,6 @@
 %>
 
 <style>
-
-    .publishing-options{
-        display: flex;
-        justify-content: center;
-    }
     .questions-container{
         display: flex;
         flex-wrap: wrap;
@@ -50,7 +45,79 @@
     .green-text{
         color: green;
     }
+
 </style>
+
+<script>
+
+    function clearAnswers(){
+
+        // Getting and clearing all additional <input> labels from multipleChoiceInput and answerInput <div>
+        const multipleChoiceInput = document.getElementById("multipleChoiceInput");
+        const answerInput = document.getElementById("answerInput");
+
+        while (multipleChoiceInput.firstChild){
+            multipleChoiceInput.removeChild(multipleChoiceInput.firstChild);
+        }
+
+        while (answerInput.firstChild){
+            answerInput.removeChild(answerInput.firstChild);
+        }
+    }
+
+    function showInputs(){
+
+        // Getting every element form "HTML" code
+        const type = document.getElementById("questionType").value;
+        const imageURL = document.getElementById("imageInput");
+        const answerInput = document.getElementById("answerInput");
+        const multipleChoiceInput = document.getElementById("multipleChoiceInput");
+
+        // Clearing all addition answers for case when user changes type of question
+        clearAnswers();
+
+        // Changing visibility of elements according to the type value
+        if(type === "question-response"){
+            answerInput.style.display = "block";
+            multipleChoiceInput.style.display = "none";
+            imageURL.style.display = "none";
+        }else if (type === "picture-response"){
+            imageURL.style.display = "block";
+            answerInput.style.display = "block";
+            multipleChoiceInput.style.display = "none";
+        }else if (type === "multiple-choice"){
+            multipleChoiceInput.style.display = "block";
+            answerInput.style.display = "none";
+            imageURL.style.display = "none";
+        }
+
+    }
+
+    function addCorrectAnswer(){
+        const type = document.getElementById("questionType").value;
+        const answerInput = document.getElementById("answerInput");
+        const multipleChoiceInput = document.getElementById("multipleChoiceInput");
+
+        const newDiv = document.createElement("div");
+
+        const newInput = document.createElement("input");
+        newInput.type = "text";
+        newInput.name = "answer";
+        newInput.placeholder = "Enter The Correct Answer";
+        newDiv.appendChild(newInput);
+
+        if(type === "multiple-choice"){
+            const checkBox = document.createElement("input");
+            checkBox.type = "checkbox";
+            checkBox.name = "correctAnswer";
+            newDiv.appendChild(checkBox);
+            multipleChoiceInput.appendChild(newDiv);
+            return;
+        }
+
+        answerInput.appendChild(newDiv);
+    }
+</script>
 
 
 <html>
@@ -63,12 +130,33 @@
     <% if(quizId != null) {
         List<Question> questions = questionsSQL.getQuizQuestionsForQuiz(Long.parseLong(quizId)); %>
 
-        <div class="publishing-options">
-            <% if(quizSQL.getQuizById(Long.parseLong(quizId)).isDraft()) { %>
-                <button>Publish</button>
-            <% } %>
-        </div>
+        <div class="new-questions-container">
+            <div class="nqc-type">
+                <label>Select Question Type</label>
+                <select id="questionType" name="questionType" onchange="showInputs()">
+                    <option value="picture-response">Picture-Response</option>
+                    <option value="question-response">Question-Response</option>
+                    <option value="multiple-choice">Multiple-Choice</option>
+                </select>
+            </div>
 
+            <div id="questionInput">
+                <input type="text" name="question" placeholder="Enter The Question..">
+            </div>
+
+            <div id="imageInput">
+                <input type="text" name="imageURL" placeholder="Enter The Image URL..">
+            </div>
+
+            <div id="answerInput">
+                <input type="text" name="answer" placeholder="Enter The Correct Answer">
+            </div>
+
+            <div id="multipleChoiceInput" style="display: none"></div>
+
+            <button type="button" onclick="addCorrectAnswer()">+</button>
+            <button type="submit">Add Question</button>
+        </div>
 
         <div class="questions-container">
             <% for(Question question:questions) { %>
