@@ -24,7 +24,7 @@ public class QuestionResponse implements Question{
     public boolean checkAnswer(String userAnswer){
 
         for(String correctAnswer: correctAnswers){
-            if(correctAnswer.equals(userAnswer)) return true;
+            if(correctAnswer.equalsIgnoreCase(userAnswer)) return true;
         }
 
         return false;
@@ -40,4 +40,7 @@ public class QuestionResponse implements Question{
     public long getId() {
         return id;
     }
+
+    @Override
+    public String getImageURL() { return null; }
 }

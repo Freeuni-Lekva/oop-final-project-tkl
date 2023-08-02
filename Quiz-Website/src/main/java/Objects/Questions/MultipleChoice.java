@@ -1,26 +1,28 @@
 package Objects.Questions;
 
+import java.util.List;
+
 /**
  * Represents a Multiple Choice type of quiz question.
  */
 public class MultipleChoice extends QuestionResponse {
 
     // The array of choices available for the user to select from.
-    private final String[] choices;
+    private final List<String> possibleAnswers;
 
     // The index of the correct choice in the choices array.
-    private final int correctChoiceIndex;
+    private final List<Integer> correctChoiceIndex;
 
     /**
      * Creates a new Multiple Choice object with the specified question, choices, and correct choice index.
      *
      * @param questionText The text of the multiple-choice question.
-     * @param choices The array of choices available for the user to select from.
+     * @param possibleAnswers The list of choices available for the user to select from.
      * @param correctChoiceIndex The index of the correct choice in the choices array.
      */
-    public MultipleChoice(long id, String questionText, String[] choices, int correctChoiceIndex) {
+    public MultipleChoice(long id, String questionText, List<String> possibleAnswers, List<Integer> correctChoiceIndex) {
         super(id, questionText, null);
-        this.choices = choices;
+        this.possibleAnswers = possibleAnswers;
         this.correctChoiceIndex = correctChoiceIndex;
     }
 
@@ -28,8 +30,16 @@ public class MultipleChoice extends QuestionResponse {
      *
      * @return The array of strings of the available choices.
      */
-    public String[] getChoices(){
-        return choices;
+    public List<String> getPossibleAnswers(){
+        return possibleAnswers;
+    }
+
+    @Override
+    public boolean checkAnswer(String userAnswer) {
+        for(int correctIndex: correctChoiceIndex){
+            if(possibleAnswers.get(correctIndex).equalsIgnoreCase(userAnswer)) return true;
+        }
+        return false;
     }
 }
 

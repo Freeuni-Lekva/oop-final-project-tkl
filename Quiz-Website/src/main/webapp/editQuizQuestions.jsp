@@ -83,17 +83,17 @@
         // Getting and clearing all additional <input> labels from multipleChoiceInput and answerInput <div>
         const multipleChoiceInput = document.getElementById("multipleChoiceInput");
         const answerInput = document.getElementById("answerInput");
-        const answerInputs = document.querySelectorAll('input[name="answer"]');
 
         // Clearing all <input> labels for multiple-choice questions
         while (multipleChoiceInput.firstChild){
             multipleChoiceInput.removeChild(multipleChoiceInput.firstChild);
         }
 
-        // Clearing all <input> labels except one for other type of questions
-        for(let i = 1; i < answerInputs.length; i++){
-            answerInput.removeChild(answerInputs[i].parentNode);
+        // Clearing all <input> labels for other type of questions
+        while (answerInput.firstChild){
+            answerInput.removeChild(answerInput.firstChild);
         }
+
     }
 
     function showInputs(){
@@ -165,7 +165,7 @@
     <jsp:include page="navbar.jsp"/>
 
     <% if(quizId != null) {
-        List<Question> questions = questionsSQL.getQuizQuestionsForQuiz(Long.parseLong(quizId)); %>
+        List<Question> questions = questionsSQL.getQuizQuestions(Long.parseLong(quizId)); %>
 
         <div class="new-questions-container">
             <form>
@@ -188,9 +188,8 @@
                     <input type="text" name="imageURL" placeholder="Enter The Image URL..">
                 </div>
 
-                <div id="answerInput" class="new-question">
+                <div id="answerInput" class="new-question" style="display: none">
                     <label>Answers <i class='bx bx-check' ></i></label>
-                    <input type="text" name="answer" placeholder="Enter The Correct Answer">
                 </div>
 
                 <div id="multipleChoiceInput" class="new-question" style="display: none"></div>
