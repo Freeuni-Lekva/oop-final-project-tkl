@@ -7,7 +7,20 @@ import java.util.List;
 
 public interface QuestionsDao {
 
+    int QUESTION_RESPONSE_TYPE = 1;
+    int PICTURE_RESPONSE_TYPE = 2;
+    int MULTIPLE_CHOICES_TYPE = 3;
+
     String ATTRIBUTE_NAME = "questionDao";
+
+    /** function returns list of quizzes selected from db by condition,
+     * function returns empty list if there is no questions which meets received conditions
+     */
+    public List<Question> getQuestions(String condition);
+
+    /** function returns question object, which id equals to received argument null  otherwise
+     */
+    Question getQuestionById(long id);
 
     /**
      * function returns all questions for quiz which id equals to received argument

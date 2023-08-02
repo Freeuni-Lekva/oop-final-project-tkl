@@ -53,7 +53,9 @@ public class TestQuestionsSQL extends TestCase {
         assertFalse(questions.get(1).checkAnswer("superman"));
         assertFalse(questions.get(2).checkAnswer("M"));
 
-        questionsSQL.deleteQuestion(questions.get(1).getId());
+        assertTrue(questionsSQL.deleteQuestion(questions.get(1).getId()));
+        assertFalse(questionsSQL.deleteQuestion(questions.get(questions.size() - 1).getId() + 10));
+        assertNull(questionsSQL.getQuestionById(-1));
         questions = questionsSQL.getQuizQuestions(id);
         assertEquals(questions.size(), 2);
     }
