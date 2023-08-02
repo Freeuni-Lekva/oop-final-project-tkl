@@ -18,6 +18,8 @@
     String quizId = request.getParameter("quiz_id");
 %>
 
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <style>
     .questions-container{
         display: flex;
@@ -46,6 +48,32 @@
         color: green;
     }
 
+    .new-questions-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .new-questions-container form{
+        padding: 20px;
+        width: 100%;
+        border: 2px solid mediumaquamarine;
+        border-radius: 50px;
+        outline-offset: 10px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .new-question{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 5px;
+    }
+
+    
 </style>
 
 <script>
@@ -55,13 +83,16 @@
         // Getting and clearing all additional <input> labels from multipleChoiceInput and answerInput <div>
         const multipleChoiceInput = document.getElementById("multipleChoiceInput");
         const answerInput = document.getElementById("answerInput");
+        const answerInputs = document.querySelectorAll('input[name="answer"]');
 
+        // Clearing all <input> labels for multiple-choice questions
         while (multipleChoiceInput.firstChild){
             multipleChoiceInput.removeChild(multipleChoiceInput.firstChild);
         }
 
-        while (answerInput.firstChild){
-            answerInput.removeChild(answerInput.firstChild);
+        // Clearing all <input> labels except one for other type of questions
+        for(let i = 1; i < answerInputs.length; i++){
+            answerInput.removeChild(answerInputs[i].parentNode);
         }
     }
 
@@ -94,18 +125,24 @@
     }
 
     function addCorrectAnswer(){
+
+        // Getting elements from "HTML"
         const type = document.getElementById("questionType").value;
         const answerInput = document.getElementById("answerInput");
         const multipleChoiceInput = document.getElementById("multipleChoiceInput");
 
+        // Creating new div
         const newDiv = document.createElement("div");
 
+        // Creating new input element and add it to the div
         const newInput = document.createElement("input");
         newInput.type = "text";
         newInput.name = "answer";
         newInput.placeholder = "Enter The Correct Answer";
         newDiv.appendChild(newInput);
 
+        // If users chooses multiple-choice question and presses on + button code adds input label with checkbox
+        // to determine which answer is correct
         if(type === "multiple-choice"){
             const checkBox = document.createElement("input");
             checkBox.type = "checkbox";
@@ -131,31 +168,38 @@
         List<Question> questions = questionsSQL.getQuizQuestionsForQuiz(Long.parseLong(quizId)); %>
 
         <div class="new-questions-container">
-            <div class="nqc-type">
-                <label>Select Question Type</label>
-                <select id="questionType" name="questionType" onchange="showInputs()">
-                    <option value="picture-response">Picture-Response</option>
-                    <option value="question-response">Question-Response</option>
-                    <option value="multiple-choice">Multiple-Choice</option>
-                </select>
-            </div>
+            <form>
+                <div class="nqc-type">
+                    <label>Select Question Type</label>
+                    <select id="questionType" name="questionType" onchange="showInputs()">
+                        <option value="picture-response">Picture-Response</option>
+                        <option value="question-response">Question-Response</option>
+                        <option value="multiple-choice">Multiple-Choice</option>
+                    </select>
+                </div>
 
-            <div id="questionInput">
-                <input type="text" name="question" placeholder="Enter The Question..">
-            </div>
+                <div id="questionInput" class="new-question">
+                    <label>Question <i class='bx bx-question-mark'></i></label>
+                    <input type="text" name="question" placeholder="Enter The Question..">
+                </div>
 
-            <div id="imageInput">
-                <input type="text" name="imageURL" placeholder="Enter The Image URL..">
-            </div>
+                <div id="imageInput" class="new-question">
+                    <label>Image <i class='bx bx-image-alt' ></i></label>
+                    <input type="text" name="imageURL" placeholder="Enter The Image URL..">
+                </div>
 
-            <div id="answerInput">
-                <input type="text" name="answer" placeholder="Enter The Correct Answer">
-            </div>
+                <div id="answerInput" class="new-question">
+                    <label>Answers <i class='bx bx-check' ></i></label>
+                    <input type="text" name="answer" placeholder="Enter The Correct Answer">
+                </div>
 
-            <div id="multipleChoiceInput" style="display: none"></div>
+                <div id="multipleChoiceInput" class="new-question" style="display: none"></div>
 
-            <button type="button" onclick="addCorrectAnswer()">+</button>
-            <button type="submit">Add Question</button>
+                <br>
+                <button type="button" onclick="addCorrectAnswer()">+</button>
+                <br>
+                <button type="submit">Add Question</button>
+            </form>
         </div>
 
         <div class="questions-container">
