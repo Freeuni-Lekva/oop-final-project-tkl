@@ -22,6 +22,14 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <style>
+
+    .additional-buttons-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
     .questions-container{
         display: flex;
         flex-wrap: wrap;
@@ -67,10 +75,43 @@
         justify-content: center;
     }
 
+    .new-questions-container form input[type="text"]{
+        border: 2px solid aquamarine;
+        border-radius: 50px;
+        padding: 9px;
+    }
+
+    .new-questions-container form input[type="checkbox"]{
+        -webkit-appearance: none;
+        width: 25px;
+        height: 25px;
+        border: 2px solid aquamarine;
+        border-radius: 50%;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        top: 12px;
+    }
+
+    .new-questions-container form input[type="checkbox"]:checked{
+        background-color: aquamarine;
+        border-color: aquamarine;
+    }
+
     .new-question{
         display: flex;
         flex-direction: column;
         justify-content: center;
+        padding: 5px;
+    }
+
+    .nqc-type select{
+        border: 2px solid aquamarine;
+        border-radius: 50px;
+        padding: 9px;
+    }
+
+    .simple-question-input{
         padding: 5px;
     }
 
@@ -189,7 +230,8 @@
             newDiv.appendChild(checkBox);
             multipleChoiceInput.appendChild(newDiv);
             return;
-        }
+        }else newDiv.classList.add("simple-question-input");
+
 
         answerInput.appendChild(newDiv);
     }

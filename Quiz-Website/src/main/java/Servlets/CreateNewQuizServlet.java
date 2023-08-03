@@ -36,6 +36,7 @@ public class CreateNewQuizServlet extends HttpServlet {
         if(id != -1){
             RequestDispatcher rd = request.getRequestDispatcher("editQuizQuestions.jsp?quiz_id=" +id);
             rd.forward(request, response);
+            return;
         }
 
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");

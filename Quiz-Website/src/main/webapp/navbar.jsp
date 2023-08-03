@@ -122,13 +122,13 @@
         position: absolute;
         top: 100px;
         right: 94px;
-        background-color: white;
+        background-color: mediumaquamarine;
         padding: 2px;
         display: none;
     }
 
     .popover__content {
-        background-color: #fff;
+        color: white;
         border-radius: 5px;
         max-width: 300px;
     }
@@ -161,7 +161,7 @@
 
   <nav>
     <ul class="navbar_options">
-      <li><a href = "quizzes.jsp">Quizes</a></li>
+      <li><a href = "quizzes.jsp">Quizzes</a></li>
       <li><a href = "createQuiz.jsp">Create</a></li>
     </ul>
   </nav>
