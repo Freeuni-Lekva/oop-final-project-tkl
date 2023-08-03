@@ -148,6 +148,13 @@
 
     }
 
+    function countCheckboxes(){
+
+        const multipleChoiceDiv = document.getElementById("multipleChoiceInput");
+        const checkBoxes = multipleChoiceDiv.querySelectorAll('input[type="checkbox"]');
+        return "" + checkBoxes.length;
+    }
+
     function addCorrectAnswer(){
 
         // Getting elements from "HTML"
@@ -177,6 +184,7 @@
             const checkBox = document.createElement("input");
             checkBox.type = "checkbox";
             checkBox.name = "correctAnswer";
+            checkBox.value = countCheckboxes();
             newDiv.appendChild(checkBox);
             multipleChoiceInput.appendChild(newDiv);
             return;
@@ -229,7 +237,7 @@
             const answerInputs = simpleAnswersDiv.querySelectorAll('input[type="text"]');
             const answers = answerInputs.length;
 
-            // If user doesn't adds at least one correct answer function returns false
+            // If user doesn't add at least one correct answer function returns false
             if(answers < 1){
                 alert("Add At Leas One Correct Answer");
                 return false;
@@ -253,6 +261,7 @@
 
         <div class="new-questions-container">
             <form action="CreateNewQuestionsServlet" method="post" onsubmit="return validateInput()">
+                <input type="hidden" name="quiz_id" value="<%=quizId%>">
                 <div class="nqc-type">
                     <label>Select Question Type</label>
                     <select id="questionType" name="questionType" onchange="showInputs()">

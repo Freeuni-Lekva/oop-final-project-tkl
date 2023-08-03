@@ -25,7 +25,7 @@ public class QuestionsSQL implements QuestionsDao {
      */
     private Question getMultipleChoiceQuestion(long id, String question){
 
-        String query = "SELECT *FROM multiple_choice_answers WHERE question_id = " + id;
+        String query = "SELECT *FROM multiple_choice_answers WHERE question_id = " + id + " ORDER BY id";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement questionsStatement = connection.prepareStatement(query);){
 

@@ -15,6 +15,8 @@ public interface QuestionsDao {
 
     /** function returns list of quizzes selected from db by condition,
      * function returns empty list if there is no questions which meets received conditions
+     *
+     * returned list of questions will be sorted by creation time
      */
     public List<Question> getQuestions(String condition);
 
