@@ -50,7 +50,7 @@ public class SendChallengeServlet extends HttpServlet {
             httpServletResponse.getWriter().println("Invalid input. Please enter valid numeric IDs.");
         }
 
-        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("sendChallenge.jsp");
+        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("quiz.jsp?quiz_id="+httpServletRequest.getParameter("quiz_id"));
         rd.forward(httpServletRequest, httpServletResponse);
     }
 
