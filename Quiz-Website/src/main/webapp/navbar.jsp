@@ -180,7 +180,8 @@
           UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
           ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
           List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
-          User user = userDao.getUserById(Long.parseLong(id)); %>
+          User user = userDao.getUserById(Long.parseLong(id));
+          if(user == null) return; %>
 
           <form class="search-form" action="search" method="POST">
               <input type="text" name="searchUser" placeholder="Search...">
@@ -250,7 +251,7 @@
     <div class="circle-image">
               <% String profileURL = "/profile?id=" + id; %>
               <% String photoPath = "\"profile-button.jpg\""; %>
-              <% if (user != null) photoPath = "/images/" + user.getImagePath(); %>
+              <% photoPath = "/images/" + user.getImagePath(); %>
               <a href="<%=profileURL%>">
                   <img src="<%=photoPath%>" alt="Go To Profile">
                   <span>Go To Profile</span>

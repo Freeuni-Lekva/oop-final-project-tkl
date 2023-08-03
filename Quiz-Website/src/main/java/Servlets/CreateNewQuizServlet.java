@@ -24,12 +24,12 @@ public class CreateNewQuizServlet extends HttpServlet {
 
         String quizName = request.getParameter("quizName");
         String description = request.getParameter("description");
-        boolean isPractice = Boolean.parseBoolean(request.getParameter("isPractice"));
+        String practice = request.getParameter("isPractice");
+        boolean isPractice = (practice == null);
 
         String mainUserID = (String) request.getSession().getAttribute("MainUserID");
 
         if(mainUserID == null) return;
-
 
         long id = quizSQL.addNewQuiz(userSQL.getUserById(Long.parseLong(mainUserID)), quizName, description, true, isPractice);
 
@@ -37,5 +37,8 @@ public class CreateNewQuizServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("editQuizQuestions.jsp?quiz_id=" +id);
             rd.forward(request, response);
         }
+
+        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        rd.forward(request, response);
     }
 }

@@ -4,7 +4,8 @@
 <%@ page import="Objects.Questions.PictureResponse" %>
 <%@ page import="Objects.Questions.MultipleChoice" %>
 <%@ page import="Objects.Questions.QuestionResponse" %>
-<%@ page import="DAOinterfaces.QuizDao" %><%--
+<%@ page import="DAOinterfaces.QuizDao" %>
+<%@ page import="Objects.Quiz" %><%--
   Created by IntelliJ IDEA.
   User: ddadi
   Date: 7/28/2023
@@ -256,8 +257,9 @@
 <body>
     <jsp:include page="navbar.jsp"/>
 
-    <% if(quizId != null) {
-        List<Question> questions = questionsSQL.getQuizQuestions(Long.parseLong(quizId)); %>
+    <% if(quizId != null && quizSQL.getQuizById(Long.parseLong(quizId)) != null) {
+        List<Question> questions = questionsSQL.getQuizQuestions(Long.parseLong(quizId));
+        int numberOfQuestions = questions.size(); %>
 
         <div class="new-questions-container">
             <form action="CreateNewQuestionsServlet" method="post" onsubmit="return validateInput()">
@@ -302,26 +304,55 @@
             </form>
         </div>
 
-        <div class="questions-container">
-            <% for(Question question:questions) { %>
-                <div class="question-box">
-                    <div class="inner-question-box">
-                    <p><%=question.getQuestion()%></p>
-                        <p class="green-text">
-                            <% if(question instanceof PictureResponse) {
-                                    out.print("Picture Response");
-                                }else if(question instanceof MultipleChoice){
-                                    out.print("Multiple Choice");
-                                }else if(question instanceof QuestionResponse){
-                                    out.print("Question Response");
-                                }
-                            %>
-                        </p>
-                        <button>Delete</button>
+        <form action="QuizOptionsServlet" method="post">
+            <input type="hidden" name="quiz_id" value="<%=quizId%>">
+            <div class="questions-container">
+                <% for(Question question:questions) { %>
+                    <div class="question-box">
+                        <div class="inner-question-box">
+                            <input type="hidden" name="question_id" value="<%=question.getId()%>">
+                            <p><%=question.getQuestion()%></p>
+                            <p class="green-text">
+                                <% if(question instanceof PictureResponse) {
+                                        out.print("Picture Response");
+                                    }else if(question instanceof MultipleChoice){
+                                        out.print("Multiple Choice");
+                                    }else if(question instanceof QuestionResponse){
+                                        out.print("Question Response");
+                                    }
+                                %>
+                            </p>
+                            <button name="deleteQuestion">Delete</button>
+                        </div>
                     </div>
+                <% } %>
+            </div>
+
+            <div class="additional-buttons-container">
+                <h3>Add At Least 5 Questions To Activate Quiz</h3>
+                <div class="additional-buttons">
+                    <% Quiz quiz = quizSQL.getQuizById(Long.parseLong(quizId)); %>
+
+                    <% if(quiz.isDraft() && numberOfQuestions >= 5) { %>
+                        <button name="activateQuiz">Activate Quiz</button>
+                    <% } %>
+
+                    <% if(!quiz.isDraft()) { %>
+                        <button name="deactivateQuiz">Deactivate Quiz</button>
+                    <% } %>
+
+                    <% if(quiz.isPractice()) { %>
+                        <button name="deactivatePractice">Deactivate Practice Mode</button>
+                    <% } %>
+
+                    <% if(!quiz.isPractice()) { %>
+                        <button name="activatePractice">Activate Practice Mode</button>
+                    <% } %>
+
+                    <button name="deleteQuiz">Delete Quiz</button>
                 </div>
-            <% } %>
-        </div>
+            </div>
+        </form>
     <% } %>
 
 </body>
