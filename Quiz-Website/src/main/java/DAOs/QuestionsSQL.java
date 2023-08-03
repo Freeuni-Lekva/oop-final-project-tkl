@@ -33,6 +33,7 @@ public class QuestionsSQL implements QuestionsDao {
             List<String> possibleAnswers = new ArrayList<>();
             List<Integer> correctIndex = new ArrayList<>();
 
+            // Getting all possible answers and correct answers indexes
             while (resultSet.next()){
                 if(resultSet.getBoolean(4)) correctIndex.add(possibleAnswers.size());
                 possibleAnswers.add(resultSet.getString(3));
@@ -77,15 +78,18 @@ public class QuestionsSQL implements QuestionsDao {
     @Override
     public List<Question> getQuestions(String condition) {
 
+
         String query = "SELECT *FROM questions";
         if(!condition.equals("")) query += condition;
 
+        // Surround connection and statement with try brackets, because it automatically closes after end of code block
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
 
             ResultSet resultSet = statement.executeQuery();
             List<Question> result = new ArrayList<>();
 
+            // For each question from question DB looking for its answers and creating new question object, which is added to return list
             while(resultSet.next()){
                 long id = resultSet.getLong(1);
                 int type = resultSet.getInt(3);
@@ -94,6 +98,7 @@ public class QuestionsSQL implements QuestionsDao {
 
                 Question newQuestion;
 
+                // Determining question type
                 if(type == QuestionsDao.MULTIPLE_CHOICES_TYPE) newQuestion = getMultipleChoiceQuestion(id, question);
                     else newQuestion = getSimpleQuestion(id, question, image);
 
@@ -179,14 +184,11 @@ public class QuestionsSQL implements QuestionsDao {
 
                 statement.executeUpdate();
                 statement.close();
-
             }
 
         }catch (SQLException ignored) {}
         return false;
     }
-
-
 
     @Override
     public boolean addSimpleQuestions(Quiz quiz, String question, List<String> answers, String imageURL) {
@@ -217,6 +219,7 @@ public class QuestionsSQL implements QuestionsDao {
         if(getQuestionById(id) == null) return false;
         String query = "DELETE FROM questions WHERE id = ?";
 
+        // Surround connection and statement with try brackets, because it automatically closes after end of code block
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
 

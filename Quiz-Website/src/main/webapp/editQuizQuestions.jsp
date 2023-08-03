@@ -192,6 +192,7 @@
 
     function countCheckboxes(){
 
+        // Function counts and returns number of checkboxes in multipleChoiceInput Div
         const multipleChoiceDiv = document.getElementById("multipleChoiceInput");
         const checkBoxes = multipleChoiceDiv.querySelectorAll('input[type="checkbox"]');
         return "" + checkBoxes.length;
@@ -259,8 +260,6 @@
             }
 
             const checkBoxes = multipleChoiceDiv.querySelectorAll('input[type="checkbox"]');
-
-            console.log(checkBoxes.length)
 
             let counter = 0;
             checkBoxes.forEach(checkbox =>{
