@@ -100,24 +100,48 @@
 
         // Getting every element form "HTML" code
         const type = document.getElementById("questionType").value;
+        const question = document.getElementById("questionInput");
         const imageURL = document.getElementById("imageInput");
         const answerInput = document.getElementById("answerInput");
         const multipleChoiceInput = document.getElementById("multipleChoiceInput");
+        const imageLabelDiv = document.getElementById("imageInputLabel");
+        const answersLabelDiv = document.getElementById("answersLabel");
+        const questionLabelDiv = document.getElementById("questionLabel");
 
         // Clearing all addition answers for case when user changes type of question
         clearAnswers();
 
         // Changing visibility of elements according to the type value
         if(type === "question-response"){
+            questionLabelDiv.style.display = "block";
+            answersLabelDiv.style.display = "block";
+            question.style.display = "block";
             answerInput.style.display = "block";
             multipleChoiceInput.style.display = "none";
             imageURL.style.display = "none";
+            imageLabelDiv.style.display = "none";
         }else if (type === "picture-response"){
+            questionLabelDiv.style.display = "block";
+            answersLabelDiv.style.display = "block";
+            question.style.display = "block";
             imageURL.style.display = "block";
             answerInput.style.display = "block";
+            imageLabelDiv.style.display = "block";
             multipleChoiceInput.style.display = "none";
         }else if (type === "multiple-choice"){
+            questionLabelDiv.style.display = "block";
+            answersLabelDiv.style.display = "block";
+            question.style.display = "block";
             multipleChoiceInput.style.display = "block";
+            imageLabelDiv.style.display = "none";
+            answerInput.style.display = "none";
+            imageURL.style.display = "none";
+        }else{
+            questionLabelDiv.style.display = "none";
+            answersLabelDiv.style.display = "none";
+            question.style.display = "none";
+            multipleChoiceInput.style.display = "none";
+            imageLabelDiv.style.display = "none";
             answerInput.style.display = "none";
             imageURL.style.display = "none";
         }
@@ -131,6 +155,11 @@
         const answerInput = document.getElementById("answerInput");
         const multipleChoiceInput = document.getElementById("multipleChoiceInput");
 
+        if(type === "empty") {
+            alert("Choose Question Type Firstly Before Add Correct Answers");
+            return;
+        }
+
         // Creating new div
         const newDiv = document.createElement("div");
 
@@ -138,6 +167,7 @@
         const newInput = document.createElement("input");
         newInput.type = "text";
         newInput.name = "answer";
+        newInput.required = true;
         newInput.placeholder = "Enter The Correct Answer";
         newDiv.appendChild(newInput);
 
@@ -154,6 +184,60 @@
 
         answerInput.appendChild(newDiv);
     }
+
+    function validateInput(){
+
+        // Getting type of question from <select>
+        const type = document.getElementById("questionType").value;
+
+        if(type === "empty"){
+            alert("Choose Question Type Before Add Question To Quiz");
+            return false;
+
+        }else if(type === "multiple-choice"){
+
+            // Getting text and checkbox inputs
+            const multipleChoiceDiv = document.getElementById("multipleChoiceInput");
+            const answerInputs = multipleChoiceDiv.querySelectorAll('input[type="text"]');
+            const possibleAnswers = answerInputs.length;
+
+            // If user adds only one possible answer for multiple-choice question function returns false
+            if(possibleAnswers < 2){
+                alert("Add At Least 2 Possible Questions");
+                return false;
+            }
+
+            const checkBoxes = multipleChoiceDiv.querySelectorAll('input[type="checkbox"]');
+
+            console.log(checkBoxes.length)
+
+            let counter = 0;
+            checkBoxes.forEach(checkbox =>{
+                if(checkbox.checked){
+                    counter++;
+                }
+            });
+
+            // If user doesn't choose at least one checkbox function returns false
+            if(counter < 1){
+                alert("Choose At Least One Correct Answer");
+                return false;
+            }
+        }else{
+
+            const simpleAnswersDiv = document.getElementById("answerInput");
+            const answerInputs = simpleAnswersDiv.querySelectorAll('input[type="text"]');
+            const answers = answerInputs.length;
+
+            // If user doesn't adds at least one correct answer function returns false
+            if(answers < 1){
+                alert("Add At Leas One Correct Answer");
+                return false;
+            }
+        }
+
+        return true;
+    }
 </script>
 
 
@@ -168,31 +252,39 @@
         List<Question> questions = questionsSQL.getQuizQuestions(Long.parseLong(quizId)); %>
 
         <div class="new-questions-container">
-            <form>
+            <form action="CreateNewQuestionsServlet" method="post" onsubmit="return validateInput()">
                 <div class="nqc-type">
                     <label>Select Question Type</label>
                     <select id="questionType" name="questionType" onchange="showInputs()">
+                        <option value="empty">Select Type</option>
                         <option value="picture-response">Picture-Response</option>
                         <option value="question-response">Question-Response</option>
                         <option value="multiple-choice">Multiple-Choice</option>
                     </select>
                 </div>
 
-                <div id="questionInput" class="new-question">
-                    <label>Question <i class='bx bx-question-mark'></i></label>
-                    <input type="text" name="question" placeholder="Enter The Question..">
+                <div id="questionLabel" class="new-question" style="display: none;">
+                    <label>Question</label>
+                </div>
+                <div id="questionInput" class="new-question" style="display: none;">
+                    <input type="text" name="question" placeholder="Enter The Question.." required>
                 </div>
 
-                <div id="imageInput" class="new-question">
-                    <label>Image <i class='bx bx-image-alt' ></i></label>
+                <div id="imageInputLabel" class="new-question" style="display: none;">
+                    <label>Image</label>
+                </div>
+
+                <div id="imageInput" class="new-question" style="display: none;">
                     <input type="text" name="imageURL" placeholder="Enter The Image URL..">
                 </div>
 
-                <div id="answerInput" class="new-question" style="display: none">
-                    <label>Answers <i class='bx bx-check' ></i></label>
+                <div id="answersLabel" class="new-questions" style="display: none;">
+                    <label>Add Answers</label>
                 </div>
 
-                <div id="multipleChoiceInput" class="new-question" style="display: none"></div>
+                <div id="answerInput" class="new-question" style="display: none;"></div>
+
+                <div id="multipleChoiceInput" class="new-question" style="display: none;"></div>
 
                 <br>
                 <button type="button" onclick="addCorrectAnswer()">+</button>
