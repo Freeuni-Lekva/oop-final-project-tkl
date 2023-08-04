@@ -13,7 +13,7 @@ public class ListenerServlet implements ServletContextListener {
 
     private static final String URL = "jdbc:mysql://localhost:3306/final_project";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "17031923";
+    private static final String PASSWORD = "babajana111";
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {

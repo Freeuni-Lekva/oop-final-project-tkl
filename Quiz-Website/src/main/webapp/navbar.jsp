@@ -20,6 +20,11 @@
 <head>
   <link rel="website-icon" type="x-icon" href="images/login.png">
   <title>TKL-Quiz-Website</title>
+  <%
+      String challengesIconURL = "images/ChallengeIcon.png";
+      String friendRequestsIconURL = "images/FriendRequestIcon.png";
+      String logoutIconURL = "images/logout.png";
+  %>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
@@ -153,6 +158,37 @@
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     }
 
+    .icon {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 2px solid black;
+    }
+
+    .challenges-icon {
+        /* Adjust the path to the challenges icon */
+        background-image: url('<%= challengesIconURL %>');
+        background-size: cover; /* You can change this to 'contain' if desired */
+        /* Optionally, you can add some padding to create space around the icon */
+    }
+
+    .friend-requests-icon {
+        /* Adjust the path to the friend requests icon */
+        background-image: url('<%= friendRequestsIconURL %>');
+    }
+
+    .logout-icon {
+        /* Adjust the path to the logout icon */
+        background-image: url('<%= logoutIconURL %>');
+        background-size: cover; /* You can change this to 'contain' if desired */
+
+        border: none;
+        border-radius: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -166,8 +202,8 @@
     </ul>
   </nav>
   <%
-    String id = (String) request.getSession().getAttribute("MainUserID");
-    if(id == null){
+      String id = (String) request.getSession().getAttribute("MainUserID");
+      if(id == null){
   %>
   <div class="buttons">
     <a href="login.jsp"><button>Login</button></a>
@@ -189,9 +225,7 @@
           </form>
 
           <div class="buttons">
-              <!-- Notifications button -->
-              <button onclick="toggleNotifications()">Challenges</button>
-
+              <div class="icon challenges-icon" onclick="toggleNotifications()"></div>
               <!-- Notifications popover -->
               <div class="popover" id="notificationsPopover">
                   <div class="popover__content">
@@ -256,11 +290,13 @@
                   <img src="<%=photoPath%>" alt="Go To Profile">
                   <span>Go To Profile</span>
               </a>
-          </div>
+    </div>
 
-        <form action="logout" method="post" style="margin-top: 21px;">
-            <button>Log out</button>
-        </form>
+    <div class="buttons">
+        <a href = "/logout">
+            <div class="icon logout-icon"></div>
+        </a>
+    </div>
     <% } %>
 
 </header>
