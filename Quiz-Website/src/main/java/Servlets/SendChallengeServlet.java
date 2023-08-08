@@ -23,7 +23,7 @@ public class SendChallengeServlet extends HttpServlet {
 
         try {
             // Retrieve parameters from the form
-            long senderId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("main_user_id"));
+            long senderId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("MainUserID"));
             String receiverUsername = httpServletRequest.getParameter("receiverUsername");
             User receiver = userDao.getUserByName(receiverUsername);
             if(receiver == null){
@@ -50,7 +50,7 @@ public class SendChallengeServlet extends HttpServlet {
             httpServletResponse.getWriter().println("Invalid input. Please enter valid numeric IDs.");
         }
 
-        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("sendChallenge.jsp");
+        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("quiz.jsp?quiz_id="+httpServletRequest.getParameter("quiz_id"));
         rd.forward(httpServletRequest, httpServletResponse);
     }
 

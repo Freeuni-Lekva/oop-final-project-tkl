@@ -1,14 +1,12 @@
 package DAOs;
 
 import DAOinterfaces.QuizDao;
-import Objects.Questions.MultipleChoice;
-import Objects.Questions.QuestionResponse;
 import Objects.Quiz;
-import Objects.Questions.Question;
+import Objects.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class QuizSQL implements QuizDao {
@@ -22,56 +20,119 @@ public class QuizSQL implements QuizDao {
 
     @Override
     public List<Quiz> getQuizzes(String condition) {
-        List<Question> questions = testQuestions();
 
-        List<Quiz> result = new ArrayList<>();
-        Quiz t1 = new Quiz(1, 1, "Quiz 1", "First Test Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
-        Quiz t2 = new Quiz(2, 1, "Quiz 2", "Second Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
-        Quiz t3 = new Quiz(3, 1, "Quiz 3", "Third Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
+        String query = "SELECT *FROM quizzes";
+        if(!condition.equals("")) query += condition;
 
-        result.add(t1);
-        result.add(t2);
-        result.add(t3);
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)){
 
-        return result;
+            ResultSet resultSet = statement.executeQuery();
+            List<Quiz> result = new ArrayList<>();
+
+            while(resultSet.next()){
+                Quiz newQuiz = new Quiz(resultSet.getLong(1), resultSet.getLong(2), resultSet.getString(3),
+                        resultSet.getString(4), resultSet.getTime(5), resultSet.getBoolean(6), resultSet.getBoolean(7));
+
+                result.add(newQuiz);
+            }
+
+            resultSet.close();
+            return result;
+
+        } catch (SQLException ignored) {}
+
+        return new ArrayList<>();
     }
 
     @Override
     public Quiz getQuizById(long id) {
-        List<Question> questions = testQuestions();
 
-        if(id == 1){
-            return new Quiz(1, 1, "Quiz 1", "First Test Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
-        }else if(id == 2){
-            return new Quiz(2, 1, "Quiz 1", "Second Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
-        }else if(id == 3){
-            return new Quiz(3, 1, "Quiz 1", "Third Quiz", new Date(), QUESTION_RESPONSE_CATEGORY, questions);
-        }
+        List<Quiz> result = getQuizzes(" WHERE id = " + id);
 
+        if(result.size() == 1) return result.get(0);
         return null;
     }
 
-    //tmp method for testing
-    private List<Question> testQuestions() {
-        Question question = new QuestionResponse("vin dawera grafi monte-kristo", "kii, aq vcxovrob ra");
-        List<Question> questions = new ArrayList<>();
-        questions.add(question);
-
-        String[] choices = new String[2];
-        choices[0] = "ki";
-        choices[1] = "ara";
-        Question question1 = new MultipleChoice("romel wels moxda didgoris brdzola, 1121shi xom ara?", choices, 0);
-        questions.add(question1);
-        return questions;
-    }
 
     @Override
-    public Quiz getQuizByCreatorId(long id) {
-        return null;
+    public List<Quiz> getQuizzesByCreatorId(long id) {
+        return getQuizzes(" WHERE creator_id = " + id);
     }
 
     @Override
     public boolean removeQuizById(long id) {
+
+        if(getQuizById(id) == null) return false;
+        String query = "DELETE FROM quizzes WHERE id = ?";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)){
+
+            statement.setLong(1, id);
+            return statement.executeUpdate() == 1;
+
+        } catch (SQLException ignored) {}
         return false;
+    }
+
+    @Override
+    public long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice){
+
+        if(creator == null) return ACCOUNT_NOT_FOUND;
+        if(quizName.equals("") || description.equals("")) return NOT_ENOUGH_INFORMATION;
+
+        String query = "INSERT INTO quizzes (creator_id, quiz_name, quiz_description, is_draft, is_practice) VALUES(?, ?, ?, ?, ?)";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setLong(1, creator.getId());
+            statement.setString(2, quizName);
+            statement.setString(3, description);
+            statement.setBoolean(4, isDraft);
+            statement.setBoolean(5, isPractice);
+
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+
+            long quizId = QUIZ_NOT_ADDED;
+            if(resultSet.next()) quizId = resultSet.getLong(1);
+
+            resultSet.close();
+            return quizId;
+
+        } catch (SQLException ignored) {}
+
+        return SERVER_ERROR;
+    }
+
+    private boolean changeHelper(long id, String setOption, boolean setValue){
+
+        Quiz quiz = getQuizById(id);
+        if(quiz == null) return false;
+
+        String query = "UPDATE quizzes SET " + setOption + " = ? WHERE id = ?";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setBoolean(1, setValue);
+            statement.setLong(2, id);
+
+            return statement.executeUpdate() == 1;
+
+        } catch (SQLException ignored) {}
+        return false;
+    }
+
+    @Override
+    public boolean changeDraftStatus(long id, boolean isDraft) {
+        return changeHelper(id, "is_draft", isDraft);
+    }
+
+    @Override
+    public boolean changePracticeStatus(long id, boolean isPractice) {
+        return changeHelper(id, "is_practice", isPractice);
     }
 }

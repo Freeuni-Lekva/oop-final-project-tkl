@@ -10,12 +10,49 @@
   </listener>
 
   <servlet>
+    <servlet-name>QuizOptionsServlet</servlet-name>
+    <servlet-class>Servlets.QuizOptionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QuizOptionsServlet</servlet-name>
+    <url-pattern>/QuizOptionsServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CreateNewQuestionsServlet</servlet-name>
+    <servlet-class>Servlets.CreateNewQuestionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateNewQuestionsServlet</servlet-name>
+    <url-pattern>/CreateNewQuestionsServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CreateNewQuizServlet</servlet-name>
+    <servlet-class>Servlets.CreateNewQuizServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateNewQuizServlet</servlet-name>
+    <url-pattern>/CreateNewQuizServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>SignUpServlet</servlet-name>
     <servlet-class>Servlets.SignUpServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>SignUpServlet</servlet-name>
     <url-pattern>/SignUpServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>FriendRequestCountServlet</servlet-name>
+    <servlet-class>Servlets.FriendRequestCountServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>FriendRequestCountServlet</servlet-name>
+    <url-pattern>/friendRequestsCount</url-pattern>
   </servlet-mapping>
 
   <servlet>

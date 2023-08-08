@@ -9,15 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.LinkOption;
 
 public class LoginServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        // Implementation is not necessary
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
 
@@ -31,7 +26,7 @@ public class LoginServlet extends HttpServlet {
         }else if(result == UserDao.SUCCESSFULLY_LOGIN){
             User user = userDao.getUserByName(name);
             Long id = user.getId();
-            request.getSession().setAttribute("main_user_id", Long.toString(id));
+            request.getSession().setAttribute("MainUserID", Long.toString(id));
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
             return;
@@ -41,5 +36,9 @@ public class LoginServlet extends HttpServlet {
 
         RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
         rd.forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Implementation is not necessary
     }
 }

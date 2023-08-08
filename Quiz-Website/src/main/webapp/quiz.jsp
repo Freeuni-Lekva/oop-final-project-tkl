@@ -1,7 +1,8 @@
 <%@ page import="DAOinterfaces.QuizDao" %>
 <%@ page import="Objects.Quiz" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Objects.Questions.*" %><%--
+<%@ page import="Objects.Questions.*" %>
+<%@ page import="DAOinterfaces.UserDao" %><%--
   Created by IntelliJ IDEA.
   User: ddadi
   Date: 7/20/2023
@@ -12,86 +13,126 @@
 
 <%
     String quizIdString = request.getParameter("quiz_id");
-    if(quizIdString == null)
-        quizIdString = (String)request.getSession().getAttribute("quiz_id");
+    if(quizIdString == null) quizIdString = (String) request.getSession().getAttribute("quiz_id");
     long quizId = Long.parseLong(quizIdString);
 
+    UserDao userSQL = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
     QuizDao quizSQL = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
+
     Quiz currentQuiz = quizSQL.getQuizById(quizId);
 %>
+
+<style>
+
+    .top-quiz-container{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .quiz-information, .quiz-buttons{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .quiz-information h3, p{
+        margin: 7px;
+    }
+
+    .challenge-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .challenge form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .message-container p {
+        text-align:center;
+        margin-top:10px;
+    }
+
+    .challenge input{
+        border: 2px solid aquamarine;
+        border-radius: 50px;
+        padding: 9px;
+    }
+
+    .bottom-quiz-container{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
 <html>
 <head>
     <title><%=currentQuiz.getQuizName()%></title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
-
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
-            font-size: 15px;
-            color: white;
-            text-decoration: none;
-            background-color: darkslategrey;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        a {
-            display: block;
-            text-align:center;
-            margin-top:50px;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
-            font-size: 20px;
-            color: white;
-            text-decoration: none;
-        }
-
-    </style>
 </head>
 <body>
 
-<h1><%=currentQuiz.getQuizName()%></h1>
+    <jsp:include page="navbar.jsp"></jsp:include>
 
-<br>
-<a href="sendChallenge.jsp?quiz_id=<%=currentQuiz.getQuizId()%>">Send Challenge</a>
-<a href="quizes.jsp?quiz_id=<%=quizId%>">Go Back</a>
+    <div class="quiz-container">
 
-<%List<Question> questions = currentQuiz.getQuestions();        %>
-<% for (Question question : questions) { %>
-<h3><%= question.getQuestionText() %></h3>
+        <div class="top-quiz-container">
 
-<% if (question instanceof QuestionResponse) { %>
-<input type="text" name="question_<%= question.getQuestionText() %>" required>
-<% } else if (question instanceof FillInTheBlank) { %>
-<input type="text" name="question_<%= question.getQuestionText() %>" required>
-<% } else if (question instanceof MultipleChoice) { %>
+            <div class="challenge-container">
 
-<% MultipleChoice multipleChoice = (MultipleChoice) question; %>
-<% for (int i = 0; i < multipleChoice.getChoices().length; i++) { %>
-<input type="radio" name="question_<%= question.getQuestionText() %>" value="<%= i %>">
-<%= multipleChoice.getChoices()[i] %><br>
-<% } %>
-<% } else if (question instanceof PictureResponse) { %>
+                <div class="message-container">
+                    <%
+                        if(request.getAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME) != null){
+                            int message = Integer.parseInt(request.getAttribute(UserDao.MESSAGE_ATTRIBUTE_NAME).toString());
 
-<img src="<%= ((PictureResponse) question).getImageURL() %>" alt="Question Image">
-<br>
-<input type="text" name="question_<%= question.getQuestionText() %>" required>
-<% } %>
+                            if(message == UserDao.ACCOUNT_NOT_FOUND){
+                                out.println("<h3> Account With That Name Could Not Be Found, Try Again</h3>");
+                            }else if(message == UserDao.SERVER_ERROR){
+                                out.println("<h3> Encountered Some Kind Of Error. Try Again Later :(</h3> ");
+                            }else if(message == UserDao.ACCOUNT_FOUND_BY_NAME){
+                                out.println("<h3> Challenge Was Sent Successfully :) </h3>");
+                            }
+                        }
+                    %>
+                </div>
 
-<% } %>
+                <div class="challenge">
+                    <form action="sendChallenge" method="post">
+                        <input type="hidden" name="quiz_id" value="<%= quizId %>">
+                        <label for="receiverUsername">Receiver Username:</label><br>
+                        <input type="text" id="receiverUsername" name="receiverUsername" required><br>
 
+                        <button>Send Challenge</button>
+                    </form>
+                </div>
+            </div>
 
+            <div class="quiz-information-container">
 
+                <div class="quiz-information">
+                    <h3><%=currentQuiz.getQuizName()%></h3>
+                    <p>Creator: <%=userSQL.getUserById(currentQuiz.getCreatorId()).getName()%></p>
+                    <p><%=currentQuiz.getDescription()%></p>
+                </div>
 
+                <div class="quiz-buttons">
+                    <a href="startQuiz.jsp?quiz_id=<%=quizId%>&is_practice=0"><button>Start Quiz</button></a> <br>
+                    <a href="startQuiz.jsp?quiz_id=<%=quizId%>&is_practice=1"><button>Practice Mode</button></a>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="bottom-quiz-container">
+
+            <!-- that div can be used for comments/statistics -->
+            <h1>that div can be used for comments/statistics</h1>
+
+        </div>
+    </div>
 </body>
 </html>

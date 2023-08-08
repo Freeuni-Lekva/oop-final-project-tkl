@@ -9,11 +9,12 @@ public interface UserDao {
     int INCORRECT_PASSWORD = -1;
     int ACCOUNT_NOT_FOUND = 0;
     int SUCCESSFULLY_LOGIN = 1;
+    int NOT_ENOUGH_INFORMATION = 2;
     int ACCOUNT_FOUND_BY_NAME = 3;
     int ACCOUNT_CREATED = 4;
-    int SERVER_ERROR = 5;
-    int SUCCESS_UPDATE = 6;
-    int ERROR_UPDATE = 7;
+    int INCORRECT_INFORMATION = 5;
+    int SERVER_ERROR = 6;
+    int SUCCESS_UPDATE = 7;
 
     String ATTRIBUTE_NAME = "userDao";
     String MESSAGE_ATTRIBUTE_NAME = "userMessage";
@@ -43,21 +44,21 @@ public interface UserDao {
     /** function tries to add new account on database, function returns int as same as "tryToLogin" function,
      * returns - > ACCOUNT_FOUND_BY_NAME, ACCOUNT_FOUND_BY_EMAIL, ACCOUNT_CREATED or SERVER_ERROR values
      */
-    int register(String name, String realName, String realLastName, String email, String password);
+    int register(String name, String realName, String realLastName, String password);
 
     /** function tries to change real name of user, which name equals to first argument
      */
-    int changeRealName(Long user_id, String newRealName);
+    int changeRealName(Long userId, String newRealName);
 
     /** function tries to change real last name of user, which name equals to first argument
      */
-    int changeRealLastName(Long user_id, String newReaLastName);
+    int changeRealLastName(Long userId, String newReaLastName);
 
     /** function tries to change profile picture of user, which name equals to first argument
      */
-    int changeImagePath(Long user_id, String newImagePath);
+    int changeImagePath(Long userId, String newImagePath);
 
     /** function tries to change description of user, which name equals to first argument
      */
-    int changeDescription(Long user_id, String description);
+    int changeDescription(Long userId, String description);
 }

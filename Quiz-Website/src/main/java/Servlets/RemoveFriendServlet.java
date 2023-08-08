@@ -22,7 +22,7 @@ public class RemoveFriendServlet extends HttpServlet {
 
         // Retrieve the friend's name and the main user's name from the request parameters
         String id = (String) request.getParameter("friend_id");
-        String main_user_id = (String) request.getSession().getAttribute("main_user_id");
+        String main_user_id = (String) request.getSession().getAttribute("MainUserID");
 
         // Remove the friendship between the friend and the main user using the FriendsDao
         if(id != null) friendsDao.removeFriendship(Long.parseLong(id), Long.parseLong(main_user_id));

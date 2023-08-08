@@ -61,8 +61,6 @@
 </head>
 <body>
 <%
-  UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
-  FriendRequestDao friendRequestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
   List<User> friend_requests = (List<User>) request.getSession().getAttribute("friend_requests");
 %>
 <div class="container">

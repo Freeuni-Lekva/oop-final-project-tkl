@@ -43,7 +43,7 @@ public class FriendRequestServlet extends HttpServlet {
         String accept = (String) request.getParameter("accept");
         String id = (String) request.getParameter("friendID");
 
-        String main_user_id = (String) request.getSession().getAttribute("main_user_id");
+        String main_user_id = (String) request.getSession().getAttribute("MainUserID");
 
         if (id != null) {
             Long friend_id = Long.parseLong(id);

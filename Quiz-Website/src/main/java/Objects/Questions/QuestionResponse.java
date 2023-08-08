@@ -1,46 +1,46 @@
 package Objects.Questions;
 
-/**
- * Represents a Question-Response type of quiz question.
- */
-public class QuestionResponse implements Question {
+import java.util.List;
 
-    // The text of the question.
-    private final String questionText;
+public class QuestionResponse implements Question{
 
-    // The correct response to the question.
-    private final String correctAnswer;
 
-    /**
-     * Creates a new Question-Response object with the specified question and correct answer.
-     *
-     * @param questionText The text of the question.
-     * @param correctAnswer The correct response to the question.
-     */
-    public QuestionResponse(String questionText, String correctAnswer) {
+    // The text of the question with a blank to be filled by the user.
+    protected final String questionText;
+
+    // The correct answers for question
+    protected final List<String> correctAnswers;
+    protected final long id;
+
+    public QuestionResponse(long id, String questionText, List<String> correctAnswers){
         this.questionText = questionText;
-        this.correctAnswer = correctAnswer;
+        this.correctAnswers = correctAnswers;
+        this.id = id;
     }
 
-    /**
-     * Gets the text of the question.
-     *
-     * @return The text of the question.
+    /** if "correctAnswers" contains received argument function returns true
+     * false otherwise
      */
-    @Override
-    public String getQuestionText() {
+    public boolean checkAnswer(String userAnswer){
+
+        for(String correctAnswer: correctAnswers){
+            if(correctAnswer.equalsIgnoreCase(userAnswer)) return true;
+        }
+
+        return false;
+    }
+
+    /** simple getter function
+     */
+    public String getQuestion(){
         return questionText;
     }
 
-    /**
-     * Checks if the user's answer matches the correct answer for this question.
-     *
-     * @param userAnswer The user's response to the question.
-     * @return true if the user's answer is correct, false otherwise.
-     */
     @Override
-    public boolean checkAnswer(String userAnswer) {
-        return correctAnswer.equalsIgnoreCase(userAnswer.trim());
+    public long getId() {
+        return id;
     }
-}
 
+    @Override
+    public String getImageURL() { return null; }
+}

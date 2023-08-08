@@ -1,5 +1,6 @@
 <%@ page import="Objects.User" %>
-<%@ page import="DAOinterfaces.UserDao" %><%--
+<%@ page import="DAOinterfaces.UserDao" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: user
   Date: 21.06.2023
@@ -25,11 +26,7 @@
     }
 
     body {
-      background-color: darkslategrey;
       color: white;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 500;
-      font-size: 20px;
     }
 
     h1 {
@@ -37,6 +34,8 @@
     }
 
     .profile-container {
+      font-weight: 500;
+      font-size: 20px;
       max-width: 500px;
       margin: 0 auto;
       padding: 20px;
@@ -80,7 +79,7 @@
 <div class="profile-container">
   <%
     User user = (User) request.getSession().getAttribute("profileUser");
-    String main_user_id = (String) request.getSession().getAttribute("main_user_id");
+    String main_user_id = (String) request.getSession().getAttribute("MainUserID");
   %>
   <p><strong>Name:</strong> <%= user.getName() %></p>
   <p><strong>Real Name:</strong> <%= user.getRealName() %></p>
@@ -99,7 +98,6 @@
       out.println("</div>");
     }
     out.println("<p><a href=\"/friends?id=" + user.getId() + "\">See Friends</a></p>");
-    if (user.getId() == Long.parseLong(main_user_id)) { out.println("<p><a href=\"/friend_request?id=" + user.getId() + "\">See Friend Requests</a></p>");};
   %>
   <jsp:include page="/add_friend" />
   <%
