@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS friend_requests;
 DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS quiz_scores;
 
 
 CREATE TABLE IF NOT EXISTS users(
@@ -80,6 +81,19 @@ CREATE TABLE IF NOT EXISTS multiple_choice_answers (
     answer TEXT NOT NULL,
     is_correct TINYINT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS quiz_scores (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT,
+    quiz_id BIGINT,
+    score DOUBLE,
+    max_score DOUBLE,
+    start_time DATETIME,
+    end_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
 );
 
 
