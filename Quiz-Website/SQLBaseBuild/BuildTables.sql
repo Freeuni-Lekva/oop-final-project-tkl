@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS quiz_scores (
     max_score DOUBLE,
     start_time DATETIME,
     end_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_user_quiz (user_id, quiz_id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
 );
