@@ -31,19 +31,11 @@
 
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
-    body {
-        font-family: 'Roboto', sans-serif;
-    }
-
     .quiz-container {
         padding: 5px;
         max-width: 800px;
         margin: 0 auto;
         text-align: center;
-        background-color: mediumaquamarine;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        color: white;
     }
 
     /* Style for question containers */
@@ -51,9 +43,38 @@
         margin: 20px 0;
         padding: 15px;
         background-color: darkslategrey;
-        border-radius: 5px;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-        color: white;
+        border: 2px solid mediumaquamarine;
+        border-radius: 50px;
+        outline-offset: 10px;
+    }
+
+    .question input{
+        border: 2px solid aquamarine;
+        border-radius: 50px;
+        padding: 9px;
+    }
+
+    .question img{
+        height: 300px;
+        width: 300px;
+        border-radius: 50px;
+    }
+
+    .question input[type="radio"]{
+        -webkit-appearance: none;
+        width: 10px;
+        height: 10px;
+        border: 2px solid aquamarine;
+        border-radius: 50%;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        top: 6px;
+    }
+
+    .question input[type="radio"]:checked{
+        background-color: aquamarine;
+        border-color: aquamarine;
     }
 
     /* Style for radio button labels */
@@ -80,7 +101,6 @@
     <form action="startQuiz" method="post">
         <input type="hidden" name="quiz_id" value="<%= quizId %>">
         <input type="hidden" name="start_time" id="start_time">
-        <input type="submit" value="Submit">
 
         <% for (Question question : questions) { %>
         <div class="question">
@@ -94,7 +114,7 @@
                 <% } %>
 
             <% }  else if (question instanceof PictureResponse) { %>
-            <img src="<%= ((PictureResponse) question).getImageURL() %>" alt="Question Image"><br>
+            <img src="/images/<%= question.getImageURL() %>" alt="Question Image"><br><br>
             <input type="text" name="<%= question.getId() %>">
 
 
@@ -105,14 +125,13 @@
         </div>
         <% } %>
 
-        <input type="submit" value="Submit Quiz">
+        <button>Finish</button>
     </form>
 </div>
 
 <script>
     document.getElementById("start_time").value = new Date().getTime();
+
 </script>
-
 </body>
-
 </html>
