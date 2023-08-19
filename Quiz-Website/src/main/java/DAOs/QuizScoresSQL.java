@@ -64,7 +64,30 @@ public class QuizScoresSQL implements QuizScoresDao {
 
         return 0; // Default value if no max_score is found
     }
-    
+
+
+    @Override
+    public List<Long> getUserIds(long quizId) {
+        List<Long> userIds = new ArrayList<>();
+        String query = "SELECT DISTINCT user_id FROM quiz_scores WHERE quiz_id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, quizId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    long userId = resultSet.getLong("user_id");
+                    userIds.add(userId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userIds;
+    }
+
 
     @Override
     public Map<Long, Double> getScoresForQuiz(long quizId) {
