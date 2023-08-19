@@ -130,7 +130,7 @@
         <div class="bottom-quiz-container">
 
             <!-- that div can be used for comments/statistics -->
-            <h1>that div can be used for comments/statistics</h1>
+            <jsp:include page="quizResult.jsp"></jsp:include>
 
         </div>
     </div>

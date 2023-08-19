@@ -43,4 +43,9 @@ public class QuestionResponse implements Question{
 
     @Override
     public String getImageURL() { return null; }
+
+    @Override
+    public List<String> getCorrectAnswers() {
+        return correctAnswers;
+    }
 }

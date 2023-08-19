@@ -2,6 +2,7 @@ package DAOinterfaces;
 
 import javax.xml.registry.infomodel.User;
 import java.util.List;
+import java.util.Map;
 
 public interface QuizScoresDao {
 
@@ -61,4 +62,20 @@ public interface QuizScoresDao {
      * @return A list of quiz IDs taken by the user.
      */
     List<Long> getQuizIds(long userId);
+
+    /**
+     * Retrieves a map of user IDs and their corresponding scores for a specific quiz.
+     *
+     * @param quizId The ID of the quiz.
+     * @return A map of user IDs and their scores for the quiz.
+     */
+    Map<Long, Double> getScoresForQuiz(long quizId);
+
+    /**
+     * Retrieves a map of user IDs and their corresponding time taken for a specific quiz.
+     *
+     * @param quizId The ID of the quiz.
+     * @return A map of user IDs and their time taken for the quiz.
+     */
+    Map<Long, Long> getTimeTakenForQuiz(long quizId);
 }
