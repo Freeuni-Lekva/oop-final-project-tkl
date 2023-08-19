@@ -41,7 +41,7 @@ public class StartQuizServlet extends HttpServlet {
         quizScoresDao.addNewScore(userId, quizId, score, startTime);
 
         // Redirect to a suitable page after submitting answers
-        response.sendRedirect("quizResult.jsp?quiz_id=" + quizId);
+        response.sendRedirect("quizTopScores.jsp?quiz_id=" + quizId);
     }
 
     @Override
