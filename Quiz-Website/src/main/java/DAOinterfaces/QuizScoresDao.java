@@ -30,6 +30,15 @@ public interface QuizScoresDao {
     double getMaxScore(long quizId);
 
     /**
+     * Retrieves a list of user IDs who have taken a specific quiz.
+     *
+     * @param quizId The ID of the quiz.
+     * @return A list of user IDs who have taken the quiz.
+     */
+    List<Long> getUserIds(long quizId);
+
+
+    /**
      * Retrieves a map of user IDs and their corresponding scores for a specific quiz.
      *
      * @param quizId The ID of the quiz.
