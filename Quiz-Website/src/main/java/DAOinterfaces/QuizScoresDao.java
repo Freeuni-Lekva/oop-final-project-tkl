@@ -30,40 +30,6 @@ public interface QuizScoresDao {
     double getMaxScore(long quizId);
 
     /**
-     * Retrieves the score achieved by a specific user for a specific quiz.
-     *
-     * @param userId The ID of the user.
-     * @param quizId The ID of the quiz.
-     * @return The score achieved by the user for the quiz.
-     */
-    double getScore(long userId, long quizId);
-
-    /**
-     * Retrieves the time taken by a specific user to complete a specific quiz.
-     *
-     * @param userId The ID of the user.
-     * @param quizId The ID of the quiz.
-     * @return The time taken by the user to complete the quiz.
-     */
-    long getTimeTaken(long userId, long quizId);
-
-    /**
-     * Retrieves a list of user IDs who have taken a specific quiz.
-     *
-     * @param quizId The ID of the quiz.
-     * @return A list of user IDs who have taken the quiz.
-     */
-    List<Long> getUserIds(long quizId);
-
-    /**
-     * Retrieves a list of quiz IDs that a specific user has taken.
-     *
-     * @param userId The ID of the user.
-     * @return A list of quiz IDs taken by the user.
-     */
-    List<Long> getQuizIds(long userId);
-
-    /**
      * Retrieves a map of user IDs and their corresponding scores for a specific quiz.
      *
      * @param quizId The ID of the quiz.
