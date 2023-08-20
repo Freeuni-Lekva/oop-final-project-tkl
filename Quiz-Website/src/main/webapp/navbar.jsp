@@ -108,37 +108,24 @@
     .popover {
         position: absolute;
         top: 100px;
-        right: 385px;
-        background-color: mediumaquamarine;
-        padding: 2px;
+        right: 100px;
+        background-color:  darkslategrey;
+        padding: 10px;
         display: none;
         margin: 20px;
+        border: 2px solid aquamarine;
+        border-radius: 10px;
+        text-align: center;
     }
 
     .popover__content {
         color: white;
-        border-radius: 5px;
         max-width: 300px;
     }
 
-    /* Style for the link */
-    a.friend-requests-link {
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: background-color 0.3s;
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    /* Hover effect: Change background color when hovering over the link */
-    a.friend-requests-link:hover {
-        background-color: #45a049;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    .notification-box{
+        border-bottom: 2px solid aquamarine;
+        border-radius: 10px;
     }
 
     .bx{
@@ -206,18 +193,22 @@
                   <div class="popover__content challenges">
 
                       <% int notifications = receivedChallenges==null?0:receivedChallenges.size();%>
-                      <p>You have <%=notifications%> new challenges!</p>
+                      <div class="notification-box">
+                          <p>You have <%=notifications%> new challenges!</p>
+                      </div>
                       <%if(notifications != 0) { %>
 
                           <% for (Challenge challenge : receivedChallenges) { %>
                           <!-- Challenge Box -->
-                          <div class="challenge-box">
-                              <p><%=userDao.getUserById(challenge.getSenderId()).getName()%><strong> has challenged you:</strong> </p>
+                          <div class="notification-box">
+                              <p><strong><%=userDao.getUserById(challenge.getSenderId()).getName()%></strong> has challenged you</p>
                               <p><strong>Quiz ID:</strong><%= challenge.getQuizId()%> </p>
                               <p><strong>Timestamp:</strong> <%= challenge.getTimestamp() %></p>
                               <form action="acceptChallenge" method="post">
                                   <input type="hidden" name="challenge_id" value="<%= challenge.getId() %>">
-                                  <input type="submit" value="Accept Challenge">
+                                  <input type="hidden" name="referringPage" value="<%= request.getRequestURI() %>">
+                                  <button name="accept" value="true">Accept</button>
+                                  <button name="accept" value="false">Reject</button>
                               </form>
                           </div>
                           <% } %>
@@ -227,19 +218,23 @@
                   <div class="popover__content friends">
 
                       <% notifications = requests.size(); %>
-                      <p>You have <%=notifications%> new friend request</p>
+                      <div class="notification-box">
+                        <p>You have <%=notifications%> new friend request</p>
+                      </div>
 
                       <% if(notifications != 0) { %>
 
                             <% for(User friend: requests){ %>
 
-                                  <p><strong><%=friend.getName()%></strong> has sent you friend request!</p>
-                                  <form action="/friend_request" method="post">
-                                      <input type="hidden" name="friendID" value="<%= friend.getId() %>">
-                                      <input type="hidden" name="referringPage" value="<%= request.getRequestURI() %>">
-                                      <button type="submit" name="accept" value="true">Accept</button>
-                                      <button class="reject" type="submit" name="accept" value="false">Reject</button>
-                                  </form>
+                                  <div class="notification-box">
+                                      <p><strong><%=friend.getName()%></strong> has sent you friend request!</p>
+                                      <form action="/friend_request" method="post">
+                                          <input type="hidden" name="friendID" value="<%= friend.getId() %>">
+                                          <input type="hidden" name="referringPage" value="<%= request.getRequestURI() %>">
+                                          <button type="submit" name="accept" value="true">Accept</button>
+                                          <button class="reject" type="submit" name="accept" value="false">Reject</button>
+                                      </form>
+                                  </div>
                             <% } %>
                       <% } %>
                   </div>

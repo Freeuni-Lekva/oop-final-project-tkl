@@ -26,8 +26,8 @@ public class FriendRequestServlet extends HttpServlet {
         FriendRequestDao friendRequestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
 
         // Retrieve the values from the request parameters
-        String accept = (String) request.getParameter("accept");
-        String id = (String) request.getParameter("friendID");
+        String accept = request.getParameter("accept");
+        String id = request.getParameter("friendID");
 
         String mainUserId = (String) request.getSession().getAttribute("MainUserID");
 
