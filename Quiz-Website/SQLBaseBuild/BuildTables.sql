@@ -4,11 +4,11 @@ DROP TABLE IF EXISTS simple_answers;
 DROP TABLE IF EXISTS multiple_choice_answers;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS challenge;
+DROP TABLE IF EXISTS quiz_scores;
 DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS friend_requests;
 DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS quiz_scores;
 
 
 CREATE TABLE IF NOT EXISTS users(
@@ -94,7 +94,6 @@ CREATE TABLE IF NOT EXISTS quiz_scores (
     max_score DOUBLE,
     start_time DATETIME,
     end_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY unique_user_quiz (user_id, quiz_id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
 );

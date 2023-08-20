@@ -2,6 +2,7 @@
 <%@ page import="Objects.User" %>
 <%@ page import="DAOinterfaces.ChallengeDao" %>
 <%@ page import="Objects.Challenge" %>
+<%@ page import="DAOinterfaces.QuizDao" %>
 <%@ page import="java.util.List" %>
 <%@ page import="DAOinterfaces.FriendRequestDao" %><%--
   Created by IntelliJ IDEA.
@@ -172,6 +173,7 @@
 
           UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
           ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
+          QuizDao quizDao = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
           FriendRequestDao requestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
           List<User> requests = requestDao.getReceivedFriendRequests(Long.parseLong(id));
           List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
@@ -202,8 +204,8 @@
                           <!-- Challenge Box -->
                           <div class="notification-box">
                               <p><strong><%=userDao.getUserById(challenge.getSenderId()).getName()%></strong> has challenged you</p>
-                              <p><strong>Quiz ID:</strong><%= challenge.getQuizId()%> </p>
-                              <p><strong>Timestamp:</strong> <%= challenge.getTimestamp() %></p>
+                              <p><strong>Quiz Name: </strong><%= quizDao.getQuizById(challenge.getId()).getQuizName()%> </p>
+                              <p><strong>Timestamp: </strong> <%= challenge.getTimestamp() %></p>
                               <form action="acceptChallenge" method="post">
                                   <input type="hidden" name="challenge_id" value="<%= challenge.getId() %>">
                                   <input type="hidden" name="referringPage" value="<%= request.getRequestURI() %>">

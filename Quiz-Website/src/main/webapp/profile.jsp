@@ -99,6 +99,7 @@
     }
     out.println("<p><a href=\"/friends?id=" + user.getId() + "\">See Friends</a></p>");
   %>
+  <a href="history.jsp">View History</a>
   <jsp:include page="/add_friend" />
   <%
 

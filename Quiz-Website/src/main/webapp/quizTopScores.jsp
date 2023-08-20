@@ -3,6 +3,7 @@
 <%@ page import="java.time.Duration" %>
 <%@ page import="DAOinterfaces.QuizScoresDao" %>
 <%@ page import="DAOinterfaces.UserDao" %>
+<%@ page import="Objects.Score" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String quizIdString = request.getParameter("quiz_id");
@@ -16,8 +17,7 @@
     UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
 
     List<Long> userIds = quizScoresDao.getUserIds(quizId);
-    Map<Long, Double> scores = quizScoresDao.getScoresForQuiz(quizId);
-    Map<Long, Long> timeTakenMap = quizScoresDao.getTimeTakenForQuiz(quizId);
+    List<Score> scores = quizScoresDao.getBestScoresAndTimesForQuiz(quizId);
 %>
 
 <style>
@@ -45,13 +45,13 @@
         <th>Score</th>
         <th>Time Taken</th>
     </tr>
-    <% for (Long curUserId : userIds) {
-        Double score = scores.get(curUserId);
-        Duration duration = Duration.ofMillis(timeTakenMap.get(curUserId));
-        boolean isCurrentUser = curUserId == userId;
+    <% for (Score curScore : scores) {
+        Double score = curScore.getScore();
+        Duration duration = Duration.ofMillis(curScore.getTimeTaken());
+        boolean isCurrentUser = curScore.getUserId() == userId;
     %>
     <tr>
-        <td <%= isCurrentUser ? "class=\"user-score\"" : "" %>><%= userDao.getUserById(curUserId).getName() %></td>
+        <td <%= isCurrentUser ? "class=\"user-score\"" : "" %>><%= userDao.getUserById(curScore.getUserId()).getName() %></td>
         <td <%= isCurrentUser ? "class=\"user-score\"" : "" %>><%= score %></td>
         <td <%= isCurrentUser ? "class=\"user-score\"" : "" %>><%= duration.toHours() + " hours, " + (duration.toMinutes() % 60) + " minutes, " + (duration.toSeconds() % 60) + " seconds" %></td>
     </tr>
