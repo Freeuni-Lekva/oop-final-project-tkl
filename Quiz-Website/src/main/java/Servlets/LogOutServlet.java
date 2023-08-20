@@ -15,7 +15,6 @@ public class LogOutServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        System.out.println("al;fkals;k;fd");
         request.getSession().setAttribute("MainUserID", null);
         response.sendRedirect("navbar.jsp");
     }

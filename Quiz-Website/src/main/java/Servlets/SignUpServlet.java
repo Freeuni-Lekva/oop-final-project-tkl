@@ -31,7 +31,7 @@ public class SignUpServlet extends HttpServlet {
         if(result == UserDao.ACCOUNT_CREATED){
 
             User user = userDao.getUserByName(userName);
-            Long id = user.getId();
+            long id = user.getId();
             request.getSession().setAttribute("MainUserID", Long.toString(id));
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);

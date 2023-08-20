@@ -31,7 +31,7 @@ public class TestQuestionsSQL extends TestCase {
         // Create new user and quiz
         userSQL.register("toms343", "toma", "dadiani", "t");
         User user = userSQL.getUserByName("toms343");
-        long id = quizSQL.addNewQuiz(user, "Test Quiz", "Test Quiz Description", true, false);
+        long id = quizSQL.addNewQuiz(user, "Test Quiz", "Test Quiz Description", true, false, true);
 
         // Add questions to quiz
         questionsSQL.addSimpleQuestions(quizSQL.getQuizById(id), "Joseph Stalin Or Adolf Hitler?", Arrays.asList("Joseph", "Stalin", "Soso"), null);

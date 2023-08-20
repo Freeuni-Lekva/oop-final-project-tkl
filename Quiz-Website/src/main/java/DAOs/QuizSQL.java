@@ -77,12 +77,12 @@ public class QuizSQL implements QuizDao {
     }
 
     @Override
-    public long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice){
+    public long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice, boolean isSorted){
 
         if(creator == null) return ACCOUNT_NOT_FOUND;
         if(quizName.equals("") || description.equals("")) return NOT_ENOUGH_INFORMATION;
 
-        String query = "INSERT INTO quizzes (creator_id, quiz_name, quiz_description, is_draft, is_practice) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO quizzes (creator_id, quiz_name, quiz_description, is_draft, is_practice, is_sorted) VALUES(?, ?, ?, ?, ?, ?)";
 
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -92,6 +92,7 @@ public class QuizSQL implements QuizDao {
             statement.setString(3, description);
             statement.setBoolean(4, isDraft);
             statement.setBoolean(5, isPractice);
+            statement.setBoolean(6, isSorted);
 
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();

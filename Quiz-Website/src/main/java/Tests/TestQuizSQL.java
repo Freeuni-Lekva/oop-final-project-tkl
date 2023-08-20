@@ -65,8 +65,8 @@ public class TestQuizSQL extends TestCase {
 
         User t1 = users.getUserByName("t1");
 
-        long quizID3 = quizzes.addNewQuiz(null, "y", "a", false, false);
-        long quizID4 = quizzes.addNewQuiz(t1, "", "asd", true, false);
+        long quizID3 = quizzes.addNewQuiz(null, "y", "a", false, false, true);
+        long quizID4 = quizzes.addNewQuiz(t1, "", "asd", true, false, true);
 
         assertEquals(quizID3, QuizDao.ACCOUNT_NOT_FOUND);
         assertEquals(quizID4, QuizDao.NOT_ENOUGH_INFORMATION);
@@ -77,8 +77,8 @@ public class TestQuizSQL extends TestCase {
         User t1 = users.getUserByName("t1");
         User t2 = users.getUserByName("t2");
 
-        long quizID1 = quizzes.addNewQuiz(t1, "t1quiz", "t1description", true, false);
-        long quizID2 = quizzes.addNewQuiz(t2, "t2quiz", "t2description", true, false);
+        long quizID1 = quizzes.addNewQuiz(t1, "t1quiz", "t1description", true, false, true);
+        long quizID2 = quizzes.addNewQuiz(t2, "t2quiz", "t2description", true, false, true);
 
         assert(quizID1 != QuizDao.QUIZ_NOT_ADDED);
         assert(quizID1 != QuizDao.NOT_ENOUGH_INFORMATION);

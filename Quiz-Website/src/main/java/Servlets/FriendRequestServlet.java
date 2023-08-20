@@ -17,21 +17,7 @@ import java.util.List;
 public class FriendRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve the UserDao and FriendRequestDao instances from the ServletContext
-        FriendRequestDao friendRequestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
-
-        // Retrieve the username from the request parameter
-        String id = request.getParameter("id");
-        Long user_id = Long.parseLong(id);
-
-        // Get the list of received friend requests for the specified user
-        List<User> friend_requests = friendRequestDao.getReceivedFriendRequests(user_id);
-        // Set the "friend_requests" attribute in the session
-        request.getSession().setAttribute("friend_requests", friend_requests);
-
-        // Forward the request and response to the "friendRequest.jsp" page
-        RequestDispatcher rd = request.getRequestDispatcher("friendRequest.jsp");
-        rd.forward(request, response);
+        // Implementation is not necessary
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

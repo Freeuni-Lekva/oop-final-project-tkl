@@ -2,7 +2,8 @@
 <%@ page import="Objects.User" %>
 <%@ page import="DAOinterfaces.ChallengeDao" %>
 <%@ page import="Objects.Challenge" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="DAOinterfaces.FriendRequestDao" %><%--
   Created by IntelliJ IDEA.
   User: ddadi
   Date: 6/20/2023
@@ -20,11 +21,8 @@
 <head>
   <link rel="website-icon" type="x-icon" href="images/login.png">
   <title>TKL-Quiz-Website</title>
-  <%
-      String challengesIconURL = "images/ChallengeIcon.png";
-      String friendRequestsIconURL = "images/FriendRequestIcon.png";
-      String logoutIconURL = "images/logout.png";
-  %>
+
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
@@ -110,10 +108,11 @@
     .popover {
         position: absolute;
         top: 100px;
-        right: 94px;
+        right: 385px;
         background-color: mediumaquamarine;
         padding: 2px;
         display: none;
+        margin: 20px;
     }
 
     .popover__content {
@@ -142,35 +141,21 @@
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     }
 
-    .icon {
-        width: 40px;
-        height: 40px;
+    .bx{
+        color: white;
         cursor: pointer;
-        transition: all 0.3s ease 0s;
-        overflow: hidden;
+        border: 2px solid mediumaquamarine;
         border-radius: 50%;
-        border: 2px solid black;
+        padding: 8px;
+        transition: background-color 0.3s;
     }
 
-    .challenges-icon {
-        /* Adjust the path to the challenges icon */
-        background-image: url('<%= challengesIconURL %>');
-        background-size: cover; /* You can change this to 'contain' if desired */
-        /* Optionally, you can add some padding to create space around the icon */
+    .bx-log-out-circle{
+        padding: 6px;
     }
 
-    .friend-requests-icon {
-        /* Adjust the path to the friend requests icon */
-        background-image: url('<%= friendRequestsIconURL %>');
-    }
-
-    .logout-icon {
-        /* Adjust the path to the logout icon */
-        background-image: url('<%= logoutIconURL %>');
-        background-size: cover; /* You can change this to 'contain' if desired */
-
-        border: none;
-        border-radius: 0;
+    .bx:hover{
+        border-color: aquamarine;
     }
 
   </style>
@@ -197,10 +182,14 @@
 
   <%
       if(id != null){
+
           UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
           ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
+          FriendRequestDao requestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
+          List<User> requests = requestDao.getReceivedFriendRequests(Long.parseLong(id));
           List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
           User user = userDao.getUserById(Long.parseLong(id));
+
           if(user == null) return; %>
 
           <form class="search-form" action="search" method="POST">
@@ -209,10 +198,12 @@
           </form>
 
           <div class="buttons">
-              <div class="icon challenges-icon" onclick="toggleNotifications()"></div>
+              <div class="input-box">
+                  <i class='bx bx-bell' onclick="toggleNotifications()"></i>
+              </div>
               <!-- Notifications popover -->
               <div class="popover" id="notificationsPopover">
-                  <div class="popover__content">
+                  <div class="popover__content challenges">
 
                       <% int notifications = receivedChallenges==null?0:receivedChallenges.size();%>
                       <p>You have <%=notifications%> new challenges!</p>
@@ -221,7 +212,7 @@
                           <% for (Challenge challenge : receivedChallenges) { %>
                           <!-- Challenge Box -->
                           <div class="challenge-box">
-                              <p><%=user.getName() %><strong> has challenged you:</strong> </p>
+                              <p><%=userDao.getUserById(challenge.getSenderId()).getName()%><strong> has challenged you:</strong> </p>
                               <p><strong>Quiz ID:</strong><%= challenge.getQuizId()%> </p>
                               <p><strong>Timestamp:</strong> <%= challenge.getTimestamp() %></p>
                               <form action="acceptChallenge" method="post">
@@ -232,55 +223,41 @@
                           <% } %>
                       <% } %>
                   </div>
+
+                  <div class="popover__content friends">
+
+                      <% notifications = requests.size(); %>
+                      <p>You have <%=notifications%> new friend request</p>
+
+                      <% if(notifications != 0) { %>
+
+                            <% for(User friend: requests){ %>
+
+                                  <p><strong><%=friend.getName()%></strong> has sent you friend request</p>
+                                  <form action="/friend_request" method="post">
+                                      <input type="hidden" name="friendID" value="<%= user.getId() %>">
+                                      <button type="submit" name="accept" value="true">Accept</button>
+                                      <button class="reject" type="submit" name="accept" value="false">Reject</button>
+                                  </form>
+                            <% } %>
+                      <% } %>
+                  </div>
               </div>
           </div>
 
-            <!-- This script fetches the updated number of friend requests from the server -->
-            <!-- and displays it as a tooltip on mouseover -->
-           <p id="friendRequestsLink">
-               <a class="friend-requests-link" href="/friend_request?id=<%= user.getId() %>">Friend Requests</a>
-           </p>
+           <div class="circle-image">
+               <% String profileURL = "/profile?id=" + id; %>
+               <% String photoPath = "\"profile-button.jpg\""; %>
+               <% photoPath = "/images/" + user.getImagePath(); %>
+               <a href="<%=profileURL%>">
+                   <img src="<%=photoPath%>" alt="Go To Profile">
+                   <span>Go To Profile</span>
+               </a>
+           </div>
 
-           <!-- JavaScript to show tooltip on mouseover and handle click event -->
-           <script>
-               const friendRequestsLink = document.getElementById("friendRequestsLink");
-                // Function to fetch the friend requests count from the server
-               function fetchFriendRequestsCount() {
-                   fetch('/friendRequestsCount') // Replace with the actual endpoint URL
-                       .then(response => response.json())
-                       .then(data => {
-                           const numFriendRequests = data.count;
-                           friendRequestsLink.setAttribute("title", "You have " + numFriendRequests + " friend requests");
-                       })
-                       .catch(error => console.error('Error fetching friend requests count:', error));
-               }
-               // Fetch the friend requests count initially when the page loads
-               fetchFriendRequestsCount();
-
-               // Fetch the friend requests count every 100 mille seconds (adjust the interval as needed)
-               setInterval(fetchFriendRequestsCount, 100);
-
-               // Optionally, if you want to hide the tooltip on mouseout:
-               friendRequestsLink.addEventListener("mouseout", () => {
-                   friendRequestsLink.removeAttribute("title");
-               });
-           </script>
-
-    <div class="circle-image">
-              <% String profileURL = "/profile?id=" + id; %>
-              <% String photoPath = "\"profile-button.jpg\""; %>
-              <% photoPath = "/images/" + user.getImagePath(); %>
-              <a href="<%=profileURL%>">
-                  <img src="<%=photoPath%>" alt="Go To Profile">
-                  <span>Go To Profile</span>
-              </a>
-    </div>
-
-    <div class="buttons">
-        <a href = "/logout">
-            <div class="icon logout-icon"></div>
-        </a>
-    </div>
+           <div>
+               <a href="/logout"><i class='bx bx-log-out-circle' ></i></a>
+           </div>
     <% } %>
 
 </header>
