@@ -123,8 +123,11 @@ public class QuestionsSQL implements QuestionsDao {
     }
 
     @Override
-    public List<Question> getQuizQuestions(long id) {
-        return getQuestions(" WHERE quiz_id = " + id);
+    public List<Question> getQuizQuestions(long id, boolean isSorted) {
+
+        String query = " WHERE quiz_id = " + id;
+        query += isSorted ? " ORDER BY id": " ORDER BY RAND()";
+        return getQuestions(query);
     }
 
     /** helper function which adds only question to DB

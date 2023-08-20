@@ -49,4 +49,9 @@ public interface QuizDao {
      * function return true if change applies to DB, false otherwise
      */
     boolean changePracticeStatus(long id, boolean isPractice);
+
+    /** function tries to change is_sorted option for quiz
+     * function returns true if change applies to DB, false otherwise
+     */
+    boolean changeSortingStatus(long id, boolean isSorted);
 }

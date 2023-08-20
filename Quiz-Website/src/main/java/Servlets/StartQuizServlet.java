@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAOinterfaces.QuestionsDao;
+import DAOinterfaces.QuizDao;
 import DAOinterfaces.QuizScoresDao;
 import Objects.Questions.Question;
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ public class StartQuizServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         QuestionsDao questionsSQL = (QuestionsDao) request.getServletContext().getAttribute(QuestionsDao.ATTRIBUTE_NAME);
         QuizScoresDao quizScoresDao = (QuizScoresDao) request.getServletContext().getAttribute(QuizScoresDao.ATTRIBUTE_NAME);
+        QuizDao quizDao = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
 
         String quizIdString = request.getParameter("quiz_id");
         long quizId = Long.parseLong(quizIdString);
@@ -27,7 +29,7 @@ public class StartQuizServlet extends HttpServlet {
 
         long startTime = Long.parseLong(startTimeString);
 
-        List<Question> questions = questionsSQL.getQuizQuestions(quizId);
+        List<Question> questions = questionsSQL.getQuizQuestions(quizId, quizDao.getQuizById(quizId).isQuestionsSorted());
 
         // Process submitted answers
         double score = 0;

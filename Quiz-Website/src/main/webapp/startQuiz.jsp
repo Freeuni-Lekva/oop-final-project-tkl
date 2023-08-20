@@ -24,7 +24,7 @@
     Quiz currentQuiz = quizSQL.getQuizById(quizId);
 
     QuestionsDao questionsSQL = (QuestionsDao) request.getServletContext().getAttribute(QuestionsDao.ATTRIBUTE_NAME);
-    List<Question> questions = questionsSQL.getQuizQuestions(quizId);
+    List<Question> questions = questionsSQL.getQuizQuestions(quizId, quizSQL.getQuizById(quizId).isQuestionsSorted());
 %>
 
 <style>

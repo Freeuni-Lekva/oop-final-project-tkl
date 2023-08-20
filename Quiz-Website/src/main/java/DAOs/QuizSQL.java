@@ -32,7 +32,7 @@ public class QuizSQL implements QuizDao {
 
             while(resultSet.next()){
                 Quiz newQuiz = new Quiz(resultSet.getLong(1), resultSet.getLong(2), resultSet.getString(3),
-                        resultSet.getString(4), resultSet.getTime(5), resultSet.getBoolean(6), resultSet.getBoolean(7));
+                        resultSet.getString(4), resultSet.getTime(5), resultSet.getBoolean(6), resultSet.getBoolean(7), resultSet.getBoolean(8));
 
                 result.add(newQuiz);
             }
@@ -134,5 +134,10 @@ public class QuizSQL implements QuizDao {
     @Override
     public boolean changePracticeStatus(long id, boolean isPractice) {
         return changeHelper(id, "is_practice", isPractice);
+    }
+
+    @Override
+    public boolean changeSortingStatus(long id, boolean isSorted) {
+        return changeHelper(id, "is_sorted", isSorted);
     }
 }

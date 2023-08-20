@@ -299,7 +299,7 @@
     <jsp:include page="navbar.jsp"/>
 
     <% if(quizId != null && quizSQL.getQuizById(Long.parseLong(quizId)) != null) {
-        List<Question> questions = questionsSQL.getQuizQuestions(Long.parseLong(quizId));
+        List<Question> questions = questionsSQL.getQuizQuestions(Long.parseLong(quizId), quizSQL.getQuizById(Long.parseLong(quizId)).isQuestionsSorted());
         int numberOfQuestions = questions.size(); %>
 
         <div class="new-questions-container">
@@ -388,6 +388,14 @@
 
                     <% if(!quiz.isPractice()) { %>
                         <button name="activatePractice">Activate Practice Mode</button>
+                    <% } %>
+
+                    <% if(quiz.isQuestionsSorted()) { %>
+                        <button name="deactivateSortedQuestions">Randomize Questions</button>
+                    <% } %>
+
+                    <% if(!quiz.isQuestionsSorted()) { %>
+                        <button name="activateSortedQuestions">Sort Questions</button>
                     <% } %>
 
                     <button name="deleteQuiz">Delete Quiz</button>
