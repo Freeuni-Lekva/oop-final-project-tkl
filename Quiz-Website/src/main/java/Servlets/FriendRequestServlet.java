@@ -29,21 +29,22 @@ public class FriendRequestServlet extends HttpServlet {
         String accept = (String) request.getParameter("accept");
         String id = (String) request.getParameter("friendID");
 
-        String main_user_id = (String) request.getSession().getAttribute("MainUserID");
+        String mainUserId = (String) request.getSession().getAttribute("MainUserID");
 
         if (id != null) {
             Long friend_id = Long.parseLong(id);
             // Check if the request is accepted
             if (accept.equals("true")) {
                 // If accepted, add the friendship between the main user and the request user
-                friendsDao.addFriendship(Long.parseLong(main_user_id), friend_id);
+                friendsDao.addFriendship(Long.parseLong(mainUserId), friend_id);
             }
             // Remove the friend request between the main user and the request user
-            friendRequestDao.removeFriendRequest(Long.parseLong(main_user_id), friend_id);
-            friendRequestDao.removeFriendRequest(friend_id, Long.parseLong(main_user_id));
-            // Redirect the user to the "friend_request" page for the main user
+            friendRequestDao.removeFriendRequest(Long.parseLong(mainUserId), friend_id);
+            friendRequestDao.removeFriendRequest(friend_id, Long.parseLong(mainUserId));
         }
 
-        response.sendRedirect("/friend_request?id=" + main_user_id);
+        RequestDispatcher rd = request.getRequestDispatcher(request.getParameter("referringPage"));
+        rd.forward(request, response);
+
     }
 }

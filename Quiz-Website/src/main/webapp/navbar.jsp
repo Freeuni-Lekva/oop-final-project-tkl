@@ -233,9 +233,10 @@
 
                             <% for(User friend: requests){ %>
 
-                                  <p><strong><%=friend.getName()%></strong> has sent you friend request</p>
+                                  <p><strong><%=friend.getName()%></strong> has sent you friend request!</p>
                                   <form action="/friend_request" method="post">
-                                      <input type="hidden" name="friendID" value="<%= user.getId() %>">
+                                      <input type="hidden" name="friendID" value="<%= friend.getId() %>">
+                                      <input type="hidden" name="referringPage" value="<%= request.getRequestURI() %>">
                                       <button type="submit" name="accept" value="true">Accept</button>
                                       <button class="reject" type="submit" name="accept" value="false">Reject</button>
                                   </form>
