@@ -109,17 +109,17 @@
             <% if (question instanceof MultipleChoice) { %>
             <% MultipleChoice multipleChoice = (MultipleChoice) question;
                 for (int i = 0; i < multipleChoice.getPossibleAnswers().size(); i++) { %>
-            <input type="radio" name="<%= question.getId() %>" value="<%= multipleChoice.getPossibleAnswers().get(i) %>">
+            <input type="radio" name="<%= question.getId() %>" value="<%= multipleChoice.getPossibleAnswers().get(i) %>" required>
             <%= multipleChoice.getPossibleAnswers().get(i) %><br>
                 <% } %>
 
             <% }  else if (question instanceof PictureResponse) { %>
             <img src="/images/<%= question.getImageURL() %>" alt="Question Image"><br><br>
-            <input type="text" name="<%= question.getId() %>">
+            <input type="text" name="<%= question.getId() %>" required>
 
 
             <% } else if (question instanceof QuestionResponse) { %>
-            <input type="text" name="<%= question.getId() %>">
+            <input type="text" name="<%= question.getId() %>" required>
             <% } %>
 
         </div>
