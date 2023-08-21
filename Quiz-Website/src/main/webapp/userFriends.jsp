@@ -133,6 +133,7 @@
     .remove-button:hover {
       background-color: firebrick;
     }
+
   </style>
 
 </head>
@@ -146,19 +147,27 @@
     for (int i = 0; i < friends.size(); i++){
       User user = friends.get(i);
 %>
-<div class="circle-image">
-  <a href="/profile?id=<%= user.getId() %>">
-    <img src="/images/<%= user.getImagePath() %>" alt="Go to Profile">
-  </a>
-</div>
-<p class="username">Username: <%= user.getName() %></p>
+
+  <div class="circle-image">
+    <a href="/profile?id=<%= user.getId() %>">
+      <img src="/images/<%= user.getImagePath() %>" alt="Go to Profile">
+    </a>
+  </div>
+  <p class="username">Username: <%= user.getName() %></p>
 <%
   if(main_user_id.equals(profile)){
 %>
+  <form action="/send_note" method="POST">
+    <input type="hidden" name="friend_id" value="<%= user.getId() %>">
+    <input type="text" name="noteText" placeholder="Enter your note">
+    <button type="submit">Send Note</button>
+  </form>
+
 <form action="/remove_friend" method="POST">
   <input type="hidden" name="friend_id" value="<%= user.getId() %>">
   <button class="remove-button" type="submit">Remove Friend</button>
 </form>
+
 <%
       }
     }

@@ -42,6 +42,7 @@ public class NotesSQL implements NotesDao {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM notes WHERE id = ?");
             preparedStatement.setLong(1, id);
 
+
             if(preparedStatement.executeUpdate() != 0) return SUCCESS_DELETED;
 
         } catch (SQLException e) {
