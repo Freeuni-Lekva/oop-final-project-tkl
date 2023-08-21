@@ -18,13 +18,13 @@ public interface NotesDao {
     /** function tries to insert new message to DB
      * function returns integer as a result
       */
-    int add_note(Long sender_id, Long receiver_id, String text);
+    int sendNote(Long sender_id, Long receiver_id, String text);
 
     /** function tries to delete message from DB
      */
-    int delete_note(long id);
+    int deleteNote(long id);
 
     /** function retrieves a list of notes (messages) associated with a user.
       */
-    List<Note> get_notes(Long user_id);
+    List<Note> getNotes(Long user_id);
 }
