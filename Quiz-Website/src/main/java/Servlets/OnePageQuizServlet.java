@@ -4,7 +4,6 @@ import DAOinterfaces.QuestionsDao;
 import DAOinterfaces.QuizDao;
 import DAOinterfaces.QuizScoresDao;
 import Objects.Questions.Question;
-import Objects.Score;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +15,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "startQuizServlet", value = "/startQuiz")
-public class StartQuizServlet extends HttpServlet {
+@WebServlet(name = "onePageQuizServlet", value = "/startOnePageQuiz")
+public class OnePageQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

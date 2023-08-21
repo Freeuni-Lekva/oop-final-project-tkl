@@ -30,5 +30,11 @@ public class PictureResponse extends QuestionResponse {
     public String getImageURL(){
         return imageURL;
     }
+
+    public String getHTMLCode(){
+        String result = "<img src=\"/images/" + imageURL + "\" alt=\"Question Image\"><br><br>\n";
+        result += super.getHTMLCode();
+        return result;
+    }
 }
 

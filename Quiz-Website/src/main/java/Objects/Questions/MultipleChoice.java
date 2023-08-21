@@ -53,5 +53,15 @@ public class MultipleChoice extends QuestionResponse {
 
         return result;
     }
+
+    public String getHTMLCode(){
+
+        String result = "";
+
+        for(int i = 0; i < possibleAnswers.size(); i++){
+            result += "<input type=\"radio\" name=\"" + id + "\" value=\"" + possibleAnswers.get(i) + "\" required>" + possibleAnswers.get(i) +"<br>\n";
+        }
+        return result;
+    }
 }
 

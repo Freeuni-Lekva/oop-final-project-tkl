@@ -48,4 +48,9 @@ public class QuestionResponse implements Question{
     public List<String> getCorrectAnswers() {
         return correctAnswers;
     }
+
+    @Override
+    public String getHTMLCode() {
+        return "<input type=\"text\" name=\"" + id + "\" required>";
+    }
 }
