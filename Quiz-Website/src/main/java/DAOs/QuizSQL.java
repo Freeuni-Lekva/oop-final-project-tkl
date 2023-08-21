@@ -32,7 +32,7 @@ public class QuizSQL implements QuizDao {
 
             while(resultSet.next()){
                 Quiz newQuiz = new Quiz(resultSet.getLong(1), resultSet.getLong(2), resultSet.getString(3),
-                        resultSet.getString(4), resultSet.getTime(5), resultSet.getBoolean(6), resultSet.getBoolean(7), resultSet.getBoolean(8));
+                        resultSet.getString(4), resultSet.getTime(5), resultSet.getBoolean(6), resultSet.getBoolean(7), resultSet.getBoolean(8), resultSet.getBoolean(9));
 
                 result.add(newQuiz);
             }
@@ -82,7 +82,7 @@ public class QuizSQL implements QuizDao {
         if(creator == null) return ACCOUNT_NOT_FOUND;
         if(quizName.equals("") || description.equals("")) return NOT_ENOUGH_INFORMATION;
 
-        String query = "INSERT INTO quizzes (creator_id, quiz_name, quiz_description, is_draft, is_practice, is_sorted) VALUES(?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO quizzes (creator_id, quiz_name, quiz_description, is_draft, is_practice, is_sorted, is_one_page) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -93,6 +93,7 @@ public class QuizSQL implements QuizDao {
             statement.setBoolean(4, isDraft);
             statement.setBoolean(5, isPractice);
             statement.setBoolean(6, isSorted);
+            statement.setBoolean(7, true);
 
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();

@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS quizzes (
     is_draft TINYINT NOT NULL,
     is_practice TINYINT NOT NULL,
     is_sorted TINYINT NOT NULL,
+    is_one_page TINYINT NOT NULL,
     FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

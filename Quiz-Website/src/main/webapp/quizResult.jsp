@@ -53,17 +53,10 @@
 
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
-    .quiz-container {
-        padding: 5px;
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
     .result-container {
         max-width: 800px;
         margin: 0 auto;
-        text-align: left;
+        text-align: center;
     }
 
     .result-question {
@@ -74,13 +67,13 @@
         border-radius: 50px;
     }
 
-    .question img{
+     .result-question img{
         height: 300px;
         width: 300px;
         border-radius: 50px;
     }
 
-    .result-question h3 {
+    .result-tquestion h3 {
         color: white;
         margin: 0;
     }
@@ -129,6 +122,8 @@
         <p>Result: <span class="<%= isCorrect[i] ? "result-correct" : "result-wrong" %>"><%= isCorrect[i] ? "Correct" : "Wrong" %></span></p>
     </div>
     <% } %>
+
+    <button><a href="index.jsp">Home Page</a></button>
 </div>
 
 </body>
