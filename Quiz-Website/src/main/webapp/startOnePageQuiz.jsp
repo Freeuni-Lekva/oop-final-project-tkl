@@ -98,7 +98,7 @@
 <div class="quiz-container">
     <h1>Welcome to <%= currentQuiz.getQuizName() %></h1>
 
-    <form action="startQuiz" method="post">
+    <form action="startOnePageQuiz" method="post">
         <input type="hidden" name="quiz_id" value="<%= quizId %>">
         <input type="hidden" name="start_time" id="start_time">
 
@@ -106,21 +106,9 @@
         <div class="question">
             <h3><%= question.getQuestion() %></h3>
 
-            <% if (question instanceof MultipleChoice) { %>
-            <% MultipleChoice multipleChoice = (MultipleChoice) question;
-                for (int i = 0; i < multipleChoice.getPossibleAnswers().size(); i++) { %>
-            <input type="radio" name="<%= question.getId() %>" value="<%= multipleChoice.getPossibleAnswers().get(i) %>" required>
-            <%= multipleChoice.getPossibleAnswers().get(i) %><br>
-                <% } %>
-
-            <% }  else if (question instanceof PictureResponse) { %>
-            <img src="/images/<%= question.getImageURL() %>" alt="Question Image"><br><br>
-            <input type="text" name="<%= question.getId() %>" required>
-
-
-            <% } else if (question instanceof QuestionResponse) { %>
-            <input type="text" name="<%= question.getId() %>" required>
-            <% } %>
+            <%
+                out.println(question.getHTMLCode());
+            %>
 
         </div>
         <% } %>

@@ -142,4 +142,9 @@ public class QuizSQL implements QuizDao {
     public boolean changeSortingStatus(long id, boolean isSorted) {
         return changeHelper(id, "is_sorted", isSorted);
     }
+
+    @Override
+    public boolean changeQuestionShowingOption(long id, boolean isOnePage) {
+        return changeHelper(id, "is_one_page", isOnePage);
+    }
 }

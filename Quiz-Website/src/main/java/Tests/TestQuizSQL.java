@@ -59,6 +59,20 @@ public class TestQuizSQL extends TestCase {
 
         assert(quizzes.getQuizById(quizId).isDraft());
         assert(quizzes.getQuizById(quizId).isPractice());
+
+        quizzes.changeSortingStatus(quizId, true);
+        quizzes.changeQuestionShowingOption(quizId, true);
+
+        assert(quizzes.getQuizById(quizId).isOnePage());
+        assert(quizzes.getQuizById(quizId).isQuestionsSorted());
+
+        quizzes.changeSortingStatus(quizId, false);
+        quizzes.changeQuestionShowingOption(quizId, false);
+
+        assert(!quizzes.getQuizById(quizId).isOnePage());
+        assert(!quizzes.getQuizById(quizId).isQuestionsSorted());
+
+
     }
 
     public void addingIncorrectQuizzes(UserDao users, QuizDao quizzes){

@@ -398,6 +398,14 @@
                         <button name="activateSortedQuestions">Sort Questions</button>
                     <% } %>
 
+                    <% if(quiz.isOnePage()) { %>
+                        <button name="activateMultiplePage">Multiple Page Questions</button>
+                    <% } %>
+
+                    <% if(!quiz.isOnePage()) { %>
+                        <button name="activateOnePage">One Page Questions</button>
+                    <% } %>
+
                     <button name="deleteQuiz">Delete Quiz</button>
                 </div>
             </div>

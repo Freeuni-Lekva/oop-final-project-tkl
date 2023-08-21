@@ -24,8 +24,7 @@ public class CreateNewQuizServlet extends HttpServlet {
 
         String quizName = request.getParameter("quizName");
         String description = request.getParameter("description");
-        String practice = request.getParameter("isPractice");
-        boolean isPractice = (practice == null);
+        boolean isPractice = false;
 
         String mainUserID = (String) request.getSession().getAttribute("MainUserID");
 

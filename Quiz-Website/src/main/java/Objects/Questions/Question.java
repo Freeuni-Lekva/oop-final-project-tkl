@@ -24,4 +24,6 @@ public interface Question {
      * @return list of the correct answers for the given question
      */
     List<String> getCorrectAnswers();
+
+    String getHTMLCode();
 }
