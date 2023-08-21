@@ -16,7 +16,6 @@
     QuizScoresDao quizScoresDao = (QuizScoresDao) request.getServletContext().getAttribute(QuizScoresDao.ATTRIBUTE_NAME);
     UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
 
-    List<Long> userIds = quizScoresDao.getUserIds(quizId);
     List<Score> scores = quizScoresDao.getBestScoresAndTimesForQuiz(quizId);
 %>
 
