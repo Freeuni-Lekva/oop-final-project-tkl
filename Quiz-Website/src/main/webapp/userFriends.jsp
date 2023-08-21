@@ -36,29 +36,6 @@
       padding: 20px 10%;
     }
 
-    .logo {
-      cursor: pointer;
-    }
-
-    .navbar_options li {
-      display: inline-block;
-      padding: 0px 20px;
-    }
-
-    .navbar_options li a {
-      transition: all 0.3s ease 0s;
-    }
-
-    .navbar_options li a:hover {
-      color: aquamarine;
-    }
-
-    .buttons {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
     button {
       padding: 5px 20px;
       background-color: mediumaquamarine;
@@ -72,32 +49,11 @@
       background-color: aquamarine;
     }
 
-    .search-form {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
     .search-form input[type="text"] {
       padding: 5px;
       border-radius: 5px;
       border: none;
       outline: none;
-    }
-
-    .search-form input[type="submit"] {
-      padding: 5px 20px;
-      background-color: aquamarine;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease 0s;
-      color: white;
-      font-weight: bold;
-    }
-
-    .search-form input[type="submit"]:hover {
-      background-color: mediumaquamarine;
     }
 
     .circle-image {
@@ -114,10 +70,13 @@
     }
 
     .username {
-      color: white;
+      color: #fff;
       font-size: 18px;
       margin-top: 10px;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 4px black;
     }
+
 
     .remove-button {
       padding: 5px 20px;
@@ -134,44 +93,84 @@
       background-color: firebrick;
     }
 
+    input[type="text"] {
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      color: #999;
+    }
+
+    input[type="text"]:focus {
+      border-color: #66aaff;
+      outline: none;
+    }
+
+    .friend-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .friend-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .center-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
   </style>
 
 </head>
 <body>
-<%
-  List<User> friends = (List<User>) request.getSession().getAttribute("userFriends");
-  String main_user_id = (String) request.getSession().getAttribute("MainUserID");
-  String profile = (String) request.getSession().getAttribute("profileUser");
+<div class="center-container">
+  <%
+    List<User> friends = (List<User>) request.getSession().getAttribute("userFriends");
+    String main_user_id = (String) request.getSession().getAttribute("MainUserID");
+    String profile = (String) request.getSession().getAttribute("profileUser");
 
-  if (friends != null){
-    for (int i = 0; i < friends.size(); i++){
-      User user = friends.get(i);
-%>
+    if (friends != null){
+      for (int i = 0; i < friends.size(); i++){
+        User user = friends.get(i);
+  %>
 
-  <div class="circle-image">
-    <a href="/profile?id=<%= user.getId() %>">
-      <img src="/images/<%= user.getImagePath() %>" alt="Go to Profile">
-    </a>
+  <div class="friend-container">
+    <div class="circle-image">
+      <a href="/profile?id=<%= user.getId() %>">
+        <img src="/images/<%= user.getImagePath() %>" alt="Go to Profile">
+      </a>
+    </div>
+    <p class="username">Username: <%= user.getName() %></p>
+  <%
+    if(main_user_id.equals(profile)){
+  %>
+    <div class="friend-info">
+      <form action="/send_note" method="POST">
+        <input type="hidden" name="friend_id" value="<%= user.getId() %>">
+        <input type="text" name="noteText" placeholder="Enter your note">
+        <button type="submit">Send Note</button>
+      </form>
+
+      <form action="/remove_friend" method="POST">
+        <input type="hidden" name="friend_id" value="<%= user.getId() %>">
+        <button class="remove-button" type="submit">Remove Friend</button>
+      </form>
+    </div>
   </div>
-  <p class="username">Username: <%= user.getName() %></p>
-<%
-  if(main_user_id.equals(profile)){
-%>
-  <form action="/send_note" method="POST">
-    <input type="hidden" name="friend_id" value="<%= user.getId() %>">
-    <input type="text" name="noteText" placeholder="Enter your note">
-    <button type="submit">Send Note</button>
-  </form>
 
-<form action="/remove_friend" method="POST">
-  <input type="hidden" name="friend_id" value="<%= user.getId() %>">
-  <button class="remove-button" type="submit">Remove Friend</button>
-</form>
-
-<%
+  <%
+        }
       }
     }
-  }
-%>
+  %>
+</div>
 </body>
 </html>
