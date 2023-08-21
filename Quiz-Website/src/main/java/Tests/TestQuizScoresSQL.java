@@ -54,13 +54,6 @@ public class TestQuizScoresSQL {
         assertNotEquals(-1, id);
     }
 
-    @Test
-    public void testGetMaxScore() {
-        quizScoresDao.addNewScore(user.getId(), quiz.getQuizId(), 100, System.currentTimeMillis());
-        quizScoresDao.addNewScore(user.getId(), quiz.getQuizId(), 10, System.currentTimeMillis());
-
-        assertEquals(100, quizScoresDao.getMaxScore(quiz.getQuizId()), .0);
-    }
 
     @Test
     public void testGetUserIds() {

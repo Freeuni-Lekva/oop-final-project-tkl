@@ -119,9 +119,17 @@
                 </div>
 
                 <div class="quiz-buttons">
-                    <a href="startOnePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=0"><button>Start Quiz</button></a> <br>
+                    <% if(currentQuiz.isOnePage()) {%>
+                        <a href="startOnePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=0"><button>Start Quiz</button></a> <br>
+                    <% } else {%>
+                    <a href="startMultiplePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=0&question_index=0"><button>Start Quiz</button></a> <br>
+                    <% } %>
                     <% if(currentQuiz.isPractice()) { %>
-                        <a href="startOnePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=1"><button>Practice Mode</button></a>
+                        <% if(currentQuiz.isOnePage()) {%>
+                            <a href="startOnePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=1"><button>Practice Mode</button></a> <br>
+                        <% } else {%>
+                            <a href="startMultiplePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=1&question_index=0"><button>Practice Mode</button></a> <br>
+                        <% } %>
                     <% } %>
                 </div>
             </div>

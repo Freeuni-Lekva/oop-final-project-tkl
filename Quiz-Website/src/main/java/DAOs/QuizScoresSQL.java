@@ -20,8 +20,8 @@ public class QuizScoresSQL implements QuizScoresDao {
 
     @Override
     public long addNewScore(long userId, long quizId, double score, long startTime) {
-        String query = "INSERT INTO quiz_scores (user_id, quiz_id, score, max_score, start_time) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO quiz_scores (user_id, quiz_id, score, start_time) " +
+                "VALUES (?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -29,8 +29,7 @@ public class QuizScoresSQL implements QuizScoresDao {
             statement.setLong(1, userId);
             statement.setLong(2, quizId);
             statement.setDouble(3, score);
-            statement.setDouble(4, Math.max(score, getMaxScore(quizId)));
-            statement.setTimestamp(5, new Timestamp(startTime));
+            statement.setTimestamp(4, new Timestamp(startTime));
 
             statement.executeUpdate();
 
@@ -46,27 +45,6 @@ public class QuizScoresSQL implements QuizScoresDao {
         }
 
         return -1; // Return a default value in case of failure
-    }
-
-
-    @Override
-    public double getMaxScore(long quizId) {
-        String query = "SELECT MAX(max_score) AS max_score FROM quiz_scores WHERE quiz_id = ?";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, quizId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getDouble("max_score");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
     }
 
 
@@ -96,7 +74,7 @@ public class QuizScoresSQL implements QuizScoresDao {
     @Override
     public List<Score> getBestScoresAndTimesForQuiz(long quizId) {
         List<Score> scores = new ArrayList<>();
-        String query = "SELECT t1.user_id, t1.quiz_id, t1.max_score, t1.end_time, t1.start_time " +
+        String query = "SELECT t1.user_id, t1.quiz_id, t1.score, t1.end_time, t1.start_time " +
                 "FROM quiz_scores t1 " +
                 "JOIN ( " +
                 "    SELECT user_id, quiz_id, MAX(score) AS max_score " +
