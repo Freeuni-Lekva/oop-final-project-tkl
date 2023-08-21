@@ -1,19 +1,21 @@
 package Objects;
 
 public class Note {
-    private final long author_id;
 
+    private final long id;
+    private final long authorId;
     private final String text;
 
-    public Note(long author_id, String text) {
-        this.author_id = author_id;
+    public Note(long id, long authorId, String text) {
+        this.id = id;
+        this.authorId = authorId;
         this.text = text;
     }
 
-    public long getAuthor_id() {
-        return author_id;
+    public long getNoteId() { return id; }
+    public long getAuthorId() {
+        return authorId;
     }
-
     public String getText() {
         return text;
     }

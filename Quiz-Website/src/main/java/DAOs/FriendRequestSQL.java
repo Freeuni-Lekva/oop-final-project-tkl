@@ -78,7 +78,7 @@ public class FriendRequestSQL implements FriendRequestDao {
         try(Connection connection = dataSource.getConnection()) {
 
             // Prepare the first SQL query to retrieve sender names
-            String sqlQuery = "SELECT sender_id FROM friend_requests WHERE receiver_id = ?";
+            String sqlQuery = "SELECT sender_id FROM friend_requests WHERE receiver_id = ? ORDER BY id DESC";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             preparedStatement.setLong(1, user_id);
 
