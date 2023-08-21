@@ -10,9 +10,6 @@
 <%@ page import="Objects.Quiz" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Objects.Questions.Question" %>
-<%@ page import="Objects.Questions.QuestionResponse" %>
-<%@ page import="Objects.Questions.MultipleChoice" %>
-<%@ page import="Objects.Questions.PictureResponse" %>
 <%@ page import="DAOinterfaces.QuestionsDao" %>
 
 <%
@@ -25,6 +22,7 @@
 
     QuestionsDao questionsSQL = (QuestionsDao) request.getServletContext().getAttribute(QuestionsDao.ATTRIBUTE_NAME);
     List<Question> questions = questionsSQL.getQuizQuestions(quizId, quizSQL.getQuizById(quizId).isQuestionsSorted());
+    request.getSession().setAttribute("CurrentQuizQuestions", questions);
 %>
 
 <style>

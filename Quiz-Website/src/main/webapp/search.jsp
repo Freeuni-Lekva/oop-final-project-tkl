@@ -10,94 +10,50 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>Title</title>
+  <title>Friends</title>
   <style>
-    .circle-image {
+
+    .user-friend-container{
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
       width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      overflow: hidden;
+      margin-left: 50px;
+      margin-right: 50px;
+
     }
 
-    .circle-image img {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
+    .user-friends-container{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    body {
-      background-color: darkslategrey;
-      color: white;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 500;
-      font-size: 20px;
-    }
-
-    h1 {
-      color: #333;
-    }
-
-    .profile-container {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-    }
-
-    .profile-container p {
-      margin-bottom: 10px;
-    }
-
-    .edit-button {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: mediumaquamarine;
-      color: white;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .edit-button:hover {
-      background-color: aquamarine;
-    }
-
-    .profile-container a {
-      color: aquamarine;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .profile-container a:hover {
-      color: white;
-    }
   </style>
 </head>
 <body>
-<form action="search" method="POST">
-  <input type="text" name="searchUser" placeholder="Search...">
-  <input type="submit" value="Search">
-</form>
-<%
-  ArrayList<User> users = (ArrayList<User>) request.getAttribute("searchedUsers");
-  if (users != null){
-    for (int i = 0; i < users.size(); i ++){
-      User user = users.get(i);
-%>
-<div class="circle-image">
-  <a href="/profile?id=<%= user.getId() %>">
-    <img src="/images/<%= user.getImagePath() %>" alt="Go to Profile">
-  </a>
-</div>
-<form action="search" method="post">
-  <p>Username: <%= user.getName() %></p>
-</form>
-<%
+<jsp:include page="navbar.jsp"></jsp:include>
+<div class="user-friends-container">
+  <%
+    ArrayList<User> users = (ArrayList<User>) request.getAttribute("searchedUsers");
+    if (users != null){
+      for (int i = 0; i < users.size(); i ++){
+        User user = users.get(i);
+  %>
+  <div class="user-friend-container">
+    <div class="circle-image">
+      <a href="/profile?id=<%= user.getId() %>">
+        <img src="/images/<%= user.getImagePath() %>" alt="Go to Profile">
+      </a>
+    </div>
+    <p><%= user.getName() %></p>
+  </div>
+
+  <%
+      }
     }
-  }
-%>
+  %>
+</div>
 </body>
 </html>
