@@ -46,23 +46,6 @@
       margin-bottom: 10px;
     }
 
-    .edit-button {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: mediumaquamarine;
-      color: white;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .edit-button:hover {
-      background-color: aquamarine;
-    }
-
     .profile-container a {
       color: aquamarine;
       text-decoration: none;
