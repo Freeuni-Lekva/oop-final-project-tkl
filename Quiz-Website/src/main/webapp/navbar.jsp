@@ -181,10 +181,7 @@
 
           User user = userDao.getUserById(Long.parseLong(id));
 
-          if(user == null) {
-              request.getSession().setAttribute("MainUserID", null);
-              return;
-          } %>
+          if(user == null) return; %>
 
           <form class="search-form" action="search" method="POST">
               <input type="text" name="searchUser" placeholder="Search...">

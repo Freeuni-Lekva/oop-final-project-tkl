@@ -21,6 +21,22 @@
     Integer indexObj = (Integer) request.getSession().getAttribute("CurrentQuizQuestionsIndex");
     int index = indexObj != null ? indexObj : 0;
     Question currentQuestion = questions.get(index);
+
+    String isAnswered = (String) request.getSession().getAttribute("CurrenQuizQuestionIsAnswered");
+    String answer = "";
+    String isLastQuestionString = (String) request.getSession().getAttribute("CurrenQuizQuestionIsLast");
+    boolean isLastQuestion = false;
+
+    if(isAnswered != null){
+        answer = (String) request.getSession().getAttribute("CurrenQuizQuestionAnswer");
+        request.getSession().removeAttribute("CurrenQuizQuestionIsAnswered");
+        request.getSession().removeAttribute("CurrenQuizQuestionAnswer");
+    }
+
+    if(isLastQuestionString != null){
+        isLastQuestion = true;
+        request.getSession().removeAttribute("CurrenQuizQuestionIsLast");
+    }
 %>
 
 <style>
@@ -72,6 +88,14 @@
         position: relative;
         top: 4px;
     }
+
+    .result-correct {
+        color: green;
+    }
+
+    .result-wrong {
+        color: red;
+    }
 </style>
 
 <html>
@@ -83,19 +107,35 @@
 <jsp:include page="navbar.jsp"></jsp:include>
 
 <div class="question-container">
-    <h1>Welcome to <%= currentQuiz.getQuizName() %></h1>
+    <h1><%= currentQuiz.getQuizName() %></h1>
 
-    <form action="startMultiplePageQuiz" method="post">
+    <% if(isAnswered == null){ %>
+        <form action="startMultiplePageQuiz" method="post">
+            <div class="question">
+                <h3><%=currentQuestion.getQuestion()%></h3>
+                <input type="hidden" name="quiz_id" value="<%= quizId %>">
+                <%
+                    out.print(currentQuestion.getHTMLCode());
+                %>
+                <button>Answer Question</button>
+            </div>
+        </form>
+    <% } %>
+
+    <% if(isAnswered != null) { %>
         <div class="question">
-            <h3><%=currentQuestion.getQuestion()%></h3>
-            <input type="hidden" name="quiz_id" value="<%= quizId %>">
-            <%
-                out.print(currentQuestion.getHTMLCode());
-            %>
-            <button>Answer Question</button>
-        </div>
+            <% out.print(answer); %>
 
-    </form>
+            <% if(!isLastQuestion) { %>
+                <a href="startMultiplePageQuiz.jsp?quiz_id=<%=quizId%>"><button>Next</button></a>
+            <% } %>
+
+            <% if(isLastQuestion) { %>
+                <a href="multiplePageQuizResult.jsp"><button>Finish Quiz</button></a>
+            <% } %>
+
+        </div>
+    <% } %>
 
 </div>
 

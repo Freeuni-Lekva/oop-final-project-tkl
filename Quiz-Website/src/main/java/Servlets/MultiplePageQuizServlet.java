@@ -32,13 +32,30 @@ public class MultiplePageQuizServlet extends HttpServlet {
         int index = (int) request.getSession().getAttribute("CurrentQuizQuestionsIndex");
         List<Question> questions = (List<Question>) request.getSession().getAttribute("CurrentQuizQuestions");
 
-        if(questions.size() == index + 1){
+        // Checking users answer
+        String userAnswer = request.getParameter(String.valueOf(questions.get(index).getId()));
+        Question currentQuestion = questions.get(index);
+        boolean isCorrect = currentQuestion.checkAnswer(userAnswer);
 
-            RequestDispatcher rd = request.getRequestDispatcher("multiplePageQuizResult.jsp");
-            rd.forward(request, response);
-            return;
+        String answer = "<p>User's Answer:<p class=" + (isCorrect ? "\"result-correct\"" : "\"result-wrong\"") + ">" + userAnswer + "</p></p>\n" +
+                "<p>Correct Answers: <p class=\"result-correct\">";
+
+        for(String correctAnswer: currentQuestion.getCorrectAnswers()){
+            answer += " " + correctAnswer;
+        }
+        answer += "</p></p>";
+
+        // Setting attributes to session, so startMultiplePageQuiz page firstly shows correct answer and users answer
+        request.getSession().setAttribute("CurrenQuizQuestionIsAnswered", "yee");
+        request.getSession().setAttribute("CurrenQuizQuestionAnswer", answer);
+
+        // Setting attribute to determine if user is on last question
+        if(questions.size() == index + 1) {
+            index --;
+            request.getSession().setAttribute("CurrenQuizQuestionIsLast", "yee");
         }
 
+        // Forward users request
         request.getSession().setAttribute("CurrentQuizQuestionsIndex", index + 1);
         RequestDispatcher rd = request.getRequestDispatcher("startMultiplePageQuiz.jsp?quiz_id=" + quizId);
         rd.forward(request, response);
@@ -70,6 +87,6 @@ public class MultiplePageQuizServlet extends HttpServlet {
         // Redirect user to next page
         RequestDispatcher rd = request.getRequestDispatcher("startMultiplePageQuiz.jsp?quiz_id="+quizId);
         rd.forward(request, response);
-
     }
+
 }
