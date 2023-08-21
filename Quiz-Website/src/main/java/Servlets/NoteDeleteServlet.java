@@ -19,7 +19,7 @@ public class NoteDeleteServlet extends HttpServlet {
         NotesDao notesDao = (NotesDao) request.getServletContext().getAttribute(NotesDao.ATTRIBUTE_NAME);
         String id = request.getParameter("NoteID");
 
-        if(id != null) notesDao.delete_note(Long.parseLong(id));
+        if(id != null) notesDao.deleteNote(Long.parseLong(id));
 
 
         RequestDispatcher rd = request.getRequestDispatcher(request.getParameter("referringPage"));

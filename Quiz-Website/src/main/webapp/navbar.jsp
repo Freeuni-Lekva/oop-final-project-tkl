@@ -177,7 +177,7 @@
           FriendRequestDao requestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
           List<User> requests = requestDao.getReceivedFriendRequests(Long.parseLong(id));
           List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
-          List<Note> notes = notesDao.get_notes(Long.parseLong(id));
+          List<Note> notes = notesDao.getNotes(Long.parseLong(id));
 
           User user = userDao.getUserById(Long.parseLong(id));
 
