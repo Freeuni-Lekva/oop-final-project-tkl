@@ -1,5 +1,6 @@
 USE final_project;
 
+DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS simple_answers;
 DROP TABLE IF EXISTS multiple_choice_answers;
 DROP TABLE IF EXISTS questions;
@@ -86,7 +87,6 @@ CREATE TABLE IF NOT EXISTS multiple_choice_answers (
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE IF NOT EXISTS quiz_scores (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT,
@@ -98,7 +98,6 @@ CREATE TABLE IF NOT EXISTS quiz_scores (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE IF NOT EXISTS notes (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
