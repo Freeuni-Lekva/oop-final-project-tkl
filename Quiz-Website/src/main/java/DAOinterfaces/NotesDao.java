@@ -1,5 +1,9 @@
 package DAOinterfaces;
 
+import Objects.Note;
+
+import java.util.List;
+
 public interface NotesDao {
     int SUCCESS_SENT = 1;
     int FAILED_SENT = 2;
@@ -7,5 +11,5 @@ public interface NotesDao {
     int FAILED_DELETED = 4;
     void send_note(Long sender_id, Long receiver_id, String text);
     void delete_note(Long sender_id, Long receiver_id, String text);
-    void get_notes(Long user_id);
+    List<Note> get_notes(Long user_id);
 }
