@@ -92,7 +92,6 @@ CREATE TABLE IF NOT EXISTS quiz_scores (
     user_id BIGINT,
     quiz_id BIGINT,
     score DOUBLE,
-    max_score DOUBLE,
     start_time DATETIME,
     end_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,

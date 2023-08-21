@@ -24,13 +24,6 @@ public interface QuizScoresDao {
      */
     long addNewScore(long userId, long quizId, double score, long startTime);
 
-    /**
-     * Retrieves the maximum score achieved for a specific quiz.
-     *
-     * @param quizId The ID of the quiz.
-     * @return The maximum score achieved for the quiz.
-     */
-    double getMaxScore(long quizId);
 
     /**
      * Retrieves a list of user IDs who have taken a specific quiz.
