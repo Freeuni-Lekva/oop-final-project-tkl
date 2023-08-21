@@ -67,7 +67,8 @@ public class MultiplePageQuizServlet extends HttpServlet {
             long userId = Long.parseLong((String) request.getSession().getAttribute("MainUserID"));
             QuizScoresDao quizScoresDao = (QuizScoresDao) request.getServletContext().getAttribute(QuizScoresDao.ATTRIBUTE_NAME);
 
-            quizScoresDao.addNewScore(userId, quizId, score, startTime);
+            long scoreId = quizScoresDao.addNewScore(userId, quizId, score, startTime);
+            request.getSession().setAttribute("CurrenQuizScoreID", scoreId);
         }
 
         // Forward users request

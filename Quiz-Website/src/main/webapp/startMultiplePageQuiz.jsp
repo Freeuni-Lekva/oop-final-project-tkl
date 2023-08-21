@@ -131,7 +131,7 @@
             <% } %>
 
             <% if(isLastQuestion) { %>
-                <a href="multiplePageQuizResult.jsp"><button>Finish Quiz</button></a>
+                <a href="multiplePageQuizResult.jsp?quiz_id=<%=quizId%>"><button>Finish Quiz</button></a>
             <% } %>
 
         </div>
