@@ -90,7 +90,7 @@ public class QuizScoresSQL implements QuizScoresDao {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     long userId = resultSet.getLong("user_id");
-                    double maxScore = resultSet.getDouble("max_score");
+                    double maxScore = resultSet.getDouble("score");
                     Timestamp start_time = resultSet.getTimestamp("start_time");
                     Timestamp end_time = resultSet.getTimestamp("end_time");
                     long timeTaken = end_time.getTime() - start_time.getTime();
