@@ -100,6 +100,15 @@ CREATE TABLE IF NOT EXISTS quiz_scores (
 );
 
 
+CREATE TABLE IF NOT EXISTS notes (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    sender_id BIGINT NOT NULL,
+    receiver_id BIGINT NOT NULL,
+    note TEXT NOT NULL,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 
 
 
