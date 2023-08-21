@@ -92,10 +92,6 @@
                 <i class='bx bx-message-square-dots'></i> <label>Quiz Description (60 Words Max): </label>
                 <input type="text" placeholder="Description" class="text-field" name="description" maxlength="60" required>
             </div>
-            <div class="new-quiz-option-container">
-                <i class='bx bx-ghost'></i> <label>Is Practice: </label>
-                <input type="checkbox" name="isPractice">
-            </div>
             <button type="submit">Add Questions</button>
         </form>
     </div>

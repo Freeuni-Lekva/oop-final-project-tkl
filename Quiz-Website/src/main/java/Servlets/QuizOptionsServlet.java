@@ -31,14 +31,18 @@ public class QuizOptionsServlet extends HttpServlet {
         String isDeleteQuiz = request.getParameter("deleteQuiz");
         String isActivateQuestionSorted = request.getParameter("activateSortedQuestions");
         String isDeactivateQuestionSorted = request.getParameter("deactivateSortedQuestions");
+        String isActivateMultiplePage = request.getParameter("activateMultiplePage");
+        String isActivateOnePage = request.getParameter("activateOnePage");
 
-        String quizId = request.getParameter("quiz_id");
+        String quizIdString = request.getParameter("quiz_id");
 
-        if(quizId == null){
+        if(quizIdString == null){
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
             return;
         }
+
+        long quizId = Long.parseLong(quizIdString);
 
         if(isDeleteQuestion != null){
 
@@ -47,31 +51,39 @@ public class QuizOptionsServlet extends HttpServlet {
 
         }else if(isActivateQuiz != null){
 
-            quizSQL.changeDraftStatus(Long.parseLong(quizId), false);
+            quizSQL.changeDraftStatus(quizId, false);
 
         }else if(isDeactivateQuiz != null){
 
-            quizSQL.changeDraftStatus(Long.parseLong(quizId), true);
+            quizSQL.changeDraftStatus(quizId, true);
 
         }else if(isActivatePractice != null){
 
-            quizSQL.changePracticeStatus(Long.parseLong(quizId), true);
+            quizSQL.changePracticeStatus(quizId, true);
 
         }else if(isDeactivatePractice != null){
 
-            quizSQL.changePracticeStatus(Long.parseLong(quizId), false);
+            quizSQL.changePracticeStatus(quizId, false);
 
         }else if(isActivateQuestionSorted != null) {
 
-            quizSQL.changeSortingStatus(Long.parseLong(quizId), true);
+            quizSQL.changeSortingStatus(quizId, true);
 
         }else if(isDeactivateQuestionSorted != null){
 
-            quizSQL.changeSortingStatus(Long.parseLong(quizId), false);
+            quizSQL.changeSortingStatus(quizId, false);
+
+        }else if(isActivateMultiplePage != null){
+
+            quizSQL.changeQuestionShowingOption(quizId, false);
+
+        }else if(isActivateOnePage != null){
+
+            quizSQL.changeQuestionShowingOption(quizId, true);
 
         }else if(isDeleteQuiz != null){
 
-            quizSQL.removeQuizById(Long.parseLong(quizId));
+            quizSQL.removeQuizById(quizId);
             RequestDispatcher rd = request.getRequestDispatcher("createQuiz.jsp");
             rd.forward(request, response);
             return;

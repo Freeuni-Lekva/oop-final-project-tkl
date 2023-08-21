@@ -179,7 +179,10 @@
           List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
           User user = userDao.getUserById(Long.parseLong(id));
 
-          if(user == null) return; %>
+          if(user == null) {
+              request.getSession().setAttribute("MainUserID", null);
+              return;
+          } %>
 
           <form class="search-form" action="search" method="POST">
               <input type="text" name="searchUser" placeholder="Search...">

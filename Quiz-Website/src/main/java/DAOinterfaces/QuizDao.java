@@ -54,4 +54,9 @@ public interface QuizDao {
      * function returns true if change applies to DB, false otherwise
      */
     boolean changeSortingStatus(long id, boolean isSorted);
+
+    /** function tries to change is_one_page option for quiz
+     * function returns true if change applies to DB, false otherwise
+     */
+    boolean changeQuestionShowingOption(long id, boolean isOnePage);
 }
