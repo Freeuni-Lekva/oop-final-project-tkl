@@ -31,14 +31,14 @@ public class TestQuestionsSQL extends TestCase {
         // Create new user and quiz
         userSQL.register("toms343", "toma", "dadiani", "t");
         User user = userSQL.getUserByName("toms343");
-        long id = quizSQL.addNewQuiz(user, "Test Quiz", "Test Quiz Description", true, false);
+        long id = quizSQL.addNewQuiz(user, "Test Quiz", "Test Quiz Description", true, false, true);
 
         // Add questions to quiz
         questionsSQL.addSimpleQuestions(quizSQL.getQuizById(id), "Joseph Stalin Or Adolf Hitler?", Arrays.asList("Joseph", "Stalin", "Soso"), null);
         questionsSQL.addSimpleQuestions(quizSQL.getQuizById(id), "What is on picture?", Arrays.asList("Batman", "Betmeni", "Gamura"), "default_picture.jpg");
         questionsSQL.addMultipleChoiceQuestions(quizSQL.getQuizById(id), "Multiple choice", Arrays.asList("A", "B", "C", "D", "E", "F"), Arrays.asList(0, 2, 4));
 
-        List<Question> questions = questionsSQL.getQuizQuestions(id);
+        List<Question> questions = questionsSQL.getQuizQuestions(id, quizSQL.getQuizById(id).isQuestionsSorted());
         assertEquals(questions.size(), 3);
 
         assertEquals(questions.get(0).getQuestion(), "Joseph Stalin Or Adolf Hitler?");
@@ -56,7 +56,7 @@ public class TestQuestionsSQL extends TestCase {
         assertTrue(questionsSQL.deleteQuestion(questions.get(1).getId()));
         assertFalse(questionsSQL.deleteQuestion(questions.get(questions.size() - 1).getId() + 10));
         assertNull(questionsSQL.getQuestionById(-1));
-        questions = questionsSQL.getQuizQuestions(id);
+        questions = questionsSQL.getQuizQuestions(id, quizSQL.getQuizById(id).isQuestionsSorted());
         assertEquals(questions.size(), 2);
     }
 }

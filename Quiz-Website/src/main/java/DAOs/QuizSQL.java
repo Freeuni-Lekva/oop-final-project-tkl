@@ -32,7 +32,7 @@ public class QuizSQL implements QuizDao {
 
             while(resultSet.next()){
                 Quiz newQuiz = new Quiz(resultSet.getLong(1), resultSet.getLong(2), resultSet.getString(3),
-                        resultSet.getString(4), resultSet.getTime(5), resultSet.getBoolean(6), resultSet.getBoolean(7));
+                        resultSet.getString(4), resultSet.getTime(5), resultSet.getBoolean(6), resultSet.getBoolean(7), resultSet.getBoolean(8), resultSet.getBoolean(9));
 
                 result.add(newQuiz);
             }
@@ -77,12 +77,12 @@ public class QuizSQL implements QuizDao {
     }
 
     @Override
-    public long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice){
+    public long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice, boolean isSorted){
 
         if(creator == null) return ACCOUNT_NOT_FOUND;
         if(quizName.equals("") || description.equals("")) return NOT_ENOUGH_INFORMATION;
 
-        String query = "INSERT INTO quizzes (creator_id, quiz_name, quiz_description, is_draft, is_practice) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO quizzes (creator_id, quiz_name, quiz_description, is_draft, is_practice, is_sorted, is_one_page) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -92,6 +92,8 @@ public class QuizSQL implements QuizDao {
             statement.setString(3, description);
             statement.setBoolean(4, isDraft);
             statement.setBoolean(5, isPractice);
+            statement.setBoolean(6, isSorted);
+            statement.setBoolean(7, true);
 
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -134,5 +136,10 @@ public class QuizSQL implements QuizDao {
     @Override
     public boolean changePracticeStatus(long id, boolean isPractice) {
         return changeHelper(id, "is_practice", isPractice);
+    }
+
+    @Override
+    public boolean changeSortingStatus(long id, boolean isSorted) {
+        return changeHelper(id, "is_sorted", isSorted);
     }
 }

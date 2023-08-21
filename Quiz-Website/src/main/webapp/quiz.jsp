@@ -120,7 +120,9 @@
 
                 <div class="quiz-buttons">
                     <a href="startQuiz.jsp?quiz_id=<%=quizId%>&is_practice=0"><button>Start Quiz</button></a> <br>
-                    <a href="startQuiz.jsp?quiz_id=<%=quizId%>&is_practice=1"><button>Practice Mode</button></a>
+                    <% if(currentQuiz.isPractice()) { %>
+                        <a href="startQuiz.jsp?quiz_id=<%=quizId%>&is_practice=1"><button>Practice Mode</button></a>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -130,7 +132,7 @@
         <div class="bottom-quiz-container">
 
             <!-- that div can be used for comments/statistics -->
-            <h1>that div can be used for comments/statistics</h1>
+            <jsp:include page="quizTopScores.jsp"></jsp:include>
 
         </div>
     </div>

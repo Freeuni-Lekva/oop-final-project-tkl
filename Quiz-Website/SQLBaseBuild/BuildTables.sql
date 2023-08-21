@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS simple_answers;
 DROP TABLE IF EXISTS multiple_choice_answers;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS challenge;
+DROP TABLE IF EXISTS quiz_scores;
 DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS friend_requests;
 DROP TABLE IF EXISTS friendships;
@@ -45,8 +46,11 @@ CREATE TABLE IF NOT EXISTS quizzes (
     creation_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_draft TINYINT NOT NULL,
     is_practice TINYINT NOT NULL,
+    is_sorted TINYINT NOT NULL,
+    is_one_page TINYINT NOT NULL,
     FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
 CREATE TABLE IF NOT EXISTS challenge (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     sender_id BIGINT NOT NULL,
@@ -80,6 +84,19 @@ CREATE TABLE IF NOT EXISTS multiple_choice_answers (
     answer TEXT NOT NULL,
     is_correct TINYINT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS quiz_scores (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT,
+    quiz_id BIGINT,
+    score DOUBLE,
+    max_score DOUBLE,
+    start_time DATETIME,
+    end_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
 );
 
 

@@ -1,5 +1,6 @@
 package Objects.Questions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,17 @@ public class MultipleChoice extends QuestionResponse {
             if(possibleAnswers.get(correctIndex).equalsIgnoreCase(userAnswer)) return true;
         }
         return false;
+    }
+
+    @Override
+    public List<String> getCorrectAnswers(){
+        List<String> result = new ArrayList<>();
+        for (int index :
+                correctChoiceIndex) {
+            result.add(possibleAnswers.get(index));
+        }
+
+        return result;
     }
 }
 

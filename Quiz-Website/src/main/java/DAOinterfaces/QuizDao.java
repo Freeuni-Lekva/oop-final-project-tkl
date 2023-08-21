@@ -38,7 +38,7 @@ public interface QuizDao {
     /** function tries to add new quiz to DB
      * function returns -1 if error occurs, id if new quiz otherwise
      */
-    long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice);
+    long addNewQuiz(User creator, String quizName, String description, boolean isDraft, boolean isPractice, boolean isSorted);
 
     /** function tries to change is_draft option for quiz
      * function returns true if change applies to DB, false otherwise
@@ -49,4 +49,9 @@ public interface QuizDao {
      * function return true if change applies to DB, false otherwise
      */
     boolean changePracticeStatus(long id, boolean isPractice);
+
+    /** function tries to change is_sorted option for quiz
+     * function returns true if change applies to DB, false otherwise
+     */
+    boolean changeSortingStatus(long id, boolean isSorted);
 }

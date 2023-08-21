@@ -30,7 +30,7 @@ public interface QuestionsDao {
      *
      * returned list of questions will be sorted by questions id
      */
-    List<Question> getQuizQuestions(long id);
+    List<Question> getQuizQuestions(long id, boolean isSorted);
 
     /** function tries to add new question to DB, function can't handle multiple choice questions
      * returns true if question adds to db successfully, false otherwise

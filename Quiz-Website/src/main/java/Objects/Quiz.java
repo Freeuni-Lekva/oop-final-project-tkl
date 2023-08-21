@@ -11,10 +11,10 @@ public class Quiz {
     private final Date createTime;
     private final boolean isDraft;
     private final boolean isPractice;
+    private final boolean isQuestionsSorted;
+    private final boolean isOnePage;
 
-
-
-    public Quiz(long quizId, long creatorId, String quizName, String description, Date createTime, boolean isDraft, boolean isPractice) {
+    public Quiz(long quizId, long creatorId, String quizName, String description, Date createTime, boolean isDraft, boolean isPractice, boolean isQuestionsSorted, boolean isOnePage) {
         this.quizId = quizId;
         this.creatorId = creatorId;
         this.quizName = quizName;
@@ -22,6 +22,8 @@ public class Quiz {
         this.createTime = createTime;
         this.isDraft = isDraft;
         this.isPractice = isPractice;
+        this.isQuestionsSorted = isQuestionsSorted;
+        this.isOnePage = isOnePage;
     }
 
     public long getQuizId(){
@@ -41,4 +43,6 @@ public class Quiz {
         return isDraft;
     }
     public boolean isPractice() { return isPractice; }
+    public boolean isQuestionsSorted() { return isQuestionsSorted; }
+    public boolean isOnePage(){ return isOnePage; }
 }

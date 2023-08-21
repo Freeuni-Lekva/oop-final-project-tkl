@@ -29,6 +29,8 @@ public class QuizOptionsServlet extends HttpServlet {
         String isActivatePractice = request.getParameter("activatePractice");
         String isDeactivatePractice = request.getParameter("deactivatePractice");
         String isDeleteQuiz = request.getParameter("deleteQuiz");
+        String isActivateQuestionSorted = request.getParameter("activateSortedQuestions");
+        String isDeactivateQuestionSorted = request.getParameter("deactivateSortedQuestions");
 
         String quizId = request.getParameter("quiz_id");
 
@@ -58,6 +60,14 @@ public class QuizOptionsServlet extends HttpServlet {
         }else if(isDeactivatePractice != null){
 
             quizSQL.changePracticeStatus(Long.parseLong(quizId), false);
+
+        }else if(isActivateQuestionSorted != null) {
+
+            quizSQL.changeSortingStatus(Long.parseLong(quizId), true);
+
+        }else if(isDeactivateQuestionSorted != null){
+
+            quizSQL.changeSortingStatus(Long.parseLong(quizId), false);
 
         }else if(isDeleteQuiz != null){
 

@@ -31,7 +31,7 @@ public class CreateNewQuizServlet extends HttpServlet {
 
         if(mainUserID == null) return;
 
-        long id = quizSQL.addNewQuiz(userSQL.getUserById(Long.parseLong(mainUserID)), quizName, description, true, isPractice);
+        long id = quizSQL.addNewQuiz(userSQL.getUserById(Long.parseLong(mainUserID)), quizName, description, true, isPractice, true);
 
         if(id != -1){
             RequestDispatcher rd = request.getRequestDispatcher("editQuizQuestions.jsp?quiz_id=" +id);

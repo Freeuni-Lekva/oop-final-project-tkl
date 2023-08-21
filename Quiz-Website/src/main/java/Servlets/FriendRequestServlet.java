@@ -17,21 +17,7 @@ import java.util.List;
 public class FriendRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve the UserDao and FriendRequestDao instances from the ServletContext
-        FriendRequestDao friendRequestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
-
-        // Retrieve the username from the request parameter
-        String id = request.getParameter("id");
-        Long user_id = Long.parseLong(id);
-
-        // Get the list of received friend requests for the specified user
-        List<User> friend_requests = friendRequestDao.getReceivedFriendRequests(user_id);
-        // Set the "friend_requests" attribute in the session
-        request.getSession().setAttribute("friend_requests", friend_requests);
-
-        // Forward the request and response to the "friendRequest.jsp" page
-        RequestDispatcher rd = request.getRequestDispatcher("friendRequest.jsp");
-        rd.forward(request, response);
+        // Implementation is not necessary
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,24 +26,25 @@ public class FriendRequestServlet extends HttpServlet {
         FriendRequestDao friendRequestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
 
         // Retrieve the values from the request parameters
-        String accept = (String) request.getParameter("accept");
-        String id = (String) request.getParameter("friendID");
+        String accept = request.getParameter("accept");
+        String id = request.getParameter("friendID");
 
-        String main_user_id = (String) request.getSession().getAttribute("MainUserID");
+        String mainUserId = (String) request.getSession().getAttribute("MainUserID");
 
         if (id != null) {
             Long friend_id = Long.parseLong(id);
             // Check if the request is accepted
             if (accept.equals("true")) {
                 // If accepted, add the friendship between the main user and the request user
-                friendsDao.addFriendship(Long.parseLong(main_user_id), friend_id);
+                friendsDao.addFriendship(Long.parseLong(mainUserId), friend_id);
             }
             // Remove the friend request between the main user and the request user
-            friendRequestDao.removeFriendRequest(Long.parseLong(main_user_id), friend_id);
-            friendRequestDao.removeFriendRequest(friend_id, Long.parseLong(main_user_id));
-            // Redirect the user to the "friend_request" page for the main user
+            friendRequestDao.removeFriendRequest(Long.parseLong(mainUserId), friend_id);
+            friendRequestDao.removeFriendRequest(friend_id, Long.parseLong(mainUserId));
         }
 
-        response.sendRedirect("/friend_request?id=" + main_user_id);
+        RequestDispatcher rd = request.getRequestDispatcher(request.getParameter("referringPage"));
+        rd.forward(request, response);
+
     }
 }
