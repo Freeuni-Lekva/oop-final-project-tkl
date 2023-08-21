@@ -8,6 +8,15 @@
   <listener>
     <listener-class>Servlets.ListenerServlet</listener-class>
   </listener>
+  
+  <servlet>
+    <servlet-name>MultiplePageQuizServlet</servlet-name>
+    <servlet-class>Servlets.MultiplePageQuizServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MultiplePageQuizServlet</servlet-name>
+    <url-pattern>/MultiplePageQuizServlet</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>QuizOptionsServlet</servlet-name>

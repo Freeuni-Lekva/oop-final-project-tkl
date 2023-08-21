@@ -119,17 +119,16 @@
                 </div>
 
                 <div class="quiz-buttons">
-                    <% if(currentQuiz.isOnePage()) {%>
-                        <a href="startOnePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=0"><button>Start Quiz</button></a> <br>
-                    <% } else {%>
-                    <a href="startMultiplePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=0&question_index=0"><button>Start Quiz</button></a> <br>
+
+                    <% if(currentQuiz.isOnePage()) { %>
+                        <a href="startOnePageQuiz.jsp?quiz_id=<%=quizId%>"><button>Start Quiz</button></a>
                     <% } %>
-                    <% if(currentQuiz.isPractice()) { %>
-                        <% if(currentQuiz.isOnePage()) {%>
-                            <a href="startOnePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=1"><button>Practice Mode</button></a> <br>
-                        <% } else {%>
-                            <a href="startMultiplePageQuiz.jsp?quiz_id=<%=quizId%>&is_practice=1&question_index=0"><button>Practice Mode</button></a> <br>
-                        <% } %>
+
+                    <% if(!currentQuiz.isOnePage()) { %>
+                        <form action="MultiplePageQuizServlet" method="get">
+                            <input type="hidden" name="quiz_id" value="<%= quizId %>">
+                            <button>Start Quiz</button>
+                        </form>
                     <% } %>
                 </div>
             </div>

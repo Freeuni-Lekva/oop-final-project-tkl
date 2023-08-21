@@ -117,7 +117,6 @@
 
 <script>
     document.getElementById("start_time").value = new Date().getTime();
-
 </script>
 </body>
 </html>

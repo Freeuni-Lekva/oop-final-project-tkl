@@ -48,7 +48,7 @@ public class OnePageQuizServlet extends HttpServlet {
         String answersParam = String.join(",", answers);
 
         // Redirect to a suitable page after submitting answers
-        response.sendRedirect("quizResult.jsp?score_id=" + scoreId + "&quiz_id=" + quizId +
+        response.sendRedirect("onePageQuizResult.jsp?score_id=" + scoreId + "&quiz_id=" + quizId +
                 "&answers=" + URLEncoder.encode(answersParam, "UTF-8"));
     }
 
