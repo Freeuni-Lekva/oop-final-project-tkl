@@ -14,11 +14,11 @@ public interface NotesDao {
     int FAILED_DELETED = 4;
 
     // Sends a note from a sender to a receiver.
-    int send_note(Long sender_id, Long receiver_id, String text);
+    int sendNote(Long sender_id, Long receiver_id, String text);
 
     // Deletes a note sent from a sender to a receiver.
-    int delete_note(Long sender_id, Long receiver_id, String text);
+    int deleteNote(Long sender_id, Long receiver_id, String text);
 
     // Retrieves a list of notes associated with a user.
-    List<Note> get_notes(Long user_id);
+    List<Note> getNotes(Long user_id);
 }

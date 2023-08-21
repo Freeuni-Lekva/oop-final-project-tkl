@@ -14,12 +14,17 @@ import java.util.List;
 
 public class NotesSQL implements NotesDao {
     private final BasicDataSource dataSource;
+    private FriendsSQL friendsSQL;
     public NotesSQL(BasicDataSource dataSource){
         this.dataSource = dataSource;
+        friendsSQL = new FriendsSQL(dataSource);
     }
 
     @Override
-    public int send_note(Long sender_id, Long receiver_id, String text) {
+    public int sendNote(Long sender_id, Long receiver_id, String text) {
+        if(!friendsSQL.checkIfFriends(sender_id, receiver_id)) {
+            return FAILED_SENT;
+        }
         try(Connection connection = dataSource.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO notes(sender_id,receiver_id, note) VALUES(?,?,?)");
             preparedStatement.setLong(1, sender_id);
@@ -33,7 +38,8 @@ public class NotesSQL implements NotesDao {
     }
 
     @Override
-    public int delete_note(Long sender_id, Long receiver_id, String text) {
+    public int deleteNote(Long sender_id, Long receiver_id, String text) {
+        if(!friendsSQL.checkIfFriends(sender_id, receiver_id)) return FAILED_DELETED;
         try(Connection connection = dataSource.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM notes WHERE sender_id = ? AND receiver_id = ? AND note = ?");
             preparedStatement.setLong(1, sender_id);
@@ -49,7 +55,7 @@ public class NotesSQL implements NotesDao {
     }
 
     @Override
-    public List<Note> get_notes(Long user_id) {
+    public List<Note> getNotes(Long user_id) {
         try(Connection connection = dataSource.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT sender_id, note FROM notes where receiver_id = ?");
             preparedStatement.setLong(1, user_id);
@@ -65,7 +71,6 @@ public class NotesSQL implements NotesDao {
 
             resultSet.close();
             return notes;
-
 
         } catch (SQLException e) {
             throw new RuntimeException();
