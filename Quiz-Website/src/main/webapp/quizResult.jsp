@@ -1,10 +1,8 @@
 <%@ page import="DAOinterfaces.QuizScoresDao" %>
 <%@ page import="Objects.Score" %>
 <%@ page import="java.net.URLDecoder" %>
-<%@ page import="java.util.Collections" %>
 <%@ page import="DAOinterfaces.QuizDao" %>
 <%@ page import="Objects.Quiz" %>
-<%@ page import="DAOinterfaces.QuestionsDao" %>
 <%@ page import="Objects.Questions.Question" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.Duration" %>
@@ -13,7 +11,6 @@
 <%
     QuizScoresDao quizScoresDao = (QuizScoresDao) request.getServletContext().getAttribute(QuizScoresDao.ATTRIBUTE_NAME);
     QuizDao quizDao = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
-    QuestionsDao questionsDao = (QuestionsDao) request.getServletContext().getAttribute(QuestionsDao.ATTRIBUTE_NAME);
 
     String scoreIdString = request.getParameter("score_id");
     if (scoreIdString == null) scoreIdString = (String) request.getSession().getAttribute("score_id");
@@ -28,7 +25,7 @@
 
     Quiz currentQuiz = quizDao.getQuizById(quizId);
 
-    List<Question> questions = questionsDao.getQuizQuestions(quizId, currentQuiz.isQuestionsSorted());
+    List<Question> questions = (List<Question>) request.getSession().getAttribute("CurrentQuizQuestions");
 
     String[] correctAnswers = new String[questions.size()];
     boolean[] isCorrect = new boolean[questions.size()];

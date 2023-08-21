@@ -20,9 +20,7 @@ public class OnePageQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        QuestionsDao questionsSQL = (QuestionsDao) request.getServletContext().getAttribute(QuestionsDao.ATTRIBUTE_NAME);
         QuizScoresDao quizScoresDao = (QuizScoresDao) request.getServletContext().getAttribute(QuizScoresDao.ATTRIBUTE_NAME);
-        QuizDao quizDao = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
 
         String quizIdString = request.getParameter("quiz_id");
         long quizId = Long.parseLong(quizIdString);
@@ -32,7 +30,7 @@ public class OnePageQuizServlet extends HttpServlet {
 
         long startTime = Long.parseLong(startTimeString);
 
-        List<Question> questions = questionsSQL.getQuizQuestions(quizId, quizDao.getQuizById(quizId).isQuestionsSorted());
+        List<Question> questions = (List<Question>) request.getSession().getAttribute("CurrentQuizQuestions");
 
         // Process submitted answers
         double score = 0;
