@@ -70,5 +70,5 @@ public interface QuizScoresDao {
      * @param id
      * @return Score on given id
      */
-    public Score getScore(long id);
+    Score getScore(long id);
 }

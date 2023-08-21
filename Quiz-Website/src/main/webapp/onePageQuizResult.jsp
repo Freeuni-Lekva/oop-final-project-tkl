@@ -70,7 +70,7 @@
         border-radius: 50px;
     }
 
-    .result-tquestion h3 {
+    .result-question h3 {
         color: white;
         margin: 0;
     }

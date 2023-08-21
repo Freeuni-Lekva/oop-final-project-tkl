@@ -2,6 +2,7 @@ package Servlets;
 
 import DAOinterfaces.QuestionsDao;
 import DAOinterfaces.QuizDao;
+import DAOinterfaces.QuizScoresDao;
 import Objects.Questions.Question;
 
 import javax.servlet.RequestDispatcher;
@@ -49,10 +50,24 @@ public class MultiplePageQuizServlet extends HttpServlet {
         request.getSession().setAttribute("CurrenQuizQuestionIsAnswered", "yee");
         request.getSession().setAttribute("CurrenQuizQuestionAnswer", answer);
 
-        // Setting attribute to determine if user is on last question
+        // Calculating score and update if it's necessary
+        int score = (int) request.getSession().getAttribute("CurrentQuizScore");
+        if(isCorrect){
+            score++;
+            request.getSession().setAttribute("CurrentQuizScore", score);
+        }
+
+        // Checking if user is on last question
         if(questions.size() == index + 1) {
+
             index --;
+            // If user comes to that part of code, it means that user finished test, therefore code adds new score to DB
             request.getSession().setAttribute("CurrenQuizQuestionIsLast", "yee");
+            long startTime = (long) request.getSession().getAttribute("CurrentQuizStartTime");;
+            long userId = Long.parseLong((String) request.getSession().getAttribute("MainUserID"));
+            QuizScoresDao quizScoresDao = (QuizScoresDao) request.getServletContext().getAttribute(QuizScoresDao.ATTRIBUTE_NAME);
+
+            quizScoresDao.addNewScore(userId, quizId, score, startTime);
         }
 
         // Forward users request
@@ -82,7 +97,8 @@ public class MultiplePageQuizServlet extends HttpServlet {
         // Setting attributes to session
         request.getSession().setAttribute("CurrentQuizQuestions", questions);
         request.getSession().setAttribute("CurrentQuizQuestionsIndex", 0);
-        request.getSession().setAttribute("startTime", new Date().getTime());
+        request.getSession().setAttribute("CurrentQuizStartTime", new Date().getTime());
+        request.getSession().setAttribute("CurrentQuizScore", 0);
 
         // Redirect user to next page
         RequestDispatcher rd = request.getRequestDispatcher("startMultiplePageQuiz.jsp?quiz_id="+quizId);
