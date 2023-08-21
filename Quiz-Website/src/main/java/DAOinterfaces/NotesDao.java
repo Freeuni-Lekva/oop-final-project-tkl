@@ -13,12 +13,18 @@ public interface NotesDao {
     int SUCCESS_DELETED = 3;
     int FAILED_DELETED = 4;
 
-    // Sends a note from a sender to a receiver.
+    String ATTRIBUTE_NAME = "notesDao";
+
+    /** function tries to insert new message to DB
+     * function returns integer as a result
+      */
     int sendNote(Long sender_id, Long receiver_id, String text);
 
-    // Deletes a note sent from a sender to a receiver.
-    int deleteNote(Long sender_id, Long receiver_id, String text);
+    /** function tries to delete message from DB
+     */
+    int deleteNote(long id);
 
-    // Retrieves a list of notes associated with a user.
+    /** function retrieves a list of notes (messages) associated with a user.
+      */
     List<Note> getNotes(Long user_id);
 }

@@ -1,10 +1,8 @@
-<%@ page import="DAOinterfaces.UserDao" %>
 <%@ page import="Objects.User" %>
-<%@ page import="DAOinterfaces.ChallengeDao" %>
 <%@ page import="Objects.Challenge" %>
-<%@ page import="DAOinterfaces.QuizDao" %>
 <%@ page import="java.util.List" %>
-<%@ page import="DAOinterfaces.FriendRequestDao" %><%--
+<%@ page import="Objects.Note" %>
+<%@ page import="DAOinterfaces.*" %><%--
   Created by IntelliJ IDEA.
   User: ddadi
   Date: 6/20/2023
@@ -174,9 +172,13 @@
           UserDao userDao = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
           ChallengeDao challengeDao = (ChallengeDao) request.getServletContext().getAttribute(ChallengeDao.ATTRIBUTE_NAME);
           QuizDao quizDao = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
+          NotesDao notesDao = (NotesDao) request.getServletContext().getAttribute(NotesDao.ATTRIBUTE_NAME);
+
           FriendRequestDao requestDao = (FriendRequestDao) request.getServletContext().getAttribute(FriendRequestDao.ATTRIBUTE_NAME);
           List<User> requests = requestDao.getReceivedFriendRequests(Long.parseLong(id));
           List<Challenge> receivedChallenges = challengeDao.getChallengesForUser(Long.parseLong(id));
+          List<Note> notes = notesDao.getNotes(Long.parseLong(id));
+
           User user = userDao.getUserById(Long.parseLong(id));
 
           if(user == null) {
@@ -241,6 +243,29 @@
                                       </form>
                                   </div>
                             <% } %>
+                      <% } %>
+                  </div>
+
+                  <div class="popover__content notes">
+                      <% notifications = notes.size(); %>
+                      <div class="notification-box">
+                          <p>You have <%=notifications%> new notes</p>
+                      </div>
+
+                      <% if(notifications != 0) { %>
+
+                      <% for(Note note: notes){ %>
+
+                      <div class="notification-box">
+                          <p><strong><%=userDao.getUserById(note.getAuthorId()).getName()%></strong> has sent you a message!</p>
+                          <form action="/removeNote" method="post">
+                              <input type="hidden" name="NoteID" value="<%=note.getNoteId()%>">
+                              <input type="hidden" name="referringPage" value="<%= request.getRequestURI() %>">
+                              <p><%=note.getText()%></p>
+                              <button>Remove Note</button>
+                          </form>
+                      </div>
+                      <% } %>
                       <% } %>
                   </div>
               </div>

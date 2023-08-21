@@ -2,7 +2,6 @@ package DAOs;
 
 import DAOinterfaces.NotesDao;
 import Objects.Note;
-import Objects.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -38,13 +37,10 @@ public class NotesSQL implements NotesDao {
     }
 
     @Override
-    public int deleteNote(Long sender_id, Long receiver_id, String text) {
-        if(!friendsSQL.checkIfFriends(sender_id, receiver_id)) return FAILED_DELETED;
+    public int deleteNote(long id) {
         try(Connection connection = dataSource.getConnection()){
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM notes WHERE sender_id = ? AND receiver_id = ? AND note = ?");
-            preparedStatement.setLong(1, sender_id);
-            preparedStatement.setLong(2, receiver_id);
-            preparedStatement.setString(3, text);
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM notes WHERE id = ?");
+            preparedStatement.setLong(1, id);
 
             if(preparedStatement.executeUpdate() != 0) return SUCCESS_DELETED;
 
@@ -57,16 +53,17 @@ public class NotesSQL implements NotesDao {
     @Override
     public List<Note> getNotes(Long user_id) {
         try(Connection connection = dataSource.getConnection()){
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT sender_id, note FROM notes where receiver_id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, sender_id, note FROM notes where receiver_id = ? ORDER BY id DESC");
             preparedStatement.setLong(1, user_id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             List<Note> notes = new ArrayList<>();
 
             while (resultSet.next()) {
-                int senderId = resultSet.getInt("sender_id");
+                long id = resultSet.getLong("id");
+                long senderId = resultSet.getLong("sender_id");
                 String noteText = resultSet.getString("note");
-                notes.add(new Note(senderId, noteText));
+                notes.add(new Note(id, senderId, noteText));
             }
 
             resultSet.close();
