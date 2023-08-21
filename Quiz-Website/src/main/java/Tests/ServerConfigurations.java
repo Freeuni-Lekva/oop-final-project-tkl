@@ -11,7 +11,7 @@ public final class ServerConfigurations {
 
     public static final String URL = "jdbc:mysql://localhost:3306/final_project";
     public static final String USERNAME = "root";
-    public static final String PASSWORD = "17031923";
+    public static final String PASSWORD = "babajana111";
 
     public static BasicDataSource getDataSource(){
 
