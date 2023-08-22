@@ -14,123 +14,64 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
-    * {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-      background-color: darkslategrey;
-    }
-
-    li, a, button {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 500;
-      font-size: 20px;
-      color: white;
-      text-decoration: none;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 10%;
-    }
-
-    button {
-      padding: 5px 20px;
-      background-color: mediumaquamarine;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease 0s;
-    }
-
-    button:hover {
-      background-color: aquamarine;
-    }
-
-    .search-form input[type="text"] {
-      padding: 5px;
-      border-radius: 5px;
-      border: none;
-      outline: none;
-    }
-
-    .circle-image {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      overflow: hidden;
-    }
-
-    .circle-image img {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-    }
-
     .username {
-      color: #fff;
       font-size: 18px;
-      margin-top: 10px;
-      text-transform: uppercase;
-      text-shadow: 2px 2px 4px black;
     }
-
 
     .remove-button {
-      padding: 5px 20px;
       background-color: indianred;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease 0s;
-      color: white;
-      font-weight: bold;
     }
 
     .remove-button:hover {
       background-color: firebrick;
     }
 
-    input[type="text"] {
+    .center-container input[type="text"] {
       border: 2px solid #ccc;
-      border-radius: 5px;
+      border-radius: 20px;
       padding: 10px;
       margin: 10px;
       font-size: 16px;
-      font-family: Arial, sans-serif;
-      color: #999;
     }
 
-    input[type="text"]:focus {
-      border-color: #66aaff;
+    .center-container input[type="text"]:focus {
+      border-color: aquamarine;
       outline: none;
     }
 
     .friend-container {
+      padding: 5px;
+      margin: 5px;
+      border: 2px solid mediumaquamarine;
+      border-radius: 20px;
       display: flex;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
       gap: 20px;
-      margin-bottom: 20px;
     }
 
     .friend-info {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      align-items: center;
+    }
+
+    .friend-info form{
+      display: flex;
+      align-items: center;
     }
 
     .center-container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   </style>
 
 </head>
 <body>
+<jsp:include page="navbar.jsp"></jsp:include>
 <div class="center-container">
   <%
     List<User> friends = (List<User>) request.getSession().getAttribute("userFriends");

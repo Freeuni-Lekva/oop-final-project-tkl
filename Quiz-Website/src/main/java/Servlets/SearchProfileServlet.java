@@ -28,9 +28,6 @@ public class SearchProfileServlet extends HttpServlet {
         // The search query is used in the SQL WHERE clause with a LIKE operator to find partial matches
         request.setAttribute("searchedUsers", userDAO.getUsers(" WHERE name like " + "\'%" + str +"%\'"));
 
-        // Output the SQL query string for debugging purposes
-        System.out.println("WHERE name like " + "\'%" + str +"%\'");
-
         // Forward the request and response to the search.jsp page to display the search results
         request.getRequestDispatcher("search.jsp").forward(request, response);
     }
