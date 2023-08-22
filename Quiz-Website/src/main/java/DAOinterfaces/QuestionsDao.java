@@ -18,7 +18,7 @@ public interface QuestionsDao {
      *
      * returned list of questions will be sorted by creation time
      */
-    List<Question> getQuestions(String condition);
+    public List<Question> getQuestions(String condition);
 
     /** function returns question object, which id equals to received argument null  otherwise
      */
