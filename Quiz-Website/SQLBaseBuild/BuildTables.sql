@@ -1,5 +1,6 @@
 USE final_project;
 
+DROP TABLE IF EXISTS quiz_comments;
 DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS simple_answers;
 DROP TABLE IF EXISTS multiple_choice_answers;
@@ -106,6 +107,16 @@ CREATE TABLE IF NOT EXISTS notes (
     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS quiz_comments(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    quiz_id BIGINT NOT NULL,
+    comment TEXT NOT NULL,
+    comment_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
+)
 
 
 
