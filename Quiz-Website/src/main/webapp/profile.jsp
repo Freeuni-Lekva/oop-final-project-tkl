@@ -34,12 +34,16 @@
     }
 
     .profile-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       font-weight: 500;
       font-size: 20px;
       max-width: 500px;
       margin: 0 auto;
       padding: 20px;
-      border: 1px solid #ccc;
+      border: 2px solid mediumaquamarine;
+      border-radius: 20px;
     }
 
     .profile-container p {
@@ -55,6 +59,13 @@
     .profile-container a:hover {
       color: white;
     }
+
+    .profile-buttons{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
   </style>
 </head>
 <body>
@@ -71,27 +82,29 @@
     <img src="/images/<%= user.getImagePath() %>">
   </div>
   <p><strong>Description:</strong> <%= user.getDescription() %></p>
-  <%
-    if (user.getId() == Long.parseLong(main_user_id)) {
-      out.println("<div class=\"edit-form-container\">");
-      out.println("<form action=\"/edit_user\" method=\"GET\">");
-      out.println("<input type=\"hidden\" name=\"id\" value=\"" + user.getId() + "\">");
-      out.println("<button class=\"edit-button\" type=\"submit\">Edit</button>");
-      out.println("</form>");
-      out.println("</div>");
-    }
-    out.println("<p><a href=\"/friends?id=" + user.getId() + "\">See Friends</a></p>");
-  %>
-  <a href="history.jsp">View History</a>
-  <jsp:include page="/add_friend" />
-  <%
+  <div class="profile-buttons">
+    <%
+      if (user.getId() == Long.parseLong(main_user_id)) {
+        out.println("<div class=\"edit-form-container\">");
+        out.println("<form action=\"/edit_user\" method=\"GET\">");
+        out.println("<input type=\"hidden\" name=\"id\" value=\"" + user.getId() + "\">");
+        out.println("<button class=\"edit-button\" type=\"submit\">Edit</button>");
+        out.println("</form>");
+        out.println("</div>");
+      }
+      out.println("<a href=\"/friends?id=" + user.getId() + "\"><button>See Friends</button></a>");
+    %>
+    <jsp:include page="/add_friend"/>
+    <%
 
-    if (Boolean.TRUE.equals(request.getSession().getAttribute("addButton?"))){
-      out.println("<form action=\"/add_friend\" method=\"POST\">");
-      out.println("<button type=\"submit\">Add Friend</button>");
-      out.println("</form>");
-    }
-  %>
+      if (Boolean.TRUE.equals(request.getSession().getAttribute("addButton?"))){
+        out.println("<br>");
+        out.println("<form action=\"/add_friend\" method=\"POST\">");
+        out.println("<button type=\"submit\">Add Friend</button>");
+        out.println("</form>");
+      }
+    %>
+  </div>
 </div>
 </body>
 </html>

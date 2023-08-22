@@ -6,12 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="DAOinterfaces.QuizScoresDao" %>
-<%@ page import="Objects.Score" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="DAOinterfaces.QuizDao" %>
-<%@ page import="Objects.Quiz" %>
 <%@ page import="java.time.Duration" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% QuizDao quizDao = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
