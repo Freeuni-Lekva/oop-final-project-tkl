@@ -10,29 +10,19 @@
 <head>
     <title>Title</title>
     <style>
-        body {
-            background-color: #F5F7FA;
-            color: #333;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
-            font-size: 16px;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
 
         h1 {
-            color: #333;
             font-size: 24px;
             margin-top: 0;
         }
 
-        form {
+        .edit-profile-form {
             max-width: 400px;
             margin: 0 auto;
-            background-color: #FFF;
+            background-color: darkslategrey;
             padding: 20px;
-            border-radius: 5px;
+            border: 2px solid mediumaquamarine;
+            border-radius: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
@@ -42,7 +32,7 @@
             font-weight: bold;
         }
 
-        input[type="text"],
+        .edit-profile-form input[type="text"],
         textarea {
             width: 100%;
             padding: 10px;
@@ -52,28 +42,16 @@
             margin-bottom: 20px;
         }
 
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
     </style>
 </head>
 <body>
+
+<jsp:include page="navbar.jsp"></jsp:include>
+
 <%
     User user = (User) request.getSession().getAttribute("mainUser");
 %>
-    <form action="edit_user" method="post">
+    <form class="edit-profile-form" action="edit_user" method="post">
         <h1>Edit Profile</h1>
         <input type="hidden" name="id" value="<%= user.getId() %>" required>
         <label for="realName">Real Name:</label>
@@ -84,7 +62,7 @@
         <input type="text" id="imagePath" name="imagePath" value="<%= user.getImagePath() %>" required>
         <label for="description">Description:</label>
         <textarea id="description" name="description" required><%= user.getDescription() %></textarea>
-        <input type="submit" value="Save Changes">
+        <button>Save Changes</button>
     </form>
 </body>
 </html>
