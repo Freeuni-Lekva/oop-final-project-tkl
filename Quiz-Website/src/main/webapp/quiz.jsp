@@ -137,10 +137,12 @@
         <br><br>
 
         <div class="bottom-quiz-container">
+            <div class="bottom-quiz-container-top-scores">
+                <jsp:include page="quizTopScores.jsp"></jsp:include>
+            </div>
+            <div class="bottom-quiz-container-comments">
 
-            <!-- that div can be used for comments/statistics -->
-            <jsp:include page="quizTopScores.jsp"></jsp:include>
-
+            </div>
         </div>
     </div>
 </body>
