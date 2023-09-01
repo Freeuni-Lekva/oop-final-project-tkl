@@ -2,6 +2,7 @@ package Servlets;
 
 import DAOinterfaces.QuestionsDao;
 import DAOinterfaces.QuizDao;
+import Objects.Questions.Question;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class QuizOptionsServlet extends HttpServlet {
 
@@ -48,6 +50,8 @@ public class QuizOptionsServlet extends HttpServlet {
 
             String questionId = request.getParameter("question_id");
             if(questionId != null) questionsSQL.deleteQuestion(Long.parseLong(questionId));
+            List<Question> questions = questionsSQL.getQuizQuestions(quizId, false);
+            if(questions == null || questions.size() < 5) quizSQL.changeDraftStatus(quizId, true);
 
         }else if(isActivateQuiz != null){
 
