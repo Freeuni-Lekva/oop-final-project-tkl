@@ -74,14 +74,25 @@ public class QuizScoresSQL implements QuizScoresDao {
     @Override
     public List<Score> getBestScoresAndTimesForQuiz(long quizId) {
         List<Score> scores = new ArrayList<>();
-        String query = "SELECT t1.user_id, t1.quiz_id, t1.score, t1.end_time, t1.start_time " +
-                "FROM quiz_scores t1 " +
-                "JOIN ( " +
-                "    SELECT user_id, quiz_id, MAX(score) AS max_score " +
-                "    FROM quiz_scores " +
-                "    GROUP BY user_id, quiz_id " +
-                ") t2 ON t1.user_id = t2.user_id AND t1.quiz_id = t2.quiz_id AND t1.score = t2.max_score " +
-                "WHERE t1.quiz_id = ? ORDER BY t1.end_time - t1.start_time";
+        String query = "SELECT user_id, quiz_id, score, end_time, start_time\n" +
+                "FROM (\n" +
+                "         SELECT\n" +
+                "             t1.user_id,\n" +
+                "             t1.quiz_id,\n" +
+                "             t1.score,\n" +
+                "             t1.end_time,\n" +
+                "             t1.start_time,\n" +
+                "             ROW_NUMBER() OVER (PARTITION BY t1.user_id, t1.quiz_id, t1.score ORDER BY t1.score DESC, t1.end_time - t1.start_time) AS rn\n" +
+                "         FROM quiz_scores t1\n" +
+                "                  JOIN (\n" +
+                "             SELECT user_id, quiz_id, MAX(score) AS max_score\n" +
+                "             FROM quiz_scores\n" +
+                "             WHERE quiz_id = ?\n" +
+                "             GROUP BY user_id, quiz_id\n" +
+                "         ) t2 ON t1.user_id = t2.user_id AND t1.quiz_id = t2.quiz_id AND t1.score = t2.max_score\n" +
+                "     ) ranked\n" +
+                "WHERE rn = 1\n" +
+                "ORDER BY score DESC, end_time - start_time";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
