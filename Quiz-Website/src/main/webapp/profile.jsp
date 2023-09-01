@@ -66,6 +66,10 @@
       align-items: center;
     }
 
+    .history-button{
+      margin-bottom: 20px;
+    }
+
   </style>
 </head>
 <body>
@@ -91,6 +95,8 @@
         out.println("<button class=\"edit-button\" type=\"submit\">Edit</button>");
         out.println("</form>");
         out.println("</div>");
+
+        out.print("<a class=\"history-button\" href=\"history.jsp\"><button>See History</button></a>");
       }
       out.println("<a href=\"/friends?id=" + user.getId() + "\"><button>See Friends</button></a>");
     %>

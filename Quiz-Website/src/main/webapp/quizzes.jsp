@@ -14,6 +14,8 @@
     QuizDao quizSQL = (QuizDao) request.getServletContext().getAttribute(QuizDao.ATTRIBUTE_NAME);
     UserDao userSQL = (UserDao) request.getServletContext().getAttribute(UserDao.ATTRIBUTE_NAME);
     List<Quiz> quizzes = quizSQL.getQuizzes("");
+    String mainUserId = (String) request.getSession().getAttribute("MainUserID");
+
 %>
 
 <style>
@@ -48,6 +50,15 @@
         cursor: pointer;
     }
 
+    .error-message{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 50px;
+        padding-top: 150px;
+    }
+
+
 </style>
 
 <html>
@@ -57,16 +68,24 @@
 <body>
     <jsp:include page="navbar.jsp"/>
 
-    <div class="quiz-container">
-        <% for(Quiz quiz: quizzes){ %>
-            <% if(quiz.isDraft()) continue;%>
-            <div class="quiz-box" onclick="goToQuiz(<%= quiz.getQuizId()%>)">
-                <h2><%=quiz.getQuizName()%></h2>
-                <p><strong>Creator: </strong><%=userSQL.getUserById(quiz.getCreatorId()).getName()%></p>
-                <p><%=quiz.getDescription()%></p>
-            </div>
-        <% } %>
-    </div>
+    <% if(mainUserId == null) { %>
+        <p class="error-message">Only Members Of TKL Can See Quizzes</p>
+    <% } %>
+
+    <% if(mainUserId != null) { %>
+
+        <div class="quiz-container">
+            <% for(Quiz quiz: quizzes){ %>
+                <% if(quiz.isDraft()) continue;%>
+                <div class="quiz-box" onclick="goToQuiz(<%= quiz.getQuizId()%>)">
+                    <h2><%=quiz.getQuizName()%></h2>
+                    <p><strong>Creator: </strong><%=userSQL.getUserById(quiz.getCreatorId()).getName()%></p>
+                    <p><%=quiz.getDescription()%></p>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+
     <script>
         function goToQuiz(quizId){
             window.location.href = "quiz.jsp?quiz_id=" + quizId;
